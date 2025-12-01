@@ -1,73 +1,113 @@
-# React + TypeScript + Vite
+# WorkflowDesk
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**A ticket-based workflow management system for recurring business processes.**
 
-Currently, two official plugins are available:
+WorkflowDesk is a business application designed to structure, monitor, and document recurring workflows in a transparent and auditable way.  
+It standardizes repeatable processes (e.g., employee onboarding, approvals, project handovers) while providing progress tracking, quality control, and accountability.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Features (MVP)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 1. Dashboard
 
-## Expanding the ESLint configuration
+- Overview of all open workflow tickets
+- Color-coded status indicators (Open, In Progress, Pending Review, Completed)
+- Overdue tickets are highlighted in red
+- Future ideas: filters, list/tile view toggle
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 2. Workflow Templates
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Create reusable templates with any number of phases (milestones)
+- Each phase contains tasks (checklist items)
+- Define completion rules per phase:
+  - All tasks checked off
+  - Requires supervisor approval
+  - Requires evidence (e.g., screenshot or file upload)
+- Templates include an optional start form (text, file, or link fields)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 3. Start a Workflow
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Workflows are always started from templates
+- Required input is collected through a start form
+- A responsible person is assigned upon creation
+- New workflows automatically start with status Open
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 4. Ticket & Phase Handling
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Only the active phase is editable; others are greyed out
+- Tasks can be checked off or completed with file uploads
+- Phase status progression: Open → In Progress → Pending Review → Approved → Completed
+- Once a phase is approved, the next one becomes active
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 5. Approvals
+
+- Only authorized roles (e.g., supervisors) can approve phases or entire workflows
+- Rejection requires a mandatory comment with the reason
+- Approved items are marked in green and locked (read-only)
+- After approval, edits are no longer possible
+
+### 6. File Uploads
+
+- Upload files per phase or ticket (e.g., screenshots, PDFs)
+- Files can be deleted until the phase/ticket is approved
+- Once approved, uploads become read-only
+- All users can view uploaded files at any time
+
+### 7. History (Audit Log)
+
+- Automatic log entries for every key event:
+  - Workflow created
+  - Phase submitted, approved, or rejected
+  - Workflow submitted, approved, or rejected
+- Each log entry includes timestamp, username, and action type
+- Log entries are read-only and shown chronologically (newest on top)
+
+### 8. Archive
+
+- Completed workflows are automatically moved to the archive (read-only)
+- Toggle between active and archived workflows
+- Filters are planned for later releases
+
+---
+
+## Roles & Permissions
+
+| Role             | Description                                           |
+| ---------------- | ----------------------------------------------------- |
+| **Creator**      | Creates and manages workflow templates                |
+| **Owner**        | Starts workflows, reviews and approves phases/tickets |
+| **Collaborator** | Completes assigned tasks and uploads evidence         |
+
+---
+
+## Tech Stack (planned)
+
+- **Frontend:** React + TypeScript + Vite
+- **UI / Styling:** Tailwind CSS
+- **Backend / Database:** Supabase (Postgres + Auth + Storage)
+
+---
+
+## Architecture Overview
+
+- Every workflow is based on a template
+- Templates contain ordered phases, and each phase contains tasks
+- History and uploads are linked to specific workflows or phases
+
+---
+
+## 👤 Author
+
+**Stephan Haak**  
+📧 [info@stephan-haak.com](mailto:info@stephan-haak.com)  
+🌐 [www.stephan-haak.com](https://www.stephan-haak.com)
+
+---
+
+## 📝 License
+
+This project is part of a learning and demonstration environment.  
+© Stephan Haak — for non-commercial educational use only.
+
+---
