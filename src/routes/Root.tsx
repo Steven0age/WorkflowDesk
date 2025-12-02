@@ -1,20 +1,20 @@
 import { Box, Button, Typography } from "@mui/material";
-import { green } from "@mui/material/colors";
+import Sidebar from "../components/Sidebar";
 
 export default function Root() {
   return (
     <>
       <Box
         sx={{
-          bgcolor: "background.default",
+          bgcolor: "secondary.light",
+          //   bgcolor: "background.default",
           display: "flex",
           height: "100vh",
         }}
       >
-        <Box
-          component="aside"
-          sx={{ bgcolor: "secondary.main", width: 300 }}
-        ></Box>
+        <Box component="aside" sx={{ bgcolor: "secondary.main", width: 300 }}>
+          <Sidebar />
+        </Box>
         <Box
           component="main"
           sx={{

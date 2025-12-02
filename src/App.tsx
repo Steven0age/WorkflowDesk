@@ -1,4 +1,3 @@
-import { Box, Typography } from "@mui/material";
 import "./App.css";
 import Root from "./routes/Root";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
