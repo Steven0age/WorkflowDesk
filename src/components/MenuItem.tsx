@@ -6,9 +6,10 @@ import type { JSX } from "react";
 
 type MenuItemType = {
   linkAnchor: "Dashboard" | "Workflows" | "Einstellungen";
+  linkTarget: string;
 };
 
-export default function MenuItem({ linkAnchor }: MenuItemType) {
+export default function MenuItem({ linkAnchor, linkTarget }: MenuItemType) {
   const getIcon: Record<MenuItemType["linkAnchor"], JSX.Element> = {
     Dashboard: <HomeIcon sx={{ height: "20px" }} />,
     Workflows: <SettingsIcon sx={{ height: "20px" }} />,
@@ -26,7 +27,7 @@ export default function MenuItem({ linkAnchor }: MenuItemType) {
         borderRadius: 1,
         "&:hover": { bgcolor: "secondary.light" },
       }}
-      href="/"
+      href={linkTarget}
       underline="none"
     >
       <Box sx={{ display: "flex", pr: 1 }}>

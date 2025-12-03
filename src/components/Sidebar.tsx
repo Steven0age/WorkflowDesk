@@ -24,9 +24,9 @@ export default function Sidebar() {
         <Typography>L O G O</Typography>
       </Box>
 
-      <MenuItem linkAnchor="Dashboard" />
-      <MenuItem linkAnchor="Workflows" />
-      <MenuItem linkAnchor="Einstellungen" />
+      <MenuItem linkAnchor="Dashboard" linkTarget="/" />
+      <MenuItem linkAnchor="Workflows" linkTarget="/workflows" />
+      <MenuItem linkAnchor="Einstellungen" linkTarget="settings" />
     </Box>
   );
 }

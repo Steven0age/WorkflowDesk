@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import Sidebar from "../components/Sidebar";
+import { Outlet } from "react-router-dom";
 
 export default function Root() {
   return (
@@ -28,6 +29,7 @@ export default function Root() {
             Testbutton
           </Button>
           <Button variant="contained">Testbutton</Button>
+          <Outlet />
         </Box>
       </Box>
     </>
