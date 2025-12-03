@@ -1,5 +1,6 @@
 import { Button, Box, Typography } from "@mui/material";
 import Header from "../../components/Header";
+import AddIcon from "@mui/icons-material/Add";
 
 export default function Dashboard() {
   return (
@@ -14,7 +15,9 @@ export default function Dashboard() {
             p: "2rem",
           }}
         >
-          <Button variant="contained">Workflow starten</Button>
+          <Button startIcon={<AddIcon />} variant="create">
+            Workflow starten
+          </Button>
         </Box>
         <Box>
           <Typography>Contentarea</Typography>

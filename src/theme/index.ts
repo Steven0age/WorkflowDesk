@@ -1,5 +1,6 @@
 import { green } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
+import "@mui/material/Button";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -27,6 +28,12 @@ declare module "@mui/material/styles" {
   }
   interface TypeText {
     contrast: string;
+  }
+}
+
+declare module "@mui/material/Button" {
+  interface ButtonPropsVariantOverrides {
+    create: true;
   }
 }
 
@@ -92,6 +99,23 @@ const theme = createTheme({
       light: green[300],
       dark: green[700],
       contrastText: "#ffffff",
+    },
+  },
+
+  components: {
+    MuiButton: {
+      variants: [
+        {
+          props: { variant: "create" },
+          style: ({ theme }) => ({
+            backgroundColor: theme.palette.success.main,
+            color: theme.palette.success.contrastText,
+            "&:hover": {
+              backgroundColor: theme.palette.success.dark,
+            },
+          }),
+        },
+      ],
     },
   },
 });
