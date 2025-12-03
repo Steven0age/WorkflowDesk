@@ -1,5 +1,5 @@
-import { Typography } from "@mui/material";
+import Header from "../../components/Header";
 
 export default function Dashboard() {
-  return <Typography variant="h2">Das ist das Dashboard</Typography>;
+  return <Header title="Dashboard" />;
 }
