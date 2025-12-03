@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import Sidebar from "../components/Sidebar";
 import { Outlet } from "react-router-dom";
 
@@ -22,13 +22,6 @@ export default function Root() {
             flexGrow: 1,
           }}
         >
-          <Typography variant="h1">
-            Hello World with <i>WorkflowDesk</i>
-          </Typography>
-          <Button variant="contained" color="success">
-            Testbutton
-          </Button>
-          <Button variant="contained">Testbutton</Button>
           <Outlet />
         </Box>
       </Box>

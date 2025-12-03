@@ -11,9 +11,9 @@ type MenuItemType = {
 
 export default function MenuItem({ linkAnchor, linkTarget }: MenuItemType) {
   const getIcon: Record<MenuItemType["linkAnchor"], JSX.Element> = {
-    Dashboard: <HomeIcon sx={{ height: "20px" }} />,
-    Workflows: <SettingsIcon sx={{ height: "20px" }} />,
-    Einstellungen: <AccountTreeIcon sx={{ height: "20px" }} />,
+    Dashboard: <HomeIcon sx={{ height: "1.25rem" }} />,
+    Workflows: <SettingsIcon sx={{ height: "1.25rem" }} />,
+    Einstellungen: <AccountTreeIcon sx={{ height: "1.25rem" }} />,
   };
 
   return (
@@ -34,7 +34,7 @@ export default function MenuItem({ linkAnchor, linkTarget }: MenuItemType) {
         {getIcon[linkAnchor] ?? <HomeIcon />}
       </Box>
       <Box>
-        <Typography fontSize={12} fontWeight={"bold"}>
+        <Typography fontSize={"0.8rem"} fontWeight={"bold"}>
           {linkAnchor}
         </Typography>
       </Box>
