@@ -1,4 +1,4 @@
-import { Button, Box } from "@mui/material";
+import { Button, Box, Typography, Chip } from "@mui/material";
 import Header from "../../components/Header";
 import AddIcon from "@mui/icons-material/Add";
 import { DataGrid } from "@mui/x-data-grid";
@@ -6,11 +6,18 @@ import { tickets } from "../../MockData/tickets";
 
 const columns = [
   { width: 60, field: "id", headerName: "Nr." },
-  { width: 500, field: "status", headerName: "Status" },
+  {
+    width: 250,
+    field: "status",
+    headerName: "Status",
+    renderCell: (params) => (
+      <Chip sx={{ width: 200 }} label={params.row.status} />
+    ),
+  },
   { flex: 2, minWidth: 400, field: "label", headerName: "Titel" },
-  { width: 500, field: "assigned_to", headerName: "zugewiesen an" },
-  { width: 500, field: "created_at", headerName: "Erstellt am" },
-  { width: 500, field: "started_by", headerName: "Erstellt von" },
+  { width: 200, field: "assigned_to", headerName: "zugewiesen an" },
+  { width: 200, field: "created_at", headerName: "Erstellt am" },
+  { width: 200, field: "started_by", headerName: "Erstellt von" },
 ];
 export default function Dashboard() {
   return (
