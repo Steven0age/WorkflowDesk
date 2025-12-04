@@ -11,15 +11,23 @@ export default function Root() {
           //   bgcolor: "background.default",
           display: "flex",
           height: "100vh",
+          width: "100%",
         }}
       >
-        <Box component="aside" sx={{ bgcolor: "secondary.main", width: 300 }}>
+        <Box
+          component="aside"
+          sx={{ bgcolor: "secondary.main", width: 300, flexShrink: 0 }}
+        >
           <Sidebar />
         </Box>
         <Box
           component="main"
           sx={{
+            minWidth: 0,
+            minHeight: 0,
             flexGrow: 1,
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           <Outlet />
