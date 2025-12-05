@@ -22,19 +22,25 @@ const columns = [
         <IconButton
           onClick={(e) => {
             e.stopPropagation();
-            alert("Delete-Icon clicked");
+            alert("Edit-Icon clicked");
+          }}
+          sx={{
+            "&:hover": { color: "primary.main" },
           }}
         >
-          <DeleteIcon />
+          <EditIcon />
         </IconButton>
 
         <IconButton
           onClick={(e) => {
             e.stopPropagation();
-            alert("Edit-Icon clicked");
+            alert("Delete-Icon clicked");
+          }}
+          sx={{
+            "&:hover": { color: "error.main" },
           }}
         >
-          <EditIcon />
+          <DeleteIcon />
         </IconButton>
       </>
     ),
