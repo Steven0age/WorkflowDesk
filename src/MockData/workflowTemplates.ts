@@ -1,0 +1,42 @@
+export const templates = [
+  {
+    id: "1",
+    created_from_user: "Thomas Müller",
+    title: "Workflow A",
+    description: "Beispielbeschreibung A",
+    proof_required: true,
+    approval_required: false,
+  },
+  {
+    id: "2",
+    created_from_user: "Thomas Müller",
+    title: "Workflow B",
+    description: "Beispielbeschreibung B",
+    proof_required: true,
+    approval_required: true,
+  },
+  {
+    id: "3",
+    created_from_user: "Thomas Müller",
+    title: "Workflow C",
+    description: "Beispielbeschreibung C",
+    proof_required: false,
+    approval_required: false,
+  },
+  {
+    id: "4",
+    created_from_user: "Thomas Müller",
+    title: "Workflow D",
+    description: "Beispielbeschreibung D",
+    proof_required: false,
+    approval_required: true,
+  },
+  {
+    id: "5",
+    created_from_user: "Thomas Müller",
+    title: "Workflow E",
+    description: "Beispielbeschreibung E",
+    proof_required: true,
+    approval_required: true,
+  },
+];
