@@ -3,25 +3,22 @@ import { createTheme } from "@mui/material/styles";
 import "@mui/material/Button";
 
 declare module "@mui/material/styles" {
+  interface StatusColor {
+    main: string;
+    contrastText: string;
+  }
   interface Palette {
-    status: {
-      open: string;
-      inProgress: string;
-      review: string;
-      done: string;
-    };
+    status: Record<"open" | "inProgress" | "review" | "done", StatusColor>;
 
     border: {
       main: string;
     };
   }
   interface PaletteOptions {
-    status?: {
-      open?: string;
-      inProgress?: string;
-      review?: string;
-      done?: string;
-    };
+    status?: Partial<
+      Record<"open" | "inProgress" | "review" | "done", Partial<StatusColor>>
+    >;
+
     border?: {
       main: string;
     };
@@ -68,10 +65,25 @@ const theme = createTheme({
     },
 
     status: {
-      open: "#E2420C",
-      inProgress: "#3452C0",
-      review: "#FFB502",
-      done: "#76CC00",
+      open: {
+        main: "#E2420C",
+        contrastText: "#ffffff",
+      },
+
+      inProgress: {
+        main: "#3452C0",
+        contrastText: "#ffffff",
+      },
+
+      review: {
+        main: "#FFB502",
+        contrastText: "#262E3A",
+      },
+
+      done: {
+        main: "#ECF1F5",
+        contrastText: "#262E3A",
+      },
     },
 
     action: {

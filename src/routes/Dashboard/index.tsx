@@ -1,8 +1,9 @@
 import { Button, Box, Typography, Chip } from "@mui/material";
 import Header from "../../components/Header";
 import AddIcon from "@mui/icons-material/Add";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, type GridRenderCellParams } from "@mui/x-data-grid";
 import { tickets } from "../../MockData/tickets";
+import StatusChip from "../../components/StatusChip";
 
 const columns = [
   { width: 60, field: "id", headerName: "Nr." },
@@ -10,8 +11,8 @@ const columns = [
     width: 250,
     field: "status",
     headerName: "Status",
-    renderCell: (params) => (
-      <Chip sx={{ width: 200 }} label={params.row.status} />
+    renderCell: (params: GridRenderCellParams) => (
+      <StatusChip status={params.row.status} />
     ),
   },
   { flex: 2, minWidth: 400, field: "label", headerName: "Titel" },
