@@ -6,18 +6,34 @@ import { tickets } from "../../MockData/tickets";
 import StatusChip from "../../components/StatusChip";
 
 const columns = [
-  { width: 60, field: "id", headerName: "Nr." },
+  { width: 30, field: "id", headerName: "Nr." },
   {
-    width: 250,
+    width: 180,
     field: "status",
     headerName: "Status",
     renderCell: (params: GridRenderCellParams) => (
       <StatusChip status={params.row.status} />
     ),
   },
-  { flex: 2, minWidth: 400, field: "label", headerName: "Titel" },
-  { width: 200, field: "assigned_to", headerName: "zugewiesen an" },
-  { width: 200, field: "created_at", headerName: "Erstellt am" },
+  { flex: 1, minWidth: 300, field: "label", headerName: "Titel" },
+  { width: 200, field: "assigned_to", headerName: "Zuständig ist" },
+  {
+    width: 160,
+    field: "created_at",
+    headerName: "Gestartet am",
+    valueFormatter: (value?: string) => {
+      if (value == null) {
+        return "";
+      }
+      const date = new Date(value);
+
+      return date.toLocaleDateString("de-DE", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+    },
+  },
   { width: 200, field: "started_by", headerName: "Erstellt von" },
 ];
 export default function Dashboard() {
@@ -34,10 +50,11 @@ export default function Dashboard() {
       <Header title="Dashboard" />
       <Box
         sx={{
-          height: "4rem",
+          height: "5rem",
           display: "flex",
           alignItems: "center",
-          p: "2rem",
+          py: "2rem",
+          px: "1rem",
         }}
       >
         <Button startIcon={<AddIcon />} variant="create">
@@ -50,21 +67,25 @@ export default function Dashboard() {
           minHeight: 0,
           minWidth: 0,
           overflow: "auto",
+          px: "1rem",
         }}
       >
         <DataGrid
+          sx={{
+            fontSize: "1rem",
+            "& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within": {
+              outline: "none",
+            },
+            "& .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within":
+              {
+                outline: "none",
+              },
+          }}
           rows={tickets}
           columns={columns}
           disableColumnMenu
-          // initialState={{
-          //   pagination: {
-          //     paginationModel: {
-          //       pageSize: 5,
-          //     },
-          //   },
-          // }}
-          // pageSizeOptions={[5]}
           disableRowSelectionOnClick
+          hideFooter
         />
       </Box>
     </Box>
