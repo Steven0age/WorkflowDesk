@@ -1,9 +1,15 @@
 import { Button, Box } from "@mui/material";
 import Header from "../../components/Header";
 import AddIcon from "@mui/icons-material/Add";
-import { DataGrid, type GridRenderCellParams } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  type GridRenderCellParams,
+  type GridRowParams,
+} from "@mui/x-data-grid";
 import { tickets } from "../../MockData/tickets";
 import StatusChip from "../../components/StatusChip";
+import TicketModal from "../../components/TicketModal";
+import { useState, type ReactNode } from "react";
 
 const columns = [
   { width: 30, field: "id", headerName: "Nr." },
@@ -36,7 +42,21 @@ const columns = [
   },
   { width: 200, field: "started_by", headerName: "Erstellt von" },
 ];
+
 export default function Dashboard() {
+  const [modalState, setModalState] = useState(false);
+  const [selectedTicket, setSelectedTicket] = useState<GridRowParams | null>(
+    null
+  );
+
+  const openModal = (item: GridRowParams) => {
+    setModalState(true);
+    setSelectedTicket(item);
+  };
+  const closeModal = () => {
+    setModalState(false);
+    setSelectedTicket(null);
+  };
   return (
     <Box
       sx={{
@@ -82,12 +102,20 @@ export default function Dashboard() {
               },
           }}
           rows={tickets}
+          onRowClick={openModal}
           columns={columns}
           disableColumnMenu
           disableRowSelectionOnClick
           hideFooter
         />
       </Box>
+      {selectedTicket && (
+        <TicketModal
+          openModal={modalState}
+          handleOnClose={closeModal}
+          item={selectedTicket}
+        />
+      )}
     </Box>
   );
 }

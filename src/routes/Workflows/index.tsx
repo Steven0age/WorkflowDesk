@@ -1,8 +1,8 @@
 import { Button, Box, IconButton } from "@mui/material";
 import Header from "../../components/Header";
 import AddIcon from "@mui/icons-material/Add";
-import { DataGrid, type GridRenderCellParams } from "@mui/x-data-grid";
-import { templates } from "../../MockData/WorkflowTemplates";
+import { DataGrid } from "@mui/x-data-grid";
+import { templates } from "../../MockData/workflowTemplates";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -17,7 +17,7 @@ const columns = [
     headerName: "",
     sortable: false,
     filterable: false,
-    renderCell: (params: GridRenderCellParams) => (
+    renderCell: () => (
       <>
         <IconButton
           onClick={(e) => {
