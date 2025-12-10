@@ -2,6 +2,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import type { GridRowParams } from "@mui/x-data-grid";
+import theme from "../theme";
+import { Chip } from "@mui/material";
 
 type TicketModalTypes = {
   openModal: boolean;
@@ -34,7 +36,96 @@ export default function TicketModal({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box
+          sx={{
+            width: "1100px",
+            height: "calc(100vh - 150px)",
+            mx: "auto",
+            mt: "100px",
+            mb: "50px",
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 1,
+            bgcolor: "background.paper",
+            overflowY: "auto",
+          }}
+        >
+          <Box
+            sx={{
+              minHeight: 150,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "stretch",
+              justifyContent: "center",
+              bgcolor: "success.main",
+              borderRadius: 10,
+              mb: 4,
+              px: 10,
+              py: 4,
+            }}
+          >
+            <Typography
+              variant="h2"
+              id="modal-modal-title"
+              sx={{ textAlign: "center", fontWeight: "bold", fontSize: "2rem" }}
+            >
+              Ticket: {item.row.label}
+            </Typography>
+
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                gap: 4,
+                mt: 2,
+              }}
+            >
+              <Chip
+                label="Status: wird geprüft"
+                variant="outlined"
+                sx={{
+                  color: "white",
+                  bgcolor: "#ffffff65",
+                  //fontWeight: "bold",
+                }}
+              />
+              <Chip
+                label="Workflow: Neukunde abgeschlossen"
+                sx={{
+                  color: "white",
+                  bgcolor: "#ffffff65",
+                  fontWeight: "bold",
+                }}
+              />
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "2.5fr 1fr",
+              gap: 4,
+            }}
+          >
+            <Box
+              sx={{
+                backgroundColor: "error.main",
+                borderRadius: 1,
+                p: 1,
+              }}
+            >
+              CONTENT-LINKS
+            </Box>
+            <Box
+              sx={{
+                backgroundColor: "error.main",
+                borderRadius: 1,
+                p: 1,
+              }}
+            >
+              CONTENT-RECHTS
+            </Box>
+          </Box>
+
           <Typography
             id="modal-modal-title"
             sx={{ fontWeight: "bold", fontSize: "2rem" }}
