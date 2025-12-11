@@ -9,7 +9,7 @@ import {
 import { tickets } from "../../MockData/tickets";
 import StatusChip from "../../components/StatusChip";
 import TicketModal from "../../components/TicketModal";
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
 
 const columns = [
   { width: 30, field: "id", headerName: "Nr." },
@@ -18,7 +18,7 @@ const columns = [
     field: "status",
     headerName: "Status",
     renderCell: (params: GridRenderCellParams) => (
-      <StatusChip status={params.row.status} />
+      <StatusChip status={params.row.status} variant="list" />
     ),
   },
   { flex: 1, minWidth: 300, field: "label", headerName: "Titel" },

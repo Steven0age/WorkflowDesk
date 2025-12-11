@@ -2,25 +2,13 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import type { GridRowParams } from "@mui/x-data-grid";
+import StatusChip from "./StatusChip";
 import theme from "../theme";
-import { Chip } from "@mui/material";
 
 type TicketModalTypes = {
   openModal: boolean;
   handleOnClose: () => void;
   item: GridRowParams;
-};
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
 };
 
 export default function TicketModal({
@@ -57,7 +45,7 @@ export default function TicketModal({
               flexDirection: "column",
               alignItems: "stretch",
               justifyContent: "center",
-              bgcolor: "success.main",
+              bgcolor: theme.palette.status[item.row.status].main,
               borderRadius: 10,
               mb: 4,
               px: 10,
@@ -67,7 +55,12 @@ export default function TicketModal({
             <Typography
               variant="h2"
               id="modal-modal-title"
-              sx={{ textAlign: "center", fontWeight: "bold", fontSize: "2rem" }}
+              sx={{
+                textAlign: "center",
+                fontWeight: "bold",
+                fontSize: "2rem",
+                color: theme.palette.status[item.row.status].contrastText,
+              }}
             >
               Ticket: {item.row.label}
             </Typography>
@@ -80,22 +73,16 @@ export default function TicketModal({
                 mt: 2,
               }}
             >
-              <Chip
-                label="Status: wird geprüft"
-                variant="outlined"
-                sx={{
-                  color: "white",
-                  bgcolor: "#ffffff65",
-                  //fontWeight: "bold",
-                }}
+              <StatusChip
+                status={item.row.status}
+                variant="ticket"
+                labelPrefix="Status:"
               />
-              <Chip
-                label="Workflow: Neukunde abgeschlossen"
-                sx={{
-                  color: "white",
-                  bgcolor: "#ffffff65",
-                  fontWeight: "bold",
-                }}
+              <StatusChip
+                status={item.row.status}
+                variant="ticket"
+                labelPrefix="Workflow:"
+                label={item.row.label}
               />
             </Box>
           </Box>
