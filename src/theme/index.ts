@@ -6,6 +6,8 @@ declare module "@mui/material/styles" {
   interface StatusColor {
     main: string;
     contrastText: string;
+    background: string;
+    border: string;
   }
   interface Palette {
     status: Record<"open" | "inProgress" | "review" | "done", StatusColor>;
@@ -54,35 +56,43 @@ const theme = createTheme({
       main: "#0164C9",
       light: "#2F8EE2",
       dark: "#004A96",
-      contrastText: "#ffffff",
+      contrastText: "#FFFFFF",
     },
 
     secondary: {
       main: "#262E3A",
       light: "#3A4452",
       dark: "#13171D",
-      contrastText: "#ffffff",
+      contrastText: "#FFFFFF",
     },
 
     status: {
       open: {
         main: "#E2420C",
-        contrastText: "#ffffff",
+        contrastText: "#FFFFFF",
+        background: "#FFFFFF2E",
+        border: "#FFFFFF59",
       },
 
       inProgress: {
         main: "#3452C0",
-        contrastText: "#ffffff",
+        contrastText: "#FFFFFF",
+        background: "#FFFFFF2E",
+        border: "#FFFFFF59",
       },
 
       review: {
         main: "#FFB502",
         contrastText: "#262E3A",
+        background: "#FFFFFFCC",
+        border: "#00000014",
       },
 
       done: {
         main: "#ECF1F5",
         contrastText: "#262E3A",
+        background: "#FFFFFFCC",
+        border: "#00000014",
       },
     },
 
@@ -103,14 +113,14 @@ const theme = createTheme({
       primary: "#111827",
       secondary: "#4B5563",
       disabled: "#818181",
-      contrast: "#ffffff",
+      contrast: "#FFFFFF",
     },
 
     success: {
       main: green[500],
       light: green[300],
       dark: green[700],
-      contrastText: "#ffffff",
+      contrastText: "#FFFFFF",
     },
   },
 
