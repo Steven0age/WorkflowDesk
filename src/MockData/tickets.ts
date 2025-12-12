@@ -1,4 +1,6 @@
-export const tickets = [
+import type { TicketDataTypes } from "../types/types";
+
+export const tickets: TicketDataTypes[] = [
   {
     id: 1,
     template_id: "1f0a4d0a-604b-42db-a969-b8c73d1ccd5b",
