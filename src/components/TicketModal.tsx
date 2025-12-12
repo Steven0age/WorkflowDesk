@@ -1,14 +1,14 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import type { GridRowParams } from "@mui/x-data-grid";
 import StatusChip from "./StatusChip";
 import theme from "../theme";
+import type { TicketDataTypes } from "../types/types";
 
 type TicketModalTypes = {
   openModal: boolean;
   handleOnClose: () => void;
-  item: GridRowParams;
+  item: TicketDataTypes;
 };
 
 export default function TicketModal({
@@ -45,10 +45,10 @@ export default function TicketModal({
               flexDirection: "column",
               alignItems: "stretch",
               justifyContent: "center",
-              bgcolor: theme.palette.status[item.row.status].main,
+              bgcolor: theme.palette.status[item.status].main,
               borderRadius: 10,
               mb: 4,
-              px: 10,
+              px: 12,
               py: 4,
             }}
           >
@@ -56,13 +56,17 @@ export default function TicketModal({
               variant="h2"
               id="modal-modal-title"
               sx={{
-                textAlign: "center",
                 fontWeight: "bold",
                 fontSize: "2rem",
-                color: theme.palette.status[item.row.status].contrastText,
+                mb: 2,
+                color: theme.palette.status[item.status].contrastText,
+                textAlign: "center",
+                hyphens: "auto",
+                wordBreak: "normal",
+                overflowWrap: "break-word",
               }}
             >
-              Ticket: {item.row.label}
+              Ticket: {item.label}
             </Typography>
 
             <Box
@@ -74,15 +78,15 @@ export default function TicketModal({
               }}
             >
               <StatusChip
-                status={item.row.status}
+                status={item.status}
                 variant="ticket"
                 labelPrefix="Status:"
               />
               <StatusChip
-                status={item.row.status}
+                status={item.status}
                 variant="ticket"
                 labelPrefix="Workflow:"
-                label={item.row.label}
+                label={item.label}
               />
             </Box>
           </Box>
@@ -117,19 +121,19 @@ export default function TicketModal({
             id="modal-modal-title"
             sx={{ fontWeight: "bold", fontSize: "2rem" }}
           >
-            Ticket: {item.row.label}
+            Ticket: {item.label}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Status: {item.row.status}
+            Status: {item.status}
           </Typography>
           <Typography id="modal-modal-description">
-            Zuständig ist: {item.row.assigned_to}
+            Zuständig ist: {item.assigned_to}
           </Typography>
           <Typography id="modal-modal-description">
-            Offen seit: {item.row.created_at}
+            Offen seit: {item.created_at}
           </Typography>
           <Typography id="modal-modal-description">
-            Erstellt von: {item.row.started_by}
+            Erstellt von: {item.started_by}
           </Typography>
         </Box>
       </Modal>

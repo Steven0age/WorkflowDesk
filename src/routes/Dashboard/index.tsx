@@ -10,6 +10,7 @@ import { tickets } from "../../MockData/tickets";
 import StatusChip from "../../components/StatusChip";
 import TicketModal from "../../components/TicketModal";
 import { useState } from "react";
+import type { TicketDataTypes } from "../../types/types";
 
 const columns = [
   { width: 30, field: "id", headerName: "Nr." },
@@ -45,13 +46,13 @@ const columns = [
 
 export default function Dashboard() {
   const [modalState, setModalState] = useState(false);
-  const [selectedTicket, setSelectedTicket] = useState<GridRowParams | null>(
+  const [selectedTicket, setSelectedTicket] = useState<TicketDataTypes | null>(
     null
   );
 
   const openModal = (item: GridRowParams) => {
     setModalState(true);
-    setSelectedTicket(item);
+    setSelectedTicket(item.row);
   };
   const closeModal = () => {
     setModalState(false);
