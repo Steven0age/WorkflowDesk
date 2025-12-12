@@ -86,7 +86,7 @@ export default function TicketModal({
                 status={item.status}
                 variant="ticket"
                 labelPrefix="Workflow:"
-                label={item.label}
+                label={item.template_title}
               />
             </Box>
           </Box>
@@ -125,6 +125,12 @@ export default function TicketModal({
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Status: {item.status}
+          </Typography>
+          <Typography id="modal-modal-description">
+            Vorlagen ID: {item.template_id}
+          </Typography>
+          <Typography id="modal-modal-description">
+            Vorlagen-Name: {item.template_title}
           </Typography>
           <Typography id="modal-modal-description">
             Zuständig ist: {item.assigned_to}

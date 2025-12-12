@@ -4,6 +4,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 1,
     template_id: "1f0a4d0a-604b-42db-a969-b8c73d1ccd5b",
+    template_title: "Vorlage Workflow A",
     started_by: "Thomas Müller",
     assigned_to: "Jochen Busse",
     label: "Workflow A",
@@ -14,6 +15,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 2,
     template_id: "3cc5e5e3-fbb0-4ca1-a841-7438c2d7f3fd",
+    template_title: "Vorlage Workflow A",
     started_by: "Thomas Müller",
     assigned_to: "Jochen Busse",
     label: "Workflow A",
@@ -24,6 +26,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 3,
     template_id: "e4bd4b20-8428-4e51-91e9-47d7b3796b74",
+    template_title: "Vorlage Workflow A",
     started_by: "Hans Werner",
     assigned_to: "Peter Steinert",
     label: "Workflow A",
@@ -34,6 +37,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 4,
     template_id: "f126cdb5-d87c-4e47-a3d4-368e8ad3aef4",
+    template_title: "Vorlage Workflow B",
     started_by: "Thomas Müller",
     assigned_to: "Jochen Busse",
     label: "Workflow B",
@@ -44,6 +48,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 5,
     template_id: "49afb981-6f46-47b4-8ab2-b7655e6fdaa4",
+    template_title: "Vorlage Workflow B",
     started_by: "Hans Werner",
     assigned_to: "Peter Steinert",
     label: "Workflow B",
@@ -54,6 +59,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 6,
     template_id: "7a9c7a86-72bf-4ed7-a81a-dfe9b8fda411",
+    template_title: "Vorlage Workflow A",
     started_by: "Thomas Müller",
     assigned_to: "Jochen Busse",
     label: "Workflow A",
@@ -64,6 +70,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 7,
     template_id: "b3e3c2db-2c1a-4fd2-8cc8-c5b3cbbf234b",
+    template_title: "Vorlage Workflow B",
     started_by: "Hans Werner",
     assigned_to: "Peter Steinert",
     label: "Workflow B",
@@ -74,6 +81,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 8,
     template_id: "5f9bd78e-d92a-4096-9b76-1d490298f154",
+    template_title: "Vorlage Workflow C",
     started_by: "Thomas Müller",
     assigned_to: "Jochen Busse",
     label: "Workflow C",
@@ -84,6 +92,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 9,
     template_id: "c7e3fcb7-dc98-49b8-9ede-5e9ff9f67e6e",
+    template_title: "Vorlage Workflow C",
     started_by: "Hans Werner",
     assigned_to: "Peter Steinert",
     label: "Workflow C",
@@ -94,6 +103,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 10,
     template_id: "def38cb6-d7ef-41e5-886d-7a697df17ce0",
+    template_title: "Vorlage Workflow A",
     started_by: "Thomas Müller",
     assigned_to: "Jochen Busse",
     label: "Workflow A",
@@ -104,6 +114,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 11,
     template_id: "a12493bb-61ac-4263-935b-6f7b6ce24c18",
+    template_title: "Vorlage Workflow B",
     started_by: "Hans Werner",
     assigned_to: "Peter Steinert",
     label: "Workflow B",
@@ -114,6 +125,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 12,
     template_id: "bfa143cb-680d-4c23-9a95-cfb71a89f3ec",
+    template_title: "Vorlage Workflow C",
     started_by: "Thomas Müller",
     assigned_to: "Jochen Busse",
     label: "Workflow C",
@@ -124,6 +136,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 13,
     template_id: "9b1b7b24-a3bc-4f57-8fd6-7bbd452c5967",
+    template_title: "Vorlage Workflow C",
     started_by: "Hans Werner",
     assigned_to: "Peter Steinert",
     label: "Workflow C",
@@ -134,6 +147,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 14,
     template_id: "0bfa6173-74d0-49f0-95e0-e6f0c66e3e49",
+    template_title: "Vorlage Workflow B",
     started_by: "Thomas Müller",
     assigned_to: "Jochen Busse",
     label: "Workflow B",
@@ -144,6 +158,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 15,
     template_id: "3af889a1-9e4c-4fc0-b5a4-e66ae6a19b77",
+    template_title: "Vorlage Workflow A",
     started_by: "Hans Werner",
     assigned_to: "Peter Steinert",
     label: "Workflow A",
@@ -154,6 +169,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 16,
     template_id: "5eab2ff2-51d6-4c2e-ba9c-f6a6558c53ef",
+    template_title: "Vorlage Workflow C",
     started_by: "Thomas Müller",
     assigned_to: "Jochen Busse",
     label: "Workflow C",
@@ -164,6 +180,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 17,
     template_id: "13ad7b04-0594-4a06-966f-7749d2fa70a1",
+    template_title: "Vorlage Workflow C",
     started_by: "Hans Werner",
     assigned_to: "Peter Steinert",
     label: "Workflow C",
@@ -174,6 +191,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 18,
     template_id: "f2ba21e1-72cb-4d14-b099-16bc2c482a9c",
+    template_title: "Vorlage Workflow C",
     started_by: "Thomas Müller",
     assigned_to: "Jochen Busse",
     label: "Workflow C",
@@ -184,6 +202,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 19,
     template_id: "d350f0fa-d8f4-4156-9391-b1b5a18c87b3",
+    template_title: "Vorlage Workflow B",
     started_by: "Hans Werner",
     assigned_to: "Peter Steinert",
     label: "Workflow B",
@@ -194,6 +213,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 20,
     template_id: "e92bf5b3-afe2-4a39-9beb-629864d56451",
+    template_title: "Vorlage Workflow B",
     started_by: "Thomas Müller",
     assigned_to: "Jochen Busse",
     label: "Workflow B",
@@ -204,6 +224,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 21,
     template_id: "6db52c09-6c47-4e02-9cb2-b2e2ce97b1ff",
+    template_title: "Vorlage Workflow A",
     started_by: "Hans Werner",
     assigned_to: "Peter Steinert",
     label: "Workflow A",
@@ -214,6 +235,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 22,
     template_id: "7fddfa51-2d35-47cc-a587-18dbfb674c41",
+    template_title: "Vorlage Workflow C",
     started_by: "Thomas Müller",
     assigned_to: "Jochen Busse",
     label: "Workflow C",
@@ -224,6 +246,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 23,
     template_id: "fa1c9241-25bf-4cb9-8a31-094fdb596b22",
+    template_title: "Vorlage Workflow B",
     started_by: "Hans Werner",
     assigned_to: "Peter Steinert",
     label: "Workflow B",
@@ -234,6 +257,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 24,
     template_id: "ce842894-f34c-443b-9a24-9e6c8b596957",
+    template_title: "Vorlage Workflow A",
     started_by: "Thomas Müller",
     assigned_to: "Jochen Busse",
     label: "Workflow A",
@@ -244,6 +268,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 25,
     template_id: "ab6971ea-93df-4a5d-a596-36d8d8f850a9",
+    template_title: "Vorlage Workflow A",
     started_by: "Hans Werner",
     assigned_to: "Peter Steinert",
     label: "Workflow A",
@@ -254,6 +279,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 26,
     template_id: "94c3724d-16ee-4a10-b4f1-a028d8c5238d",
+    template_title: "Vorlage Workflow B",
     started_by: "Thomas Müller",
     assigned_to: "Jochen Busse",
     label: "Workflow B",
@@ -264,6 +290,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 27,
     template_id: "c5213bcf-0f3d-4eb9-9f66-025fc522d258",
+    template_title: "Vorlage Workflow B",
     started_by: "Hans Werner",
     assigned_to: "Peter Steinert",
     label: "Workflow B",
@@ -274,6 +301,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 28,
     template_id: "c63d441d-95de-4f49-8aa1-ba2dbe90663a",
+    template_title: "Vorlage Workflow C",
     started_by: "Thomas Müller",
     assigned_to: "Jochen Busse",
     label: "Workflow C",
@@ -284,6 +312,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 29,
     template_id: "1c3cd3f9-d2eb-40b5-9a66-cf7dcb82ba72",
+    template_title: "Vorlage Workflow C",
     started_by: "Hans Werner",
     assigned_to: "Peter Steinert",
     label: "Workflow C",
@@ -294,6 +323,7 @@ export const tickets: TicketDataTypes[] = [
   {
     id: 30,
     template_id: "f42c98c9-9dc8-442d-be30-25d73918a651",
+    template_title: "Vorlage Workflow A",
     started_by: "Thomas Müller",
     assigned_to: "Jochen Busse",
     label: "Workflow A",
