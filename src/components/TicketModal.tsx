@@ -4,6 +4,7 @@ import Modal from "@mui/material/Modal";
 import StatusChip from "./StatusChip";
 import theme from "../theme";
 import type { TicketDataTypes } from "../types/types";
+import CardShell from "./CardShell";
 
 type TicketModalTypes = {
   openModal: boolean;
@@ -93,7 +94,7 @@ export default function TicketModal({
           <Box
             sx={{
               display: "grid",
-              gridTemplateColumns: "2.5fr 1fr",
+              gridTemplateColumns: "2fr 1fr",
               gap: 4,
             }}
           >
@@ -105,6 +106,7 @@ export default function TicketModal({
               }}
             >
               CONTENT-LINKS
+              <CardShell />
             </Box>
             <Box
               sx={{
