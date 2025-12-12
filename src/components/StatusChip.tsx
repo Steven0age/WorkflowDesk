@@ -1,8 +1,9 @@
 import { Chip } from "@mui/material";
 import theme from "../theme";
+import type { TicketStatus } from "../types/types";
 
 type StatusChipTypes = {
-  status: "open" | "inProgress" | "review" | "done";
+  status: TicketStatus;
   variant: "list" | "ticket";
   label?: string;
   labelPrefix?: string;
@@ -38,6 +39,8 @@ export default function StatusChip({
     bgcolor: chipColor[status].background,
     color: chipColor[status].contrastText,
     border: `1px solid ${chipColor[status].border}`,
+    fontWeight: "bold",
+    fontSize: "0.9rem",
   };
 
   return (
