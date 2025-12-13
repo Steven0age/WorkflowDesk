@@ -5,6 +5,15 @@ import StatusChip from "./StatusChip";
 import theme from "../theme";
 import type { TicketDataTypes } from "../types/types";
 import CardShell from "./CardShell";
+import {
+  Button,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+} from "@mui/material";
 
 type TicketModalTypes = {
   openModal: boolean;
@@ -100,13 +109,112 @@ export default function TicketModal({
           >
             <Box
               sx={{
-                backgroundColor: "error.main",
-                borderRadius: 1,
-                p: 1,
+                display: "flex",
+                flexDirection: "column",
+                gap: 4,
               }}
             >
-              CONTENT-LINKS
-              <CardShell />
+              <CardShell>
+                <CardHeader title="Phase: Erster Todo-Abschnitt"></CardHeader>
+              </CardShell>
+              <>
+                <CardShell>
+                  <CardHeader title="Phase: Erster Todo-Abschnitt"></CardHeader>
+                  <CardContent>
+                    <FormGroup>
+                      <FormControlLabel
+                        control={<Checkbox checked disabled />}
+                        label="Schritt 1"
+                      />
+                      <FormControlLabel
+                        control={<Checkbox checked disabled />}
+                        label="Schritt 2"
+                      />
+                      <FormControlLabel
+                        control={<Checkbox checked disabled />}
+                        label="Schritt 3"
+                      />
+                      <FormControlLabel
+                        control={<Checkbox checked disabled />}
+                        label="Schritt 4"
+                      />
+                      <FormControlLabel
+                        control={<Checkbox checked disabled />}
+                        label="Schritt 5"
+                      />
+                    </FormGroup>
+                  </CardContent>
+                  <CardActions>
+                    <Button variant="contained" color="primary" disabled>
+                      Phase abgeschlossen
+                    </Button>
+                  </CardActions>
+                </CardShell>
+                <CardShell>
+                  <CardHeader title="Phase: Zweiter Todo-Abschnitt"></CardHeader>
+                  <CardContent>
+                    <FormGroup>
+                      <FormControlLabel
+                        control={<Checkbox defaultChecked />}
+                        label="Schritt 1"
+                      />
+                      <FormControlLabel
+                        control={<Checkbox defaultChecked />}
+                        label="Schritt 2"
+                      />
+                      <FormControlLabel
+                        control={<Checkbox defaultChecked />}
+                        label="Schritt 3"
+                      />
+                      <FormControlLabel
+                        control={<Checkbox defaultChecked />}
+                        label="Schritt 4"
+                      />
+                      <FormControlLabel
+                        control={<Checkbox defaultChecked />}
+                        label="Schritt 5"
+                      />
+                    </FormGroup>
+                  </CardContent>
+                  <CardActions>
+                    <Button variant="contained" color="primary">
+                      Phase abschließen
+                    </Button>
+                  </CardActions>
+                </CardShell>
+                <CardShell>
+                  <CardHeader title="Phase: Dritter TODO-Abschnitt"></CardHeader>
+                  <CardContent>
+                    <FormGroup>
+                      <FormControlLabel
+                        control={<Checkbox disabled />}
+                        label="Schritt 1"
+                      />
+                      <FormControlLabel
+                        control={<Checkbox disabled />}
+                        label="Schritt 2"
+                      />
+                      <FormControlLabel
+                        control={<Checkbox disabled />}
+                        label="Schritt 3"
+                      />
+                      <FormControlLabel
+                        control={<Checkbox disabled />}
+                        label="Schritt 4"
+                      />
+                      <FormControlLabel
+                        control={<Checkbox disabled />}
+                        label="Schritt 5"
+                      />
+                    </FormGroup>
+                  </CardContent>
+                  <CardActions>
+                    <Button variant="contained" color="primary" disabled>
+                      Phase abschließen
+                    </Button>
+                  </CardActions>
+                </CardShell>
+              </>
             </Box>
             <Box
               sx={{
