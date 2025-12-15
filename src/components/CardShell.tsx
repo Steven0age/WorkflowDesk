@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 type CardShellProps = CardProps & {
   children: ReactNode;
-  disabled: boolean;
+  disabled?: boolean;
 };
 
 const CustomCard = styled(Card, {

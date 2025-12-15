@@ -8,7 +8,7 @@ import {
 } from "@mui/x-data-grid";
 import { tickets } from "../../MockData/tickets";
 import StatusChip from "../../components/StatusChip";
-import TicketModal from "../../components/TicketModal";
+import TicketModal from "../../components/TicketModal/TicketModal";
 import { useState } from "react";
 import type { TicketDataTypes } from "../../types/types";
 

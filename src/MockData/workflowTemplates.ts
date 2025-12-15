@@ -2,7 +2,7 @@ export const templates = [
   {
     id: "1",
     created_from_user: "Thomas Müller",
-    title: "Workflow A",
+    title: "Super Marthas Workflow",
     description: "Beispielbeschreibung A",
     proof_required: true,
     approval_required: false,

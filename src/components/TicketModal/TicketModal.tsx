@@ -1,10 +1,10 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import StatusChip from "./StatusChip";
-import theme from "../theme";
-import type { TicketDataTypes } from "../types/types";
-import CardShell from "./CardShell";
+import StatusChip from "../StatusChip";
+import theme from "../../theme";
+import type { TicketDataTypes } from "../../types/types";
+import CardShell from "../CardShell";
 import {
   Button,
   CardActions,
@@ -13,8 +13,8 @@ import {
   Checkbox,
   FormControlLabel,
   FormGroup,
-  Paper,
 } from "@mui/material";
+import ActivitiyLog from "./ActivityLog";
 
 type TicketModalTypes = {
   openModal: boolean;
@@ -124,11 +124,8 @@ export default function TicketModal({
               gap: 4,
             }}
           >
-            <CardShell>
-              <CardHeader
-                sx={{ color: "text.disabled" }}
-                title="Phase: Erster Todo-Abschnitt"
-              ></CardHeader>
+            <CardShell disabled={true}>
+              <CardHeader title="Phase: Erster Todo-Abschnitt"></CardHeader>
               <CardContent>
                 <FormGroup>
                   <FormControlLabel
@@ -159,7 +156,7 @@ export default function TicketModal({
                 </Button>
               </CardActions>
             </CardShell>
-            <CardShell raised>
+            <CardShell>
               <CardHeader title="Phase: Zweiter Todo-Abschnitt"></CardHeader>
               <CardContent>
                 <FormGroup>
@@ -191,11 +188,8 @@ export default function TicketModal({
                 </Button>
               </CardActions>
             </CardShell>
-            <CardShell>
-              <CardHeader
-                sx={{ color: "text.disabled" }}
-                title="Phase: Dritter TODO-Abschnitt"
-              ></CardHeader>
+            <CardShell disabled>
+              <CardHeader title="Phase: Dritter TODO-Abschnitt"></CardHeader>
               <CardContent>
                 <FormGroup>
                   <FormControlLabel
@@ -226,108 +220,8 @@ export default function TicketModal({
                 </Button>
               </CardActions>
             </CardShell>
-            <Box>
-              <Typography
-                id="modal-modal-title"
-                sx={{ fontWeight: "bold", fontSize: "2rem" }}
-              >
-                Ticket: {item.label}
-              </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Status: {item.status}
-              </Typography>
-              <Typography id="modal-modal-description">
-                Vorlagen ID: {item.template_id}
-              </Typography>
-              <Typography id="modal-modal-description">
-                Vorlagen-Name: {item.template_title}
-              </Typography>
-              <Typography id="modal-modal-description">
-                Zuständig ist: {item.assigned_to}
-              </Typography>
-              <Typography id="modal-modal-description">
-                Offen seit: {item.created_at}
-              </Typography>
-              <Typography id="modal-modal-description">
-                Erstellt von: {item.started_by}
-              </Typography>
-            </Box>
           </Box>
-          <Box
-            sx={{
-              border: 1,
-              borderColor: "border.main",
-              borderRadius: 1,
-              p: 2,
-            }}
-          >
-            <Typography
-              variant="h5"
-              sx={{ pb: 2, mb: 2, borderBottom: 1, borderColor: "border.main" }}
-            >
-              Aktivitäten
-            </Typography>
-            <Box sx={{ mb: 4 }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: 2,
-                }}
-              >
-                <Typography sx={{ fontWeight: "bold" }}>
-                  Vorname Nachname
-                </Typography>
-                <Typography sx={{ fontSize: "0.8rem" }}>
-                  17.11.2025 16:42
-                </Typography>
-              </Box>
-              <Typography sx={{ mt: 1 }}>
-                Neues Ticket wurde eröffnet
-              </Typography>
-            </Box>
-            <Box sx={{ mb: 4 }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: 2,
-                }}
-              >
-                <Typography sx={{ fontWeight: "bold" }}>
-                  Vorname Nachname
-                </Typography>
-                <Typography sx={{ fontSize: "0.8rem" }}>
-                  17.11.2025 16:42
-                </Typography>
-              </Box>
-              <Typography sx={{ mt: 1 }}>
-                Langer text: Neues Ticket wurde eröffnet, Neues Ticket wurde
-                eröffnet, Neues Ticket wurde eröffnet, Neues Ticket wurde
-                eröffnet, Neues Ticket wurde eröffnet, Neues Ticket wurde
-                eröffnet
-              </Typography>
-            </Box>
-            <Box sx={{ mb: 4 }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: 2,
-                }}
-              >
-                <Typography sx={{ fontWeight: "bold" }}>
-                  Vorname Nachname
-                </Typography>
-                <Typography sx={{ fontSize: "0.8rem" }}>
-                  17.11.2025 16:42
-                </Typography>
-              </Box>
-              <Typography sx={{ mt: 1 }}>
-                Neues Ticket wurde eröffnet
-              </Typography>
-            </Box>
-          </Box>
+          <ActivitiyLog />
         </Box>
 
         <Box
