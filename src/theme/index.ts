@@ -43,6 +43,10 @@ const theme = createTheme({
       fontWeight: 700,
       color: "white",
     },
+    h5: {
+      fontSize: "1rem",
+      fontWeight: 600,
+    },
     //   h2: {
     //     fontSize: "2rem",
     //     fontWeight: 600,

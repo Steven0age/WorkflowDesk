@@ -2,7 +2,7 @@ import { Card, type CardProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import type { ReactNode } from "react";
 
-type CardShellProps = {
+type CardShellProps = CardProps & {
   children: ReactNode;
 };
 
@@ -11,12 +11,8 @@ const CustomCard = styled(Card)<CardProps>(({ theme }) => ({
   "& .MuiCardHeader-root": {
     background: theme.palette.border.main,
   },
-  "& .MuiCardHeader-title": {
-    fontSize: "1rem",
-    fontWeight: 600,
-  },
 }));
 
-export default function CardShell({ children }: CardShellProps) {
-  return <CustomCard>{children}</CustomCard>;
+export default function CardShell({ children, ...props }: CardShellProps) {
+  return <CustomCard {...props}>{children}</CustomCard>;
 }
