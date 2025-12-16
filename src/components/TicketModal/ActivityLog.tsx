@@ -21,7 +21,7 @@ export default function ActivitiyLog() {
           Aktivitäten
         </Typography>
         {ticketLogs
-          .filter((i) => i.ticket_id === 3)
+          .filter((i) => i.ticket_id === 1)
           .map((i) => {
             return <LogItem key={i.id} item={i}></LogItem>;
           })}

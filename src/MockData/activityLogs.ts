@@ -6,7 +6,7 @@ export const ticketLogs: ActivityLogDataTypes[] = [
     ticket_id: 1,
     ticket_phase_id: null,
     event_type: "ticket_created",
-    message: "Ticket wurde erstellt.",
+    message: "",
     user_id: "Thomas Müller",
     created_at: "2025-12-03T08:45:00Z",
   },
