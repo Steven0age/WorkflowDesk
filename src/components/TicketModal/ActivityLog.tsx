@@ -2,8 +2,13 @@ import LogItem from "./LogItem";
 
 import { ticketLogs } from "../../MockData/activityLogs";
 import { Box, Typography } from "@mui/material";
+import type { TicketDataTypes } from "../../types/types";
 
-export default function ActivitiyLog() {
+type ActivitiyLogTypes = {
+  item: TicketDataTypes;
+};
+
+export default function ActivitiyLog({ item }: ActivitiyLogTypes) {
   return (
     <>
       <Box
@@ -21,7 +26,7 @@ export default function ActivitiyLog() {
           Aktivitäten
         </Typography>
         {ticketLogs
-          .filter((i) => i.ticket_id === 1)
+          .filter((i) => i.ticket_id === item.id)
           .map((i) => {
             return <LogItem key={i.id} item={i}></LogItem>;
           })}

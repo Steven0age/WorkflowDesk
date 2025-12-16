@@ -32,7 +32,6 @@ export default function TicketModal({
       open={openModal}
       onClose={handleOnClose}
       aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
     >
       <Box
         sx={{
@@ -221,7 +220,7 @@ export default function TicketModal({
               </CardActions>
             </CardShell>
           </Box>
-          <ActivitiyLog />
+          <ActivitiyLog item={item} />
         </Box>
 
         <Box
