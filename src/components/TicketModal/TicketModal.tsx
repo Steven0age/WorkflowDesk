@@ -1,20 +1,9 @@
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import StatusChip from "../StatusChip";
-import theme from "../../theme";
 import type { TicketDataTypes } from "../../types/types";
-import CardShell from "../CardShell";
-import {
-  Button,
-  CardActions,
-  CardContent,
-  CardHeader,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-} from "@mui/material";
+import theme from "../../theme";
+import { Box, Typography, Modal, Button } from "@mui/material";
+import StatusChip from "../StatusChip";
 import ActivitiyLog from "./ActivityLog";
+import PhaseCard from "./PhaseCard";
 
 type TicketModalTypes = {
   openModal: boolean;
@@ -27,6 +16,10 @@ export default function TicketModal({
   handleOnClose,
   item,
 }: TicketModalTypes) {
+  if (!item) {
+    return <Typography>Kein Ticket ausgewählt</Typography>;
+  }
+
   return (
     <Modal
       open={openModal}
@@ -36,10 +29,10 @@ export default function TicketModal({
       <Box
         sx={{
           width: "1100px",
-          height: "calc(100vh - 150px)",
+          height: "calc(100vh - 40px)",
           mx: "auto",
-          mt: "100px",
-          mb: "50px",
+          mt: "20px",
+          mb: "20px",
           boxShadow: 24,
           borderRadius: 1,
           bgcolor: "background.paper",
@@ -123,102 +116,12 @@ export default function TicketModal({
               gap: 4,
             }}
           >
-            <CardShell disabled={true}>
-              <CardHeader title="Phase: Erster Todo-Abschnitt"></CardHeader>
-              <CardContent>
-                <FormGroup>
-                  <FormControlLabel
-                    control={<Checkbox checked disabled />}
-                    label="Schritt 1"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox checked disabled />}
-                    label="Schritt 2"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox checked disabled />}
-                    label="Schritt 3"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox checked disabled />}
-                    label="Schritt 4"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox checked disabled />}
-                    label="Schritt 5"
-                  />
-                </FormGroup>
-              </CardContent>
-              <CardActions>
-                <Button variant="contained" color="primary" disabled>
-                  Phase abgeschlossen
-                </Button>
-              </CardActions>
-            </CardShell>
-            <CardShell>
-              <CardHeader title="Phase: Zweiter Todo-Abschnitt"></CardHeader>
-              <CardContent>
-                <FormGroup>
-                  <FormControlLabel
-                    control={<Checkbox defaultChecked />}
-                    label="Schritt 1"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox defaultChecked />}
-                    label="Schritt 2"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox defaultChecked />}
-                    label="Schritt 3"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox defaultChecked />}
-                    label="Schritt 4"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox defaultChecked />}
-                    label="Schritt 5"
-                  />
-                </FormGroup>
-              </CardContent>
-              <CardActions>
-                <Button variant="contained" color="primary">
-                  Phase abschließen
-                </Button>
-              </CardActions>
-            </CardShell>
-            <CardShell disabled>
-              <CardHeader title="Phase: Dritter TODO-Abschnitt"></CardHeader>
-              <CardContent>
-                <FormGroup>
-                  <FormControlLabel
-                    control={<Checkbox disabled />}
-                    label="Schritt 1"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox disabled />}
-                    label="Schritt 2"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox disabled />}
-                    label="Schritt 3"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox disabled />}
-                    label="Schritt 4"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox disabled />}
-                    label="Schritt 5"
-                  />
-                </FormGroup>
-              </CardContent>
-              <CardActions>
-                <Button variant="contained" color="primary" disabled>
-                  Phase abschließen
-                </Button>
-              </CardActions>
-            </CardShell>
+            {item.ticket_phase?.map((i) => {
+              return <PhaseCard key={i.id} phaseItem={i} />;
+            })}
+            {!item.ticket_phase && (
+              <Typography>Keine Phasen angelegt</Typography>
+            )}
           </Box>
           <ActivitiyLog item={item} />
         </Box>

@@ -20,6 +20,7 @@ export type TicketPhaseDataTypes = {
   status: TicketStatus;
   proof_required: boolean;
   approval_required: boolean;
+  startet_at: string | null;
   completed_at: string | null;
   approved_by: string | null;
   created_at: string;
