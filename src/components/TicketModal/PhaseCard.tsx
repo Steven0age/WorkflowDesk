@@ -9,10 +9,9 @@ import {
 } from "@mui/material";
 import CardShell from "../CardShell";
 import type { TicketPhaseDataTypes } from "../../types/types";
-import usePhaseInputs from "../../hooks/usePhaseInputs";
-import { useEffect } from "react";
+import useCheckboxState from "../../hooks/useCheckboxState";
 
-type PhaseCardTypes = {
+export type PhaseCardTypes = {
   phaseItem: TicketPhaseDataTypes | undefined;
 };
 
@@ -20,8 +19,8 @@ export default function PhaseCard({ phaseItem }: PhaseCardTypes) {
   if (!phaseItem) {
     return;
   }
-  const data = usePhaseInputs();
-  let testObject = [];
+  const { checkboxStates, handleCheckboxChange } = useCheckboxState(phaseItem);
+
   const setDisabled = {
     open: true,
     inProgress: false,
@@ -36,14 +35,6 @@ export default function PhaseCard({ phaseItem }: PhaseCardTypes) {
     done: "done-Phase abgeschlossen",
   };
 
-  useEffect(() => {
-    const next = phaseItem.ticket_task.map((i) => ({
-      key: i.id,
-      checked: i.is_done,
-    }));
-    data.setInput(next);
-  }, [phaseItem.ticket_task]);
-
   return (
     <>
       <CardShell disabled={setDisabled[phaseItem.status]}>
@@ -56,8 +47,16 @@ export default function PhaseCard({ phaseItem }: PhaseCardTypes) {
                   key={i.id}
                   control={
                     <Checkbox
-                      onChange={data.handleInputChangeEvent}
-                      checked={data.inputState[i.id]}
+                      onChange={(event) => {
+                        handleCheckboxChange(event, i.id);
+                      }}
+                      checked={
+                        checkboxStates[
+                          checkboxStates.findIndex((x) => {
+                            return x["key"] === i.id;
+                          })
+                        ].checked
+                      }
                       required={i.is_required}
                       disabled={setDisabled[phaseItem.status]}
                     />

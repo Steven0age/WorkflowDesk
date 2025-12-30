@@ -44,7 +44,7 @@ export const tickets: TicketDataTypes[] = [
             template_task_id: "tpl-task-2",
             label: "DYN-Schritt 2",
             is_required: true,
-            is_done: true,
+            is_done: false,
             order_index: 2,
             created_at: "2025-12-03T08:46:10Z",
           },

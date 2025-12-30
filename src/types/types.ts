@@ -1,5 +1,10 @@
 export type TicketStatus = "open" | "inProgress" | "review" | "done";
 
+export type CheckboxStateTypes = {
+  key: TicketTaskDataTypes["id"];
+  checked: TicketTaskDataTypes["is_done"];
+};
+
 export type TicketTaskDataTypes = {
   id: string;
   ticket_phase_id: string;
