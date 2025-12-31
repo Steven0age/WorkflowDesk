@@ -14,7 +14,7 @@ export default function useCheckboxState({ phaseItem }: PhaseCardTypes) {
     keyID: CheckboxStateTypes["key"]
   ) {
     const changedItem = checkboxStates.findIndex((i) => i["key"] === keyID);
-    const newStates = checkboxStates;
+    const newStates = [...checkboxStates];
     newStates.splice(changedItem, 1, {
       key: keyID,
       checked: event.target.checked,
