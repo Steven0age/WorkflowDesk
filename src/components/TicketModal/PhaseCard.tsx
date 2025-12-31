@@ -19,7 +19,10 @@ export default function PhaseCard({ phaseItem }: PhaseCardTypes) {
   if (!phaseItem) {
     return;
   }
-  const { checkboxStates, handleCheckboxChange } = useCheckboxState(phaseItem);
+
+  const { checkboxStates, handleCheckboxChange } = useCheckboxState({
+    phaseItem,
+  });
 
   const setDisabled = {
     open: true,
