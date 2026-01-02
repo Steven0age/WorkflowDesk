@@ -4,6 +4,7 @@ import { Box, Typography, Modal, Button } from "@mui/material";
 import StatusChip from "../StatusChip";
 import ActivitiyLog from "./ActivityLog";
 import PhaseCard from "./PhaseCard";
+import QuestionnaireCard from "./QuestionnaireCard";
 
 type TicketModalTypes = {
   openModal: boolean;
@@ -116,6 +117,7 @@ export default function TicketModal({
               gap: 4,
             }}
           >
+            <QuestionnaireCard ticketID={item.id} />
             {item.ticket_phase?.map((i) => {
               return <PhaseCard key={i.id} phaseItem={i} />;
             })}

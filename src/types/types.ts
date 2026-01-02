@@ -1,5 +1,16 @@
 export type TicketStatus = "open" | "inProgress" | "review" | "done";
 
+export type QuestionnaireAnswerDataTypes = {
+  id: string;
+  ticket_id: number;
+  template_question_id: string;
+  order_index: number;
+  question_label: string;
+  field_type: string;
+  text_answer: string | null;
+  file_id: string | null;
+};
+
 export type CheckboxStateTypes = {
   key: TicketTaskDataTypes["id"];
   checked: TicketTaskDataTypes["is_done"];
