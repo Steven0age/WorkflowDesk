@@ -1,5 +1,14 @@
 export type TicketStatus = "open" | "inProgress" | "review" | "done";
 
+export type fileDataTypes = {
+  id: string;
+  ticket_phase_id: string | null;
+  ticket_questionnaire_answer_id: string | null;
+  storage_path: string;
+  uploaded_by: string;
+  created_at: string;
+};
+
 export type QuestionnaireAnswerDataTypes = {
   id: string;
   ticket_id: number;
@@ -8,7 +17,6 @@ export type QuestionnaireAnswerDataTypes = {
   question_label: string;
   field_type: string;
   text_answer: string | null;
-  file_id: string | null;
 };
 
 export type CheckboxStateTypes = {

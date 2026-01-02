@@ -1,6 +1,6 @@
 import type { QuestionnaireAnswerDataTypes } from "../types/types";
 
-export const questionnairAnswers: QuestionnaireAnswerDataTypes[] = [
+export const questionnaireAnswers: QuestionnaireAnswerDataTypes[] = [
   {
     id: "a1c1c1c1-0001-4c2d-9f11-111111111111",
     ticket_id: 1,
@@ -9,7 +9,6 @@ export const questionnairAnswers: QuestionnaireAnswerDataTypes[] = [
     question_label: "Firmenname",
     field_type: "text",
     text_answer: "Muster GmbH",
-    file_id: null,
   },
   {
     id: "a1c1c1c1-0002-4c2d-9f11-111111111112",
@@ -19,7 +18,6 @@ export const questionnairAnswers: QuestionnaireAnswerDataTypes[] = [
     question_label: "Ansprechpartner (Name, E-Mail, Telefon)",
     field_type: "text",
     text_answer: "Lisa Berger, lisa.berger@muster-gmbh.de, +49 151 23456789",
-    file_id: null,
   },
   {
     id: "a1c1c1c1-0003-4c2d-9f11-111111111113",
@@ -29,17 +27,6 @@ export const questionnairAnswers: QuestionnaireAnswerDataTypes[] = [
     question_label: "Zugangsdaten/Setup-Dokumente hochladen",
     field_type: "upload",
     text_answer: null,
-    file_id: "file-aaa-0001",
-  },
-  {
-    id: "a1c1c1c1-0004-4c2d-9f11-111111111114",
-    ticket_id: 1,
-    template_question_id: "qTemp-1-3",
-    order_index: 3,
-    question_label: "Zugangsdaten/Setup-Dokumente hochladen",
-    field_type: "upload",
-    text_answer: null,
-    file_id: "file-aaa-0002",
   },
   {
     id: "a1c1c1c1-0005-4c2d-9f11-111111111115",
@@ -50,7 +37,6 @@ export const questionnairAnswers: QuestionnaireAnswerDataTypes[] = [
     field_type: "text",
     text_answer:
       "Bitte Onboarding-Call innerhalb von 48h terminieren. Vertrag liegt im Upload.",
-    file_id: null,
   },
 
   {
@@ -61,7 +47,6 @@ export const questionnairAnswers: QuestionnaireAnswerDataTypes[] = [
     question_label: "Welcher Dienstwagen?",
     field_type: "text",
     text_answer: "VW Transporter, Kennzeichen B-AB 1234",
-    file_id: null,
   },
   {
     id: "b2d2d2d2-0002-4a2b-8c22-222222222222",
@@ -71,7 +56,6 @@ export const questionnairAnswers: QuestionnaireAnswerDataTypes[] = [
     question_label: "Standort / Abholort",
     field_type: "text",
     text_answer: "Parkplatz Hinterhof, Stellplatz 7",
-    file_id: null,
   },
   {
     id: "b2d2d2d2-0003-4a2b-8c22-222222222223",
@@ -81,17 +65,6 @@ export const questionnairAnswers: QuestionnaireAnswerDataTypes[] = [
     question_label: "Fotos vom aktuellen Zustand (optional)",
     field_type: "upload",
     text_answer: null,
-    file_id: "file-bbb-0101",
-  },
-  {
-    id: "b2d2d2d2-0004-4a2b-8c22-222222222224",
-    ticket_id: 2,
-    template_question_id: "qTemp-2-3",
-    order_index: 3,
-    question_label: "Fotos vom aktuellen Zustand (optional)",
-    field_type: "upload",
-    text_answer: null,
-    file_id: "file-bbb-0102",
   },
   {
     id: "b2d2d2d2-0005-4a2b-8c22-222222222225",
@@ -102,7 +75,6 @@ export const questionnairAnswers: QuestionnaireAnswerDataTypes[] = [
     field_type: "text",
     text_answer:
       "Innenraum: Hundehaare entfernen. Außen: Insekten an Frontscheibe.",
-    file_id: null,
   },
   {
     id: "b2e2e2e2-0001-4a2b-8c22-333333333331",
@@ -112,6 +84,5 @@ export const questionnairAnswers: QuestionnaireAnswerDataTypes[] = [
     question_label: "Zusatzwunsch (optional)",
     field_type: "text",
     text_answer: "",
-    file_id: null,
   },
 ];
