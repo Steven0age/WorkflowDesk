@@ -5,6 +5,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { templates } from "../../MockData/workflowTemplates";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { useNavigate } from "react-router-dom";
 
 const columns = [
   { width: 60, field: "id", headerName: "Nr." },
@@ -55,6 +56,8 @@ const rows = templates.map((t) => ({
 }));
 
 export default function Workflows() {
+  const navigate = useNavigate();
+
   return (
     <Box
       sx={{
@@ -75,7 +78,11 @@ export default function Workflows() {
           px: "1rem",
         }}
       >
-        <Button startIcon={<AddIcon />} variant="create">
+        <Button
+          startIcon={<AddIcon />}
+          variant="create"
+          onClick={() => navigate("/workflows/create")}
+        >
           neuen Workflow anlegen
         </Button>
       </Box>

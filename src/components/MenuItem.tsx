@@ -12,8 +12,8 @@ type MenuItemType = {
 export default function MenuItem({ linkAnchor, linkTarget }: MenuItemType) {
   const getIcon: Record<MenuItemType["linkAnchor"], JSX.Element> = {
     Dashboard: <HomeIcon sx={{ height: "1.25rem" }} />,
-    Workflows: <SettingsIcon sx={{ height: "1.25rem" }} />,
-    Einstellungen: <AccountTreeIcon sx={{ height: "1.25rem" }} />,
+    Workflows: <AccountTreeIcon sx={{ height: "1.25rem" }} />,
+    Einstellungen: <SettingsIcon sx={{ height: "1.25rem" }} />,
   };
 
   return (
