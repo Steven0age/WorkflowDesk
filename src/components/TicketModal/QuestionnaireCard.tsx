@@ -64,6 +64,9 @@ export default function QuestionnaireCard({
                       if (f.ticket_questionnaire_answer_id === i.id) {
                         return (
                           <Box
+                            onClick={() => {
+                              window.open(`${f.storage_path}`, "_blank");
+                            }}
                             key={f.id}
                             component="img"
                             src={f.storage_path}
