@@ -1,7 +1,6 @@
-export type TicketStatus = "open" | "inProgress" | "review" | "done";
-
 export type fileDataTypes = {
   id: string;
+  ticket_id: number;
   ticket_phase_id: string | null;
   ticket_questionnaire_answer_id: string | null;
   storage_path: string;
@@ -63,6 +62,8 @@ export type TicketDataTypes = {
   completed_at: string | null;
   ticket_phase?: TicketPhaseDataTypes[];
 };
+
+export type TicketStatus = "open" | "inProgress" | "review" | "done";
 
 export type ActivityLogEventType =
   | "ticket_created"
