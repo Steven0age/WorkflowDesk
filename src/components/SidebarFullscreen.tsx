@@ -24,17 +24,17 @@ export default function SidebarFullscreen() {
       <MenuItem
         lightMode
         linkAnchor="Grundeinstellungen"
-        linkTarget="/workflows/create"
+        linkTarget="/workflows/create/"
       />
       <MenuItem
         lightMode
         linkAnchor="Formular"
-        linkTarget="/workflows/create"
+        linkTarget="/workflows/create/form"
       />
       <MenuItem
         lightMode
         linkAnchor="Phasen / Todo's"
-        linkTarget="/workflows/create"
+        linkTarget="/workflows/create/phases"
       />
     </Box>
   );

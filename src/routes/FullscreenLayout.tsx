@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { Box, IconButton, Typography } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import { Box, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import SidebarFullscreen from "../components/SidebarFullscreen";
 
@@ -26,17 +25,25 @@ export default function FullscreenLayout() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            px: 1,
+            px: 2,
             borderBottom: 1,
             borderColor: "border.main",
           }}
         >
           <Typography variant="h1" color="text.primary">
-            Workflow erstellen
+            Neuen Workflow erstellen
           </Typography>
-          <IconButton onClick={() => navigate("/workflows")}>
-            <CloseIcon />
-          </IconButton>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+            }}
+          >
+            <Button variant="contained">Speichern</Button>
+            <Button variant="outlined" onClick={() => navigate("/workflows")}>
+              Abbrechen
+            </Button>
+          </Box>
         </Box>
 
         <Box
