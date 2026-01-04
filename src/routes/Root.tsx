@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import Sidebar from "../components/Sidebar";
+import SidebarRoot from "../components/SidebarRoot";
 import { Outlet } from "react-router-dom";
 
 export default function Root() {
@@ -18,7 +18,7 @@ export default function Root() {
           component="aside"
           sx={{ bgcolor: "secondary.main", width: 300, flexShrink: 0 }}
         >
-          <Sidebar />
+          <SidebarRoot />
         </Box>
         <Box
           component="main"

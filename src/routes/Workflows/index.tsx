@@ -68,7 +68,7 @@ export default function Workflows() {
         minWidth: 0,
       }}
     >
-      <Header title="Worflows" />
+      <Header title="Workflows" />
       <Box
         sx={{
           height: "5rem",

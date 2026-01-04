@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import { Box, IconButton, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
+import SidebarFullscreen from "../components/SidebarFullscreen";
 
 export default function FullscreenLayout() {
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ export default function FullscreenLayout() {
               flexShrink: 0,
             }}
           >
-            <Sidebar />
+            <SidebarFullscreen />
           </Box>
           <Box
             component="main"

@@ -2,18 +2,34 @@ import { Box, Link, Typography } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import InboxIcon from "@mui/icons-material/Inbox";
 import type { JSX } from "react";
 
 type MenuItemType = {
-  linkAnchor: "Dashboard" | "Workflows" | "Einstellungen";
+  linkAnchor:
+    | "Dashboard"
+    | "Workflows"
+    | "Einstellungen"
+    | "Grundeinstellungen"
+    | "Formular"
+    | "Phasen / Todo's";
   linkTarget: string;
+  lightMode?: boolean;
 };
 
-export default function MenuItem({ linkAnchor, linkTarget }: MenuItemType) {
+export default function MenuItem({
+  linkAnchor,
+  linkTarget,
+  lightMode,
+}: MenuItemType) {
   const getIcon: Record<MenuItemType["linkAnchor"], JSX.Element> = {
     Dashboard: <HomeIcon sx={{ height: "1.25rem" }} />,
     Workflows: <AccountTreeIcon sx={{ height: "1.25rem" }} />,
     Einstellungen: <SettingsIcon sx={{ height: "1.25rem" }} />,
+    Grundeinstellungen: <SettingsIcon sx={{ height: "1.25rem" }} />,
+    Formular: <InboxIcon sx={{ height: "1.25rem" }} />,
+    "Phasen / Todo's": <CheckBoxIcon sx={{ height: "1.25rem" }} />,
   };
 
   return (
@@ -22,10 +38,12 @@ export default function MenuItem({ linkAnchor, linkTarget }: MenuItemType) {
         display: "flex",
         alignItems: "center",
         p: 1,
-        color: "text.contrast",
-        bgcolor: "primary.dark",
+        color: lightMode ? "primary.main" : "text.contrast",
+        bgcolor: lightMode ? "background.default" : "primary.dark",
         borderRadius: 1,
-        "&:hover": { bgcolor: "secondary.light" },
+        "&:hover": {
+          bgcolor: lightMode ? "background.paper" : "secondary.light",
+        },
       }}
       href={linkTarget}
       underline="none"
