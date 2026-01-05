@@ -1,4 +1,5 @@
 import { Box, Link, Typography } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
@@ -45,8 +46,9 @@ export default function MenuItem({
           bgcolor: lightMode ? "background.paper" : "secondary.light",
         },
       }}
-      href={linkTarget}
       underline="none"
+      component={RouterLink}
+      to={linkTarget}
     >
       <Box sx={{ display: "flex", pr: 1 }}>
         {getIcon[linkAnchor] ?? <HomeIcon />}

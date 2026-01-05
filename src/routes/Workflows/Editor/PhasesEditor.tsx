@@ -1,8 +1,10 @@
 import { Box, CardHeader } from "@mui/material";
 import CardShell from "../../../components/CardShell";
-import WorkflowTitle from "../../../components/WorkflowEditor/WorkflowTitle";
+import WorkflowHeader from "../../../components/WorkflowEditor/WorkflowHeader";
+import { useEditor } from "../../../context/EditorContext";
 
 export default function PhasesEditor() {
+  const { workflowTitle, workflowDescription } = useEditor();
   return (
     <>
       <Box
@@ -23,7 +25,10 @@ export default function PhasesEditor() {
             flexDirection: "column",
           }}
         >
-          <WorkflowTitle />
+          <WorkflowHeader
+            title={workflowTitle}
+            description={workflowDescription}
+          />
         </Box>
         <Box
           component="aside"

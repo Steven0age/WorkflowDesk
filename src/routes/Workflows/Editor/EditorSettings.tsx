@@ -6,9 +6,16 @@ import {
   Typography,
 } from "@mui/material";
 import CardShell from "../../../components/CardShell";
-import WorkflowTitle from "../../../components/WorkflowEditor/WorkflowTitle";
+import WorkflowHeader from "../../../components/WorkflowEditor/WorkflowHeader";
+import { useEditor } from "../../../context/EditorContext";
 
 export default function EditorSettings() {
+  const {
+    workflowTitle,
+    changeWorkflowTitle,
+    workflowDescription,
+    changeWorkflowDescription,
+  } = useEditor();
   return (
     <>
       <Box
@@ -29,7 +36,10 @@ export default function EditorSettings() {
             flexDirection: "column",
           }}
         >
-          <WorkflowTitle />
+          <WorkflowHeader
+            title={workflowTitle}
+            description={workflowDescription}
+          />
         </Box>
         <Box
           component="aside"
@@ -49,22 +59,28 @@ export default function EditorSettings() {
               }}
             >
               <Box>
-                <Typography variant="h5">Name eingeben</Typography>
+                <Typography variant="h5">Name des Workflows</Typography>
                 <TextField
                   sx={{ mb: 2 }}
                   fullWidth
                   multiline
-                  placeholder="..."
+                  placeholder={workflowTitle}
+                  onChange={(event) => {
+                    changeWorkflowTitle(event.target.value);
+                  }}
                 ></TextField>
               </Box>
               <Box>
-                <Typography variant="h5">Beschreibung eingeben</Typography>
+                <Typography variant="h5">Workflow Beschreibung</Typography>
                 <TextField
                   sx={{ mb: 2 }}
                   fullWidth
                   multiline
                   id="outlined"
-                  placeholder="..."
+                  placeholder={workflowDescription}
+                  onChange={(event) =>
+                    changeWorkflowDescription(event.target.value)
+                  }
                 ></TextField>
               </Box>
             </CardContent>
