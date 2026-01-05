@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import SidebarFullscreen from "../components/SidebarFullscreen";
+import EditorSidebar from "../components/EditorSidebar";
 
-export default function FullscreenLayout() {
+export default function EditorLayout() {
   const navigate = useNavigate();
   return (
     <>
@@ -61,7 +61,7 @@ export default function FullscreenLayout() {
               flexShrink: 0,
             }}
           >
-            <SidebarFullscreen />
+            <EditorSidebar />
           </Box>
           <Box
             component="main"

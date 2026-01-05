@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import MenuItem from "./MenuItem";
 
-export default function SidebarFullscreen() {
+export default function EditorSidebar() {
   return (
     <Box
       sx={{
@@ -24,17 +24,17 @@ export default function SidebarFullscreen() {
       <MenuItem
         lightMode
         linkAnchor="Grundeinstellungen"
-        linkTarget="/workflows/create/"
+        linkTarget="/workflows/editor/"
       />
       <MenuItem
         lightMode
         linkAnchor="Formular"
-        linkTarget="/workflows/create/form"
+        linkTarget="/workflows/editor/form"
       />
       <MenuItem
         lightMode
         linkAnchor="Phasen / Todo's"
-        linkTarget="/workflows/create/phases"
+        linkTarget="/workflows/editor/phases"
       />
     </Box>
   );

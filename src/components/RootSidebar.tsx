@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import MenuItem from "./MenuItem";
 
-export default function SidebarRoot() {
+export default function RootSidebar() {
   return (
     <Box
       sx={{

@@ -81,7 +81,7 @@ export default function Workflows() {
         <Button
           startIcon={<AddIcon />}
           variant="create"
-          onClick={() => navigate("/workflows/create")}
+          onClick={() => navigate("/workflows/editor")}
         >
           neuen Workflow anlegen
         </Button>

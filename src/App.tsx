@@ -1,17 +1,13 @@
 import "./App.css";
 import Dashboard from "./routes/Dashboard";
 import Root from "./routes/Root";
-import {
-  createBrowserRouter,
-  Navigate,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Workflows from "./routes/Workflows";
 import Settings from "./routes/Settings";
-import TemplateSettings from "./routes/Workflows/TemplateSettings";
-import FullscreenLayout from "./routes/FullscreenLayout";
-import TemplateForm from "./routes/Workflows/TemplateForm";
-import TemplatePhases from "./routes/Workflows/TemplatePhases/TemplatePhases";
+import EditorSettings from "./routes/Workflows/Editor/EditorSettings";
+import EditorLayout from "./routes/EditorLayout";
+import FormEditor from "./routes/Workflows/Editor/FormEditor";
+import PhasesEditor from "./routes/Workflows/Editor/PhasesEditor";
 
 function App() {
   const router = createBrowserRouter([
@@ -35,22 +31,22 @@ function App() {
     },
     {
       path: "/",
-      element: <FullscreenLayout />,
+      element: <EditorLayout />,
       children: [
         {
-          path: "workflows/create",
+          path: "workflows/editor",
           children: [
             {
               index: true,
-              element: <TemplateSettings />,
+              element: <EditorSettings />,
             },
             {
               path: "form",
-              element: <TemplateForm />,
+              element: <FormEditor />,
             },
             {
               path: "phases",
-              element: <TemplatePhases />,
+              element: <PhasesEditor />,
             },
           ],
         },

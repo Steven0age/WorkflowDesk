@@ -6,8 +6,9 @@ import {
   Typography,
 } from "@mui/material";
 import CardShell from "../../../components/CardShell";
+import WorkflowTitle from "../../../components/WorkflowEditor/WorkflowTitle";
 
-export default function TemplateSettings() {
+export default function EditorSettings() {
   return (
     <>
       <Box
@@ -28,10 +29,7 @@ export default function TemplateSettings() {
             flexDirection: "column",
           }}
         >
-          <Typography sx={{ fontSize: "2rem" }}>Neuer Workflow</Typography>
-          <Typography color="text.secondary" sx={{ fontSize: "0.9rem" }}>
-            Workflow Beschreibung
-          </Typography>
+          <WorkflowTitle />
         </Box>
         <Box
           component="aside"
