@@ -5,9 +5,64 @@ import { useEditor } from "../../../context/EditorContext";
 import TextFieldsIcon from "@mui/icons-material/TextFields";
 import FormSelectItem from "../../../components/WorkflowEditor/FormSelectItem";
 import FormDragItem from "../../../components/WorkflowEditor/FormDragItem";
+import {
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { useState } from "react";
 
 export default function FormEditor() {
   const { workflowTitle, workflowDescription } = useEditor();
+  const [items, setItems] = useState([
+    {
+      id: "1",
+      description: "Beispiel Frage 1",
+      iconType: "textField",
+    },
+    {
+      id: "2",
+      description: "Beispiel Frage 2",
+      iconType: "textField",
+    },
+    {
+      id: "3",
+      description: "Beispiel Frage 3",
+      iconType: "textField",
+    },
+  ]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  // SET PROPER TYPES INSTEAD OF ANY //
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    if (!over) {
+      return;
+    }
+    setItems((items) => {
+      const oldIndex = items.findIndex((item) => item.id === active.id);
+      const newIndex = items.findIndex((item) => item.id === over.id);
+
+      return arrayMove(items, oldIndex, newIndex);
+    });
+  }
   return (
     <>
       <Box
@@ -34,24 +89,41 @@ export default function FormEditor() {
             title={workflowTitle}
             description={workflowDescription}
           />
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-              height: "100%",
-              bgcolor: "background.default",
-              borderRadius: 3,
-              mt: 3,
-              p: 3,
-              overflow: "auto",
-            }}
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
           >
-            <FormDragItem description="Beispiel Frage 1" iconType="textField" />
-            <FormDragItem description="Beispiel Frage 2" iconType="textField" />
-            <FormDragItem description="Beispiel Upload 1" iconType="upload" />
-            <FormDragItem description="Beispiel Frage 3" iconType="textField" />
-          </Box>
+            <SortableContext
+              items={items}
+              strategy={verticalListSortingStrategy}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 2,
+                  height: "100%",
+                  bgcolor: "background.default",
+                  borderRadius: 3,
+                  mt: 3,
+                  p: 3,
+                  overflow: "auto",
+                }}
+              >
+                {items.map((i) => {
+                  return (
+                    <FormDragItem
+                      key={i.id}
+                      id={i.id}
+                      description={i.description}
+                      iconType={i.iconType}
+                    />
+                  );
+                })}
+              </Box>
+            </SortableContext>
+          </DndContext>
         </Box>
         <Box
           component="aside"

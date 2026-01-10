@@ -23,6 +23,7 @@ export default function FormSelectItem({
         border: 2,
         borderColor: "border.main",
         borderRadius: 2,
+        cursor: "pointer",
       }}
     >
       <Box sx={{ display: "flex", gap: 1 }}>
