@@ -1,4 +1,10 @@
-import { Box, CardContent, CardHeader, Typography } from "@mui/material";
+import {
+  Box,
+  CardContent,
+  CardHeader,
+  duration,
+  Typography,
+} from "@mui/material";
 import CardShell from "../../../components/CardShell";
 import WorkflowHeader from "../../../components/WorkflowEditor/WorkflowHeader";
 import { useEditor } from "../../../context/EditorContext";
@@ -8,11 +14,14 @@ import FormDragItem from "../../../components/WorkflowEditor/FormDragItem";
 import {
   closestCenter,
   DndContext,
+  DragOverlay,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
+  type UniqueIdentifier,
   type DragEndEvent,
+  type DragStartEvent,
 } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -24,19 +33,21 @@ import { useState } from "react";
 
 export default function FormEditor() {
   const { workflowTitle, workflowDescription } = useEditor();
+  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
+
   const [items, setItems] = useState([
     {
-      id: "1",
+      id: 1,
       description: "Beispiel Frage 1",
       iconType: "textField",
     },
     {
-      id: "2",
+      id: 2,
       description: "Beispiel Frage 2",
       iconType: "textField",
     },
     {
-      id: "3",
+      id: 3,
       description: "Beispiel Frage 3",
       iconType: "textField",
     },
@@ -49,13 +60,17 @@ export default function FormEditor() {
     })
   );
 
-  // SET PROPER TYPES INSTEAD OF ANY //
+  function handleDragStart(event: DragStartEvent) {
+    setActiveId(event.active.id);
+  }
+
   function handleDragEnd(event: DragEndEvent) {
+    setActiveId(null);
+
     const { active, over } = event;
 
-    if (!over) {
-      return;
-    }
+    if (!over) return;
+
     setItems((items) => {
       const oldIndex = items.findIndex((item) => item.id === active.id);
       const newIndex = items.findIndex((item) => item.id === over.id);
@@ -63,6 +78,7 @@ export default function FormEditor() {
       return arrayMove(items, oldIndex, newIndex);
     });
   }
+
   return (
     <>
       <Box
@@ -92,6 +108,7 @@ export default function FormEditor() {
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
+            onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
           >
             <SortableContext
@@ -108,23 +125,39 @@ export default function FormEditor() {
                   borderRadius: 3,
                   mt: 3,
                   p: 3,
-                  overflow: "auto",
+                  //overflowX: "auto",
                 }}
               >
-                {items.map((i) => {
-                  return (
-                    <FormDragItem
-                      key={i.id}
-                      id={i.id}
-                      description={i.description}
-                      iconType={i.iconType}
-                    />
-                  );
-                })}
+                {items.map((i) => (
+                  <FormDragItem
+                    key={i.id}
+                    order={i.id}
+                    description={i.description}
+                    iconType={i.iconType as "textField" | "upload"}
+                    onClick={() => alert("klicked")}
+                  />
+                ))}
               </Box>
             </SortableContext>
+            <DragOverlay>
+              {activeId ? (
+                <FormDragItem
+                  key={items.find((item) => item.id === activeId).id}
+                  order={items.find((item) => item.id === activeId).id}
+                  description={
+                    items.find((item) => item.id === activeId).description
+                  }
+                  iconType={
+                    items.find((item) => item.id === activeId).iconType as
+                      | "textField"
+                      | "upload"
+                  }
+                />
+              ) : null}
+            </DragOverlay>
           </DndContext>
         </Box>
+
         <Box
           component="aside"
           sx={{
