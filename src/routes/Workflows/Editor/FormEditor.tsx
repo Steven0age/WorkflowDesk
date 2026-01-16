@@ -32,25 +32,14 @@ type ItemType = {
 };
 
 export default function FormEditor() {
-  const { workflowTitle, workflowDescription } = useEditor();
+  const {
+    workflowTitle,
+    workflowDescription,
+    formDraft,
+    setFormDraft,
+    addFormItem,
+  } = useEditor();
   const [activeItem, setActiveItem] = useState<ItemType | null>(null);
-  const [items, setItems] = useState<ItemType[]>([
-    {
-      id: 1,
-      description: "Beispiel Frage 1",
-      iconType: "textField",
-    },
-    {
-      id: 2,
-      description: "Beispiel Frage 2",
-      iconType: "textField",
-    },
-    {
-      id: 3,
-      description: "Beispiel Frage 3",
-      iconType: "textField",
-    },
-  ]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -60,7 +49,7 @@ export default function FormEditor() {
   );
 
   function handleDragStart(event: DragStartEvent) {
-    const findItem = items.find((item) => item.id === event.active.id);
+    const findItem = formDraft.find((item) => item.id === event.active.id);
     if (!findItem) return;
     setActiveItem(findItem);
   }
@@ -72,11 +61,11 @@ export default function FormEditor() {
 
     if (!over) return;
 
-    setItems((items) => {
-      const oldIndex = items.findIndex((item) => item.id === active.id);
-      const newIndex = items.findIndex((item) => item.id === over.id);
+    setFormDraft((formDraft) => {
+      const oldIndex = formDraft.findIndex((item) => item.id === active.id);
+      const newIndex = formDraft.findIndex((item) => item.id === over.id);
 
-      return arrayMove(items, oldIndex, newIndex);
+      return arrayMove(formDraft, oldIndex, newIndex);
     });
   }
 
@@ -113,7 +102,7 @@ export default function FormEditor() {
             onDragEnd={handleDragEnd}
           >
             <SortableContext
-              items={items}
+              items={formDraft}
               strategy={verticalListSortingStrategy}
             >
               <Box
@@ -129,14 +118,14 @@ export default function FormEditor() {
                   overflowX: "auto",
                 }}
               >
-                {items.map((i) => (
+                {formDraft.map((i) => (
                   <FormDragItem
                     activeItem={activeItem ? activeItem.id : -1}
                     key={i.id}
                     order={i.id}
                     description={i.description}
                     iconType={i.iconType}
-                    onClick={() => alert("klicked")}
+                    onClick={() => addFormItem(i.iconType)}
                   />
                 ))}
               </Box>
