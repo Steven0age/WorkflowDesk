@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import TextFieldsIcon from "@mui/icons-material/TextFields";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 
-type FormSelectItemTypes = {
+export type FormSelectItemTypes = {
   iconType: "textField" | "upload";
   description: string;
 };

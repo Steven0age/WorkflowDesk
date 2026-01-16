@@ -1,16 +1,11 @@
-import {
-  Box,
-  CardContent,
-  CardHeader,
-  duration,
-  Typography,
-} from "@mui/material";
+import { Box, CardContent, CardHeader } from "@mui/material";
 import CardShell from "../../../components/CardShell";
 import WorkflowHeader from "../../../components/WorkflowEditor/WorkflowHeader";
 import { useEditor } from "../../../context/EditorContext";
-import TextFieldsIcon from "@mui/icons-material/TextFields";
 import FormSelectItem from "../../../components/WorkflowEditor/FormSelectItem";
-import FormDragItem from "../../../components/WorkflowEditor/FormDragItem";
+import FormDragItem, {
+  type FormDragItemTypes,
+} from "../../../components/WorkflowEditor/FormDragItem";
 import {
   closestCenter,
   DndContext,
@@ -19,7 +14,6 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-  type UniqueIdentifier,
   type DragEndEvent,
   type DragStartEvent,
 } from "@dnd-kit/core";
@@ -31,11 +25,16 @@ import {
 } from "@dnd-kit/sortable";
 import { useState } from "react";
 
+type ItemType = {
+  id: number;
+  description: string;
+  iconType: FormDragItemTypes["iconType"];
+};
+
 export default function FormEditor() {
   const { workflowTitle, workflowDescription } = useEditor();
-  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
-
-  const [items, setItems] = useState([
+  const [activeItem, setActiveItem] = useState<ItemType | null>(null);
+  const [items, setItems] = useState<ItemType[]>([
     {
       id: 1,
       description: "Beispiel Frage 1",
@@ -61,11 +60,13 @@ export default function FormEditor() {
   );
 
   function handleDragStart(event: DragStartEvent) {
-    setActiveId(event.active.id);
+    const findItem = items.find((item) => item.id === event.active.id);
+    if (!findItem) return;
+    setActiveItem(findItem);
   }
 
   function handleDragEnd(event: DragEndEvent) {
-    setActiveId(null);
+    setActiveItem(null);
 
     const { active, over } = event;
 
@@ -125,33 +126,28 @@ export default function FormEditor() {
                   borderRadius: 3,
                   mt: 3,
                   p: 3,
-                  //overflowX: "auto",
+                  overflowX: "auto",
                 }}
               >
                 {items.map((i) => (
                   <FormDragItem
+                    activeItem={activeItem ? activeItem.id : -1}
                     key={i.id}
                     order={i.id}
                     description={i.description}
-                    iconType={i.iconType as "textField" | "upload"}
+                    iconType={i.iconType}
                     onClick={() => alert("klicked")}
                   />
                 ))}
               </Box>
             </SortableContext>
             <DragOverlay>
-              {activeId ? (
+              {activeItem ? (
                 <FormDragItem
-                  key={items.find((item) => item.id === activeId).id}
-                  order={items.find((item) => item.id === activeId).id}
-                  description={
-                    items.find((item) => item.id === activeId).description
-                  }
-                  iconType={
-                    items.find((item) => item.id === activeId).iconType as
-                      | "textField"
-                      | "upload"
-                  }
+                  key={activeItem.id}
+                  order={activeItem.id}
+                  description={activeItem.description}
+                  iconType={activeItem.iconType as "textField" | "upload"}
                 />
               ) : null}
             </DragOverlay>

@@ -4,21 +4,23 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import type { UniqueIdentifier } from "@dnd-kit/core";
+import type { FormSelectItemTypes } from "./FormSelectItem";
 
-type FormSelectItemTypes = {
-  iconType: "textField" | "upload";
-  description: string;
-  order: UniqueIdentifier;
+export type FormDragItemTypes = {
+  activeItem?: number;
+  iconType: FormSelectItemTypes["iconType"];
+  description: FormSelectItemTypes["description"];
+  order: number;
   onClick?: () => void;
 };
 
 export default function FormDragItem({
+  activeItem,
   iconType,
   description,
   order,
   onClick,
-}: FormSelectItemTypes) {
+}: FormDragItemTypes) {
   const Icons = {
     textField: <TextFieldsIcon sx={{ color: "primary.main" }}></TextFieldsIcon>,
     upload: <FileUploadIcon sx={{ color: "primary.main" }}></FileUploadIcon>,
@@ -40,7 +42,8 @@ export default function FormDragItem({
       {...attributes}
       onClick={onClick}
       sx={{
-        bgcolor: "background.paper",
+        bgcolor:
+          activeItem === order ? "background.default" : "background.paper",
         p: 3,
         border: 2,
         borderColor: "border.main",
@@ -51,8 +54,10 @@ export default function FormDragItem({
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box sx={{ display: "flex", gap: 1 }}>
           {Icons[iconType]}
+
           <Typography sx={{ fontWeight: "bold" }}>{description}</Typography>
         </Box>
+
         <DragIndicatorIcon
           {...listeners}
           sx={{ color: "text.secondary", cursor: "grab" }}
