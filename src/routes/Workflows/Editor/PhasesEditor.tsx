@@ -17,9 +17,11 @@ export default function PhasesEditor() {
         <Box
           component="main"
           sx={{
+            height: "calc(100vh - 60px)",
             minWidth: 0,
             minHeight: 0,
-            p: 3,
+            py: 3,
+            px: 7,
             flexGrow: 1,
             display: "flex",
             flexDirection: "column",
