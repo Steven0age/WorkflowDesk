@@ -15,6 +15,7 @@ type EditorContextType = {
   formDraft: EditorItemType[];
   setFormDraft: React.Dispatch<React.SetStateAction<EditorItemType[]>>;
   addFormItem: (input: FormSelectItemTypes["iconType"]) => void;
+  deleteFormItem: (id: EditorItemType["id"]) => void;
 };
 
 type EditorItemType = {
@@ -47,11 +48,11 @@ export function EditorProvider({ children }: { children: ReactNode }) {
 
     switch (fieldType) {
       case "upload":
-        newDescription = "Textfeld";
+        newDescription = "Datei Upload";
         break;
 
       case "textField":
-        newDescription = "Datei Upload";
+        newDescription = "Textfeld";
         break;
 
       default:
@@ -59,10 +60,14 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     }
     const newItem = {
       id: formDraft.length + 1,
-      description: newDescription,
+      description: `${newDescription}  ${formDraft.length + 1}`,
       iconType: fieldType,
     };
     setFormDraft((prev) => [...prev, newItem]);
+  };
+
+  const deleteFormItem = (id: EditorItemType["id"]) => {
+    setFormDraft((prev) => prev.filter((i) => i.id !== id));
   };
 
   const value: EditorContextType = {
@@ -73,6 +78,7 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     formDraft,
     addFormItem,
     setFormDraft,
+    deleteFormItem,
   };
 
   return (

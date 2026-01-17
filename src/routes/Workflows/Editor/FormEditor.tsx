@@ -23,7 +23,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type ItemType = {
   id: number;
@@ -40,7 +40,12 @@ export default function FormEditor() {
     formDraft,
     setFormDraft,
     addFormItem,
+    deleteFormItem,
   } = useEditor();
+
+  useEffect(() => {
+    console.log("status formDraft =", formDraft);
+  }, [formDraft]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -127,6 +132,7 @@ export default function FormEditor() {
                     description={i.description}
                     iconType={i.iconType}
                     onClick={() => alert("item clicked")}
+                    handleDelete={() => deleteFormItem(i.id)}
                   />
                 ))}
               </Box>

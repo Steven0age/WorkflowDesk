@@ -1,7 +1,10 @@
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import TextFieldsIcon from "@mui/icons-material/TextFields";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import FileCopyIcon from "@mui/icons-material/FileCopy";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import type { FormSelectItemTypes } from "./FormSelectItem";
@@ -12,6 +15,7 @@ export type FormDragItemTypes = {
   description: FormSelectItemTypes["description"];
   order: number;
   onClick?: () => void;
+  handleDelete?: () => void;
 };
 
 export default function FormDragItem({
@@ -20,6 +24,7 @@ export default function FormDragItem({
   description,
   order,
   onClick,
+  handleDelete,
 }: FormDragItemTypes) {
   const Icons = {
     textField: <TextFieldsIcon sx={{ color: "primary.main" }}></TextFieldsIcon>,
@@ -57,11 +62,56 @@ export default function FormDragItem({
 
           <Typography sx={{ fontWeight: "bold" }}>{description}</Typography>
         </Box>
+        <Box sx={{ display: "flex", gap: 1 }}>
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              alert("Edit-Icon clicked");
+            }}
+            sx={{
+              p: 0,
+              m: 0,
+              "&:hover": { color: "primary.main" },
+            }}
+          >
+            <EditIcon />
+          </IconButton>
 
-        <DragIndicatorIcon
-          {...listeners}
-          sx={{ color: "text.secondary", cursor: "grab" }}
-        />
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              alert("Duplicate-Icon clicked");
+            }}
+            sx={{
+              p: 0,
+              m: 0,
+              "&:hover": { color: "primary.main" },
+            }}
+          >
+            <FileCopyIcon />
+          </IconButton>
+
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              if (handleDelete) {
+                handleDelete();
+              }
+            }}
+            sx={{
+              p: 0,
+              m: 0,
+              "&:hover": { color: "error.main" },
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
+
+          <DragIndicatorIcon
+            {...listeners}
+            sx={{ color: "text.secondary", cursor: "grab", ml: 2 }}
+          />
+        </Box>
       </Box>
     </Box>
   );
