@@ -32,6 +32,8 @@ type ItemType = {
 };
 
 export default function FormEditor() {
+  const [activeItem, setActiveItem] = useState<ItemType | null>(null);
+
   const {
     workflowTitle,
     workflowDescription,
@@ -39,7 +41,6 @@ export default function FormEditor() {
     setFormDraft,
     addFormItem,
   } = useEditor();
-  const [activeItem, setActiveItem] = useState<ItemType | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -125,7 +126,7 @@ export default function FormEditor() {
                     order={i.id}
                     description={i.description}
                     iconType={i.iconType}
-                    onClick={() => addFormItem(i.iconType)}
+                    onClick={() => alert("item clicked")}
                   />
                 ))}
               </Box>
@@ -156,8 +157,16 @@ export default function FormEditor() {
             <CardContent
               sx={{ display: "flex", flexDirection: "column", gap: 2 }}
             >
-              <FormSelectItem description="Textfeld" iconType="textField" />
-              <FormSelectItem description="Datei Upload" iconType="upload" />
+              <FormSelectItem
+                onClick={() => addFormItem("textField")}
+                description="Textfeld"
+                iconType="textField"
+              />
+              <FormSelectItem
+                onClick={() => addFormItem("upload")}
+                description="Datei Upload"
+                iconType="upload"
+              />
             </CardContent>
           </CardShell>
         </Box>

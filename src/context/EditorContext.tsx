@@ -5,6 +5,7 @@ import React, {
   type ReactNode,
 } from "react";
 import type { FormDragItemTypes } from "../components/WorkflowEditor/FormDragItem";
+import type { FormSelectItemTypes } from "../components/WorkflowEditor/FormSelectItem";
 
 type EditorContextType = {
   workflowTitle: string;
@@ -13,7 +14,7 @@ type EditorContextType = {
   changeWorkflowDescription: (input: string) => void;
   formDraft: EditorItemType[];
   setFormDraft: React.Dispatch<React.SetStateAction<EditorItemType[]>>;
-  addFormItem: (input: string) => void;
+  addFormItem: (input: FormSelectItemTypes["iconType"]) => void;
 };
 
 type EditorItemType = {
@@ -31,23 +32,7 @@ export function EditorProvider({ children }: { children: ReactNode }) {
   const [workflowDescription, setWorkflowDescription] = useState(
     "Beschreibung eingeben"
   );
-  const [formDraft, setFormDraft] = useState<EditorItemType[]>([
-    {
-      id: 1,
-      description: "Datei Upload 1",
-      iconType: "upload",
-    },
-    {
-      id: 2,
-      description: "Beispiel Frage 2",
-      iconType: "textField",
-    },
-    {
-      id: 3,
-      description: "Beispiel Frage 3",
-      iconType: "textField",
-    },
-  ]);
+  const [formDraft, setFormDraft] = useState<EditorItemType[]>([]);
 
   const changeWorkflowTitle = (input: string) => {
     setWorkflowTitle(input);
@@ -57,32 +42,27 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     setWorkflowDescription(input);
   };
 
-  const addFormItem = (fieldType) => {
-    let newItem;
+  const addFormItem = (fieldType: FormSelectItemTypes["iconType"]) => {
+    let newDescription;
 
     switch (fieldType) {
       case "upload":
-        (newItem = {
-          id: 4,
-          description: "Datei Upload 4",
-          iconType: "upload",
-        }),
-          setFormDraft((prev) => [...prev, newItem]);
+        newDescription = "Textfeld";
         break;
 
       case "textField":
-        (newItem = {
-          id: 4,
-          description: "Beispiel Frage 4",
-          iconType: "upload",
-        }),
-          setFormDraft((prev) => [...prev, newItem]);
+        newDescription = "Datei Upload";
         break;
 
       default:
         return;
-        break;
     }
+    const newItem = {
+      id: formDraft.length + 1,
+      description: newDescription,
+      iconType: fieldType,
+    };
+    setFormDraft((prev) => [...prev, newItem]);
   };
 
   const value: EditorContextType = {

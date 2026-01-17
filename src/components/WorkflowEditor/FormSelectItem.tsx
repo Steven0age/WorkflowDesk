@@ -5,11 +5,13 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 export type FormSelectItemTypes = {
   iconType: "textField" | "upload";
   description: string;
+  onClick: () => void;
 };
 
 export default function FormSelectItem({
   iconType,
   description,
+  onClick,
 }: FormSelectItemTypes) {
   const Icons = {
     textField: <TextFieldsIcon sx={{ color: "primary.main" }}></TextFieldsIcon>,
@@ -25,6 +27,7 @@ export default function FormSelectItem({
         borderRadius: 2,
         cursor: "pointer",
       }}
+      onClick={onClick}
     >
       <Box sx={{ display: "flex", gap: 1 }}>
         {Icons[iconType]}
