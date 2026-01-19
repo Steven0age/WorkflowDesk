@@ -18,20 +18,20 @@ type EditorContextType = {
   deleteFormItem: (id: EditorItemType["id"]) => void;
 };
 
-type EditorItemType = {
-  id: number;
+export type EditorItemType = {
+  id: string;
   description: string;
   iconType: FormDragItemTypes["iconType"];
 };
 
 export const EditorContext = createContext<EditorContextType | undefined>(
-  undefined
+  undefined,
 );
 
 export function EditorProvider({ children }: { children: ReactNode }) {
   const [workflowTitle, setWorkflowTitle] = useState("neuer Workflow");
   const [workflowDescription, setWorkflowDescription] = useState(
-    "Beschreibung eingeben"
+    "Beschreibung eingeben",
   );
   const [formDraft, setFormDraft] = useState<EditorItemType[]>([]);
 
@@ -59,8 +59,8 @@ export function EditorProvider({ children }: { children: ReactNode }) {
         return;
     }
     const newItem = {
-      id: formDraft.length + 1,
-      description: `${newDescription}  ${formDraft.length + 1}`,
+      id: crypto.randomUUID(),
+      description: `${newDescription} - ${formDraft.length + 1}`,
       iconType: fieldType,
     };
     setFormDraft((prev) => [...prev, newItem]);

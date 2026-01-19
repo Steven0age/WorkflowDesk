@@ -1,4 +1,4 @@
-import { Box, CardContent, CardHeader } from "@mui/material";
+import { Box, Button, CardContent, CardHeader, Drawer } from "@mui/material";
 import CardShell from "../../../components/CardShell";
 import WorkflowHeader from "../../../components/WorkflowEditor/WorkflowHeader";
 import { useEditor } from "../../../context/EditorContext";
@@ -24,6 +24,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useEffect, useState } from "react";
+import EditorDrawer from "../../../components/WorkflowEditor/EditorDrawer";
 
 type ItemType = {
   id: number;
@@ -33,6 +34,8 @@ type ItemType = {
 
 export default function FormEditor() {
   const [activeItem, setActiveItem] = useState<ItemType | null>(null);
+  const [open, setOpen] = useState<boolean>(true);
+  const [editItemId, setEditItemId] = useState();
 
   const {
     workflowTitle,
@@ -51,7 +54,7 @@ export default function FormEditor() {
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   function handleDragStart(event: DragStartEvent) {
@@ -73,6 +76,11 @@ export default function FormEditor() {
 
       return arrayMove(formDraft, oldIndex, newIndex);
     });
+  }
+
+  function toggleDrawer(id = false) {
+    open === true ? setOpen(false) : setOpen(true);
+    setEditItemId(id);
   }
 
   return (
@@ -131,7 +139,7 @@ export default function FormEditor() {
                     order={i.id}
                     description={i.description}
                     iconType={i.iconType}
-                    onClick={() => alert("item clicked")}
+                    onClick={() => toggleDrawer(i.id)}
                     handleDelete={() => deleteFormItem(i.id)}
                   />
                 ))}
@@ -176,6 +184,10 @@ export default function FormEditor() {
             </CardContent>
           </CardShell>
         </Box>
+
+        <Drawer open={open} anchor={"right"} onClose={() => toggleDrawer()}>
+          <EditorDrawer itemId={editItemId} />
+        </Drawer>
       </Box>
     </>
   );
