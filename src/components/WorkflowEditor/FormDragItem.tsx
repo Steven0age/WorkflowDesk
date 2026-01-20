@@ -12,7 +12,7 @@ import type { FormSelectItemTypes } from "./FormSelectItem";
 export type FormDragItemTypes = {
   activeItem?: number;
   iconType: FormSelectItemTypes["iconType"];
-  description: FormSelectItemTypes["description"];
+  label: FormSelectItemTypes["label"];
   order: number;
   onClick?: () => void;
   handleDelete?: () => void;
@@ -21,7 +21,7 @@ export type FormDragItemTypes = {
 export default function FormDragItem({
   activeItem,
   iconType,
-  description,
+  label,
   order,
   onClick,
   handleDelete,
@@ -60,7 +60,7 @@ export default function FormDragItem({
         <Box sx={{ display: "flex", gap: 1 }}>
           {Icons[iconType]}
 
-          <Typography sx={{ fontWeight: "bold" }}>{description}</Typography>
+          <Typography sx={{ fontWeight: "bold" }}>{label}</Typography>
         </Box>
         <Box sx={{ display: "flex", gap: 1 }}>
           <IconButton

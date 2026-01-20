@@ -9,21 +9,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEditor, type EditorItemType } from "../../context/EditorContext";
+import { useEditor } from "../../context/EditorContext";
 import CardShell from "../CardShell";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import CloseIcon from "@mui/icons-material/Close";
-import { CheckBox } from "@mui/icons-material";
 
 type EditorDrawerProps = {
-  itemId?: EditorItemType["id"];
   handleClose: () => void;
 };
 
-export default function EditorDrawer({
-  itemId,
-  handleClose,
-}: EditorDrawerProps) {
+export default function EditorDrawer({ handleClose }: EditorDrawerProps) {
   const {
     formDraft,
     questionLabel,
@@ -32,13 +27,10 @@ export default function EditorDrawer({
     changeQuestionLabel,
     changeQuestionDescription,
     changeQuestionIsRequired,
-    selectedQuestionId,
   } = useEditor();
   if (!formDraft) {
     return;
   }
-  // --> const index = formDraft.findIndex((i) => i.id === selectedQuestionId);
-  // --> console.log("formDraft[index].description=", formDraft[index].description);
 
   return (
     <Box

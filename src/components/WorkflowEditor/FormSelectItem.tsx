@@ -4,13 +4,13 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 export type FormSelectItemTypes = {
   iconType: "textField" | "upload";
-  description: string;
+  label: string;
   onClick: () => void;
 };
 
 export default function FormSelectItem({
   iconType,
-  description,
+  label,
   onClick,
 }: FormSelectItemTypes) {
   const Icons = {
@@ -31,7 +31,7 @@ export default function FormSelectItem({
     >
       <Box sx={{ display: "flex", gap: 1 }}>
         {Icons[iconType]}
-        <Typography sx={{ fontWeight: "bold" }}>{description}</Typography>
+        <Typography sx={{ fontWeight: "bold" }}>{label}</Typography>
       </Box>
     </Box>
   );

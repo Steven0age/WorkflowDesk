@@ -27,15 +27,14 @@ import { useEffect, useState } from "react";
 import EditorDrawer from "../../../components/WorkflowEditor/EditorDrawer";
 
 type ItemType = {
-  id: number;
-  description: string;
+  id: string;
+  label: string;
   iconType: FormDragItemTypes["iconType"];
 };
 
 export default function FormEditor() {
   const [activeItem, setActiveItem] = useState<ItemType | null>(null);
   const [open, setOpen] = useState<boolean>(false);
-  const [editItemId, setEditItemId] = useState("1");
 
   const {
     workflowTitle,
@@ -46,12 +45,10 @@ export default function FormEditor() {
     deleteFormItem,
     selectedQuestionId,
     setSelectedQuestionId,
-    changeQuestionLabel,
-    changeQuestionDescription,
-    changeQuestionIsRequired,
     questionLabel,
     questionDescription,
     questionIsRequired,
+    LoadQuestionToEdit,
   } = useEditor();
 
   useEffect(() => {
@@ -59,18 +56,7 @@ export default function FormEditor() {
   }, [formDraft]);
 
   useEffect(() => {
-    if (!selectedQuestionId || !formDraft) {
-      return;
-    }
-
-    const index = formDraft.findIndex((i) => i.id === selectedQuestionId);
-    if (index === -1) return;
-
-    const { label, description, is_required } = formDraft[index];
-
-    changeQuestionLabel(label);
-    changeQuestionDescription(description);
-    changeQuestionIsRequired(is_required);
+    LoadQuestionToEdit();
   }, [selectedQuestionId, formDraft]);
 
   const sensors = useSensors(
@@ -175,7 +161,7 @@ export default function FormEditor() {
                     activeItem={activeItem ? activeItem.id : -1}
                     key={i.id}
                     order={i.id}
-                    description={i.description}
+                    label={i.label}
                     iconType={i.iconType}
                     onClick={() => toggleDrawer(i.id)}
                     handleDelete={() => deleteFormItem(i.id)}
@@ -188,7 +174,7 @@ export default function FormEditor() {
                 <FormDragItem
                   key={activeItem.id}
                   order={activeItem.id}
-                  description={activeItem.description}
+                  label={activeItem.label}
                   iconType={activeItem.iconType as "textField" | "upload"}
                 />
               ) : null}
@@ -211,12 +197,12 @@ export default function FormEditor() {
             >
               <FormSelectItem
                 onClick={() => addFormItem("textField")}
-                description="Textfeld"
+                label="Textfeld"
                 iconType="textField"
               />
               <FormSelectItem
                 onClick={() => addFormItem("upload")}
-                description="Datei Upload"
+                label="Datei Upload"
                 iconType="upload"
               />
             </CardContent>
