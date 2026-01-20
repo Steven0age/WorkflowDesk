@@ -35,7 +35,7 @@ type ItemType = {
 export default function FormEditor() {
   const [activeItem, setActiveItem] = useState<ItemType | null>(null);
   const [open, setOpen] = useState<boolean>(true);
-  const [editItemId, setEditItemId] = useState();
+  const [editItemId, setEditItemId] = useState("1");
 
   const {
     workflowTitle,
@@ -44,6 +44,8 @@ export default function FormEditor() {
     setFormDraft,
     addFormItem,
     deleteFormItem,
+    selectedQuestionId,
+    setSelectedQuestionId,
   } = useEditor();
 
   useEffect(() => {
@@ -80,7 +82,7 @@ export default function FormEditor() {
 
   function toggleDrawer(id = false) {
     open === true ? setOpen(false) : setOpen(true);
-    setEditItemId(id);
+    setSelectedQuestionId(id);
   }
 
   return (
@@ -185,8 +187,11 @@ export default function FormEditor() {
           </CardShell>
         </Box>
 
-        <Drawer open={open} anchor={"right"} onClose={() => toggleDrawer()}>
-          <EditorDrawer itemId={editItemId} />
+        <Drawer open={open} anchor={"right"} onClose={toggleDrawer}>
+          <EditorDrawer
+            itemId={selectedQuestionId}
+            handleClose={toggleDrawer}
+          />
         </Drawer>
       </Box>
     </>

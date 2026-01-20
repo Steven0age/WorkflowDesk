@@ -2,35 +2,44 @@ import {
   Box,
   CardContent,
   CardHeader,
+  Checkbox,
   FormControlLabel,
   FormGroup,
+  IconButton,
   TextField,
   Typography,
 } from "@mui/material";
 import { useEditor, type EditorItemType } from "../../context/EditorContext";
-import FormDragItem from "./FormDragItem";
 import CardShell from "../CardShell";
-import FormSelectItem from "./FormSelectItem";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import CloseIcon from "@mui/icons-material/Close";
 import { CheckBox } from "@mui/icons-material";
 
 type EditorDrawerProps = {
   itemId?: EditorItemType["id"];
+  handleClose: () => void;
 };
 
-export default function EditorDrawer({ itemId }: EditorDrawerProps) {
-  const { formDraft } = useEditor();
+export default function EditorDrawer({
+  itemId,
+  handleClose,
+}: EditorDrawerProps) {
+  const {
+    formDraft,
+    questionLabel,
+    questionDescription,
+    questionIsRequired,
+    changeQuestionLabel,
+    changeQuestionDescription,
+    changeQuestionIsRequired,
+    selectedQuestionId,
+  } = useEditor();
   if (!formDraft) {
     return;
   }
-  //const index = formDraft.findIndex((i) => i.id === itemId);
-  //const newDescription = formDraft[index].description;
-  const example = {
-    id: 1,
-    description: "Example Description",
-    iconType: "upload",
-  };
+  // --> const index = formDraft.findIndex((i) => i.id === selectedQuestionId);
+  // --> console.log("formDraft[index].description=", formDraft[index].description);
+
   return (
     <Box
       component="aside"
@@ -38,26 +47,34 @@ export default function EditorDrawer({ itemId }: EditorDrawerProps) {
         display: "flex",
         flexDirection: "column",
         pt: 2,
-        gap: 4,
+        gap: 0,
         width: 500,
         height: "100%",
         flexShrink: 0,
       }}
     >
-      <Box sx={{ display: "flex", justifyContent: "space-between", px: 2 }}>
-        <Box sx={{ display: "flex", gap: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          px: 2,
+          mb: 2,
+        }}
+      >
+        <Box sx={{ display: "flex", gap: 1 }}>
           <FileUploadIcon sx={{ color: "primary.main" }}></FileUploadIcon>
-          <Typography sx={{ fontWeight: "bold" }}>
-            {example.description}
-          </Typography>
+          <Typography sx={{ fontWeight: "bold" }}>{"Upload Feld"}</Typography>
         </Box>
 
         <Box>
-          <CloseIcon sx={{ width: "20px" }}></CloseIcon>
+          <IconButton onClick={handleClose}>
+            <CloseIcon />
+          </IconButton>
         </Box>
       </Box>
 
-      <CardShell elevation={1} sx={{ mx: 2 }}>
+      <CardShell elevation={1} sx={{ mx: 2, mb: 4, flexShrink: 0 }}>
         <CardHeader title={"Allgemeine Optionen"} />
         <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <Typography variant="h5">Feldname</Typography>
@@ -66,8 +83,9 @@ export default function EditorDrawer({ itemId }: EditorDrawerProps) {
             fullWidth
             multiline
             placeholder={"Feldname eingeben"}
+            value={questionLabel}
             onChange={(event) => {
-              console.log(event.target.value);
+              changeQuestionLabel(event.target.value);
             }}
           ></TextField>
           <Typography variant="h5">Beschreibung</Typography>
@@ -76,19 +94,28 @@ export default function EditorDrawer({ itemId }: EditorDrawerProps) {
             fullWidth
             multiline
             placeholder={"Beschreibung eingeben"}
+            value={questionDescription}
             onChange={(event) => {
-              console.log(event.target.value);
+              changeQuestionDescription(event.target.value);
             }}
           ></TextField>
         </CardContent>
       </CardShell>
-      <CardShell elevation={1} sx={{ mx: 2 }}>
+      <CardShell elevation={1} sx={{ mx: 2, mb: 4, flexShrink: 0 }}>
         <CardHeader title={"Einstellungen"} />
         <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <FormGroup sx={{ p: 1 }}>
             <FormControlLabel
               sx={{ display: "flex", gap: 1 }}
-              control={<CheckBox sx={{ color: "primary.main" }} />}
+              control={
+                <Checkbox
+                  checked={questionIsRequired}
+                  onClick={(event) =>
+                    changeQuestionIsRequired(event.target.checked)
+                  }
+                  sx={{ color: "primary.main" }}
+                />
+              }
               label="Verpflichtend"
             />
           </FormGroup>

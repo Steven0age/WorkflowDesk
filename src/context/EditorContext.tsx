@@ -16,11 +16,20 @@ type EditorContextType = {
   setFormDraft: React.Dispatch<React.SetStateAction<EditorItemType[]>>;
   addFormItem: (input: FormSelectItemTypes["iconType"]) => void;
   deleteFormItem: (id: EditorItemType["id"]) => void;
+  selectedQuestionId: string;
+  questionLabel: string;
+  questionDescription: string;
+  questionIsRequired: boolean;
+  changeQuestionLabel: (input: string) => void;
+  changeQuestionDescription: (input: string) => void;
+  changeQuestionIsRequired: (input: boolean) => void;
 };
 
 export type EditorItemType = {
   id: string;
+  label: string;
   description: string;
+  is_required: boolean;
   iconType: FormDragItemTypes["iconType"];
 };
 
@@ -33,7 +42,24 @@ export function EditorProvider({ children }: { children: ReactNode }) {
   const [workflowDescription, setWorkflowDescription] = useState(
     "Beschreibung eingeben",
   );
-  const [formDraft, setFormDraft] = useState<EditorItemType[]>([]);
+
+  const [questionLabel, setQuestionLabel] = useState();
+  const [questionDescription, setQuestionDescription] = useState();
+  const [questionIsRequired, setQuestionIsRequired] = useState(false);
+
+  const [formDraft, setFormDraft] = useState<EditorItemType[]>([
+    {
+      id: "1",
+      label: "TextFeld label",
+      description: "TextFeld description",
+      is_required: true,
+      iconType: "textField",
+    },
+  ]);
+
+  const [selectedQuestionId, setSelectedQuestionId] = useState<
+    EditorItemType["id"] | null
+  >();
 
   const changeWorkflowTitle = (input: string) => {
     setWorkflowTitle(input);
@@ -41,6 +67,16 @@ export function EditorProvider({ children }: { children: ReactNode }) {
 
   const changeWorkflowDescription = (input: string) => {
     setWorkflowDescription(input);
+  };
+
+  const changeQuestionLabel = (input: string) => {
+    setQuestionLabel(input);
+  };
+  const changeQuestionDescription = (input: string) => {
+    setQuestionDescription(input);
+  };
+  const changeQuestionIsRequired = (input: boolean) => {
+    setQuestionIsRequired(input);
   };
 
   const addFormItem = (fieldType: FormSelectItemTypes["iconType"]) => {
@@ -79,6 +115,14 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     addFormItem,
     setFormDraft,
     deleteFormItem,
+    selectedQuestionId,
+    questionLabel,
+    questionDescription,
+    questionIsRequired,
+    setSelectedQuestionId,
+    changeQuestionLabel,
+    changeQuestionDescription,
+    changeQuestionIsRequired,
   };
 
   return (
