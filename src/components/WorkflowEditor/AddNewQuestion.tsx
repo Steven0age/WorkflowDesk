@@ -1,18 +1,20 @@
 import { Box, Typography } from "@mui/material";
 import TextFieldsIcon from "@mui/icons-material/TextFields";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
+import type { QuestionnaireQuestionTypes } from "../../types/types";
 
-export type FormSelectItemTypes = {
-  iconType: "textField" | "upload";
-  label: string;
+export type AddNewQuestionProps = Pick<
+  QuestionnaireQuestionTypes,
+  "field_type" | "label"
+> & {
   onClick: () => void;
 };
 
-export default function FormSelectItem({
-  iconType,
+export default function AddNewQuestion({
+  field_type,
   label,
   onClick,
-}: FormSelectItemTypes) {
+}: AddNewQuestionProps) {
   const Icons = {
     textField: <TextFieldsIcon sx={{ color: "primary.main" }}></TextFieldsIcon>,
     upload: <FileUploadIcon sx={{ color: "primary.main" }}></FileUploadIcon>,
@@ -30,7 +32,7 @@ export default function FormSelectItem({
       onClick={onClick}
     >
       <Box sx={{ display: "flex", gap: 1 }}>
-        {Icons[iconType]}
+        {Icons[field_type]}
         <Typography sx={{ fontWeight: "bold" }}>{label}</Typography>
       </Box>
     </Box>

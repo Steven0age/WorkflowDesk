@@ -1,11 +1,9 @@
-import { Box, Button, CardContent, CardHeader, Drawer } from "@mui/material";
+import { Box, CardContent, CardHeader, Drawer } from "@mui/material";
 import CardShell from "../../../components/CardShell";
 import WorkflowHeader from "../../../components/WorkflowEditor/WorkflowHeader";
 import { useEditor } from "../../../context/EditorContext";
-import FormSelectItem from "../../../components/WorkflowEditor/FormSelectItem";
-import FormDragItem, {
-  type FormDragItemTypes,
-} from "../../../components/WorkflowEditor/FormDragItem";
+import AddNewQuestion from "../../../components/WorkflowEditor/AddNewQuestion";
+import Question from "../../../components/WorkflowEditor/Question";
 import {
   closestCenter,
   DndContext,
@@ -25,15 +23,17 @@ import {
 } from "@dnd-kit/sortable";
 import { useEffect, useState } from "react";
 import EditorDrawer from "../../../components/WorkflowEditor/EditorDrawer";
+import type { QuestionnaireQuestionTypes } from "../../../types/types";
 
-type ItemType = {
-  id: string;
-  label: string;
-  iconType: FormDragItemTypes["iconType"];
-};
+// type ItemType = {
+//   id: string;
+//   label: string;
+//   iconType: FormDragItemTypes["iconType"];
+// };
 
 export default function FormEditor() {
-  const [activeItem, setActiveItem] = useState<ItemType | null>(null);
+  const [activeItem, setActiveItem] =
+    useState<QuestionnaireQuestionTypes | null>(null);
   const [open, setOpen] = useState<boolean>(false);
 
   const {
@@ -157,25 +157,25 @@ export default function FormEditor() {
                 }}
               >
                 {formDraft.map((i) => (
-                  <FormDragItem
+                  <Question
                     activeItem={activeItem ? activeItem.id : -1}
                     key={i.id}
-                    order={i.id}
+                    order_index={i.id}
                     label={i.label}
-                    iconType={i.iconType}
+                    field_type={i.field_type}
                     onClick={() => toggleDrawer(i.id)}
-                    handleDelete={() => deleteFormItem(i.id)}
+                    onDelete={() => deleteFormItem(i.id)}
                   />
                 ))}
               </Box>
             </SortableContext>
             <DragOverlay>
               {activeItem ? (
-                <FormDragItem
+                <Question
                   key={activeItem.id}
-                  order={activeItem.id}
+                  order_index={activeItem.id}
                   label={activeItem.label}
-                  iconType={activeItem.iconType as "textField" | "upload"}
+                  field_type={activeItem.field_type as "textField" | "upload"}
                 />
               ) : null}
             </DragOverlay>
@@ -195,15 +195,15 @@ export default function FormEditor() {
             <CardContent
               sx={{ display: "flex", flexDirection: "column", gap: 2 }}
             >
-              <FormSelectItem
+              <AddNewQuestion
                 onClick={() => addFormItem("textField")}
                 label="Textfeld"
-                iconType="textField"
+                field_type="textField"
               />
-              <FormSelectItem
+              <AddNewQuestion
                 onClick={() => addFormItem("upload")}
                 label="Datei Upload"
-                iconType="upload"
+                field_type="upload"
               />
             </CardContent>
           </CardShell>

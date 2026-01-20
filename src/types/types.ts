@@ -18,6 +18,15 @@ export type QuestionnaireAnswerDataTypes = {
   text_answer: string | null;
 };
 
+export type QuestionnaireQuestionTypes = {
+  id: string;
+  label: string;
+  description: string;
+  is_required: boolean;
+  order_index: number;
+  field_type: "textField" | "upload";
+};
+
 export type CheckboxStateTypes = {
   key: TicketTaskDataTypes["id"];
   checked: TicketTaskDataTypes["is_done"];

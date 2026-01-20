@@ -7,32 +7,32 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import type { FormSelectItemTypes } from "./FormSelectItem";
+import type { QuestionnaireQuestionTypes } from "../../types/types";
 
-export type FormDragItemTypes = {
+export type QuestionProps = Pick<
+  QuestionnaireQuestionTypes,
+  "label" | "field_type" | "order_index"
+> & {
   activeItem?: number;
-  iconType: FormSelectItemTypes["iconType"];
-  label: FormSelectItemTypes["label"];
-  order: number;
   onClick?: () => void;
-  handleDelete?: () => void;
+  onDelete?: () => void;
 };
 
-export default function FormDragItem({
+export default function Question({
   activeItem,
-  iconType,
+  field_type,
   label,
-  order,
+  order_index,
   onClick,
-  handleDelete,
-}: FormDragItemTypes) {
+  onDelete,
+}: QuestionProps) {
   const Icons = {
     textField: <TextFieldsIcon sx={{ color: "primary.main" }}></TextFieldsIcon>,
     upload: <FileUploadIcon sx={{ color: "primary.main" }}></FileUploadIcon>,
   };
 
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: order });
+    useSortable({ id: order_index });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -41,14 +41,16 @@ export default function FormDragItem({
 
   return (
     <Box
-      id={`${order}`}
+      id={`${order_index}`}
       ref={setNodeRef}
       style={style}
       {...attributes}
       onClick={onClick}
       sx={{
         bgcolor:
-          activeItem === order ? "background.default" : "background.paper",
+          activeItem === order_index
+            ? "background.default"
+            : "background.paper",
         p: 3,
         border: 2,
         borderColor: "border.main",
@@ -58,7 +60,7 @@ export default function FormDragItem({
     >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box sx={{ display: "flex", gap: 1 }}>
-          {Icons[iconType]}
+          {Icons[field_type]}
 
           <Typography sx={{ fontWeight: "bold" }}>{label}</Typography>
         </Box>
@@ -94,8 +96,8 @@ export default function FormDragItem({
           <IconButton
             onClick={(e) => {
               e.stopPropagation();
-              if (handleDelete) {
-                handleDelete();
+              if (onDelete) {
+                onDelete();
               }
             }}
             sx={{

@@ -4,24 +4,26 @@ import React, {
   useState,
   type ReactNode,
 } from "react";
-import type { FormDragItemTypes } from "../components/WorkflowEditor/FormDragItem";
-import type { FormSelectItemTypes } from "../components/WorkflowEditor/FormSelectItem";
+
+import type { QuestionnaireQuestionTypes } from "../types/types";
 
 type EditorContextType = {
   workflowTitle: string;
   changeWorkflowTitle: (input: string) => void;
   workflowDescription: string;
   changeWorkflowDescription: (input: string) => void;
-  formDraft: EditorQuestionType[];
-  setFormDraft: React.Dispatch<React.SetStateAction<EditorQuestionType[]>>;
-  addFormItem: (input: FormSelectItemTypes["iconType"]) => void;
-  deleteFormItem: (id: EditorQuestionType["id"]) => void;
+  formDraft: QuestionnaireQuestionTypes[];
+  setFormDraft: React.Dispatch<
+    React.SetStateAction<QuestionnaireQuestionTypes[]>
+  >;
+  addFormItem: (input: QuestionnaireQuestionTypes["field_type"]) => void;
+  deleteFormItem: (id: QuestionnaireQuestionTypes["id"]) => void;
   selectedQuestionId: string;
   questionLabel: string;
   questionDescription: string;
   questionIsRequired: boolean;
   setSelectedQuestionId: React.Dispatch<
-    React.SetStateAction<EditorQuestionType["id"]>
+    React.SetStateAction<QuestionnaireQuestionTypes["id"]>
   >;
   changeQuestionLabel: (input: string) => void;
   changeQuestionDescription: (input: string) => void;
@@ -29,13 +31,13 @@ type EditorContextType = {
   LoadQuestionToEdit: () => void;
 };
 
-export type EditorQuestionType = {
-  id: string;
-  label: string;
-  description: string;
-  is_required: boolean;
-  iconType: FormDragItemTypes["iconType"];
-};
+// export type QuestionnaireQuestionTypes = {
+//   id: string;
+//   label: string;
+//   description: string;
+//   is_required: boolean;
+//   iconType: FormDragItemTypes["iconType"];
+// };
 
 export const EditorContext = createContext<EditorContextType | undefined>(
   undefined,
@@ -51,18 +53,19 @@ export function EditorProvider({ children }: { children: ReactNode }) {
   const [questionDescription, setQuestionDescription] = useState();
   const [questionIsRequired, setQuestionIsRequired] = useState(false);
 
-  const [formDraft, setFormDraft] = useState<EditorQuestionType[]>([
+  const [formDraft, setFormDraft] = useState<QuestionnaireQuestionTypes[]>([
     {
       id: "1",
       label: "TextFeld label",
       description: "TextFeld description",
       is_required: true,
-      iconType: "textField",
+      order_index: 0,
+      field_type: "textField",
     },
   ]);
 
   const [selectedQuestionId, setSelectedQuestionId] = useState<
-    EditorQuestionType["id"] | null
+    QuestionnaireQuestionTypes["id"] | null
   >();
 
   const changeWorkflowTitle = (input: string) => {
@@ -97,10 +100,12 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     changeQuestionIsRequired(is_required);
   };
 
-  const addFormItem = (fieldType: FormSelectItemTypes["iconType"]) => {
+  const addFormItem = (
+    field_type: QuestionnaireQuestionTypes["field_type"],
+  ) => {
     let newLabel;
 
-    switch (fieldType) {
+    switch (field_type) {
       case "upload":
         newLabel = "Datei Upload";
         break;
@@ -115,12 +120,12 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     const newItem = {
       id: crypto.randomUUID(),
       label: newLabel,
-      iconType: fieldType,
+      field_type: field_type,
     };
     setFormDraft((prev) => [...prev, newItem]);
   };
 
-  const deleteFormItem = (id: EditorQuestionType["id"]) => {
+  const deleteFormItem = (id: QuestionnaireQuestionTypes["id"]) => {
     setFormDraft((prev) => prev.filter((i) => i.id !== id));
   };
 
