@@ -34,7 +34,7 @@ type ItemType = {
 
 export default function FormEditor() {
   const [activeItem, setActiveItem] = useState<ItemType | null>(null);
-  const [open, setOpen] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(false);
   const [editItemId, setEditItemId] = useState("1");
 
   const {
@@ -46,11 +46,32 @@ export default function FormEditor() {
     deleteFormItem,
     selectedQuestionId,
     setSelectedQuestionId,
+    changeQuestionLabel,
+    changeQuestionDescription,
+    changeQuestionIsRequired,
+    questionLabel,
+    questionDescription,
+    questionIsRequired,
   } = useEditor();
 
   useEffect(() => {
     console.log("status formDraft =", formDraft);
   }, [formDraft]);
+
+  useEffect(() => {
+    if (!selectedQuestionId || !formDraft) {
+      return;
+    }
+
+    const index = formDraft.findIndex((i) => i.id === selectedQuestionId);
+    if (index === -1) return;
+
+    const { label, description, is_required } = formDraft[index];
+
+    changeQuestionLabel(label);
+    changeQuestionDescription(description);
+    changeQuestionIsRequired(is_required);
+  }, [selectedQuestionId, formDraft]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -80,7 +101,22 @@ export default function FormEditor() {
     });
   }
 
-  function toggleDrawer(id = false) {
+  function toggleDrawer(id = "close") {
+    if (id == "close") {
+      setFormDraft((draft) =>
+        draft.map((q) =>
+          q.id === selectedQuestionId
+            ? {
+                ...q,
+                label: questionLabel,
+                description: questionDescription,
+                is_required: questionIsRequired,
+              }
+            : q,
+        ),
+      );
+    }
+
     open === true ? setOpen(false) : setOpen(true);
     setSelectedQuestionId(id);
   }
@@ -187,10 +223,14 @@ export default function FormEditor() {
           </CardShell>
         </Box>
 
-        <Drawer open={open} anchor={"right"} onClose={toggleDrawer}>
+        <Drawer
+          open={open}
+          anchor={"right"}
+          onClose={() => toggleDrawer("close")}
+        >
           <EditorDrawer
             itemId={selectedQuestionId}
-            handleClose={toggleDrawer}
+            handleClose={() => toggleDrawer("close")}
           />
         </Drawer>
       </Box>

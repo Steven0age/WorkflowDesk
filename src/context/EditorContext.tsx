@@ -20,6 +20,9 @@ type EditorContextType = {
   questionLabel: string;
   questionDescription: string;
   questionIsRequired: boolean;
+  setSelectedQuestionId: React.Dispatch<
+    React.SetStateAction<EditorItemType["id"]>
+  >;
   changeQuestionLabel: (input: string) => void;
   changeQuestionDescription: (input: string) => void;
   changeQuestionIsRequired: (input: boolean) => void;
