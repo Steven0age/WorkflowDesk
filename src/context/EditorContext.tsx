@@ -92,7 +92,7 @@ export function EditorProvider({ children }: { children: ReactNode }) {
   ) => {
     const newItem = {
       id: crypto.randomUUID(),
-      label: "",
+      label: field_type === "textField" ? "Frage" : " Datei Upload",
       field_type: field_type,
       description: "",
       is_required: false,

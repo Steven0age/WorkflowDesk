@@ -147,15 +147,12 @@ export default function FormEditor() {
                 }}
               >
                 {formDraft.map((i) => {
-                  const placeholder =
-                    i.field_type === "textField" ? "Frage" : " Datei Upload";
-
                   return (
                     <Question
                       activeItem={activeItem ? activeItem.id : undefined}
                       key={i.id}
                       id={i.id}
-                      label={i.label ? i.label : placeholder}
+                      label={i.label}
                       field_type={i.field_type}
                       onClick={() => toggleDrawer(i.id)}
                       onDelete={() => deleteFormItem(i.id)}
