@@ -4,7 +4,6 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FileCopyIcon from "@mui/icons-material/FileCopy";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import type { QuestionnaireQuestionTypes } from "../../types/types";
@@ -56,10 +55,26 @@ export default function Question({
       }}
     >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Box sx={{ display: "flex", gap: 1 }}>
+        <Box
+          sx={{
+            display: "flex",
+            gap: 1,
+            mr: 1,
+            minWidth: 0,
+          }}
+        >
           {Icons[field_type]}
 
-          <Typography sx={{ fontWeight: "bold" }}>{label}</Typography>
+          <Typography
+            noWrap
+            sx={{
+              fontWeight: "bold",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {label}
+          </Typography>
         </Box>
         <Box sx={{ display: "flex", gap: 1 }}>
           <IconButton

@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import { useEditor } from "../../context/EditorContext";
 import CardShell from "../CardShell";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
 import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
 

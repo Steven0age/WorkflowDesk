@@ -46,10 +46,6 @@ export default function FormEditor() {
   } = useEditor();
 
   useEffect(() => {
-    console.log("status formDraft =", formDraft);
-  }, [formDraft]);
-
-  useEffect(() => {
     LoadQuestionToEdit();
   }, [selectedQuestionId, formDraft]);
 
