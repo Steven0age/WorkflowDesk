@@ -10,20 +10,24 @@ import type { QuestionnaireQuestionTypes } from "../types/types";
 type EditorContextType = {
   workflowTitle: string;
   changeWorkflowTitle: (input: string) => void;
+
   workflowDescription: string;
   changeWorkflowDescription: (input: string) => void;
+
   formDraft: QuestionnaireQuestionTypes[];
   setFormDraft: React.Dispatch<
     React.SetStateAction<QuestionnaireQuestionTypes[]>
   >;
+
   addFormItem: (input: QuestionnaireQuestionTypes["field_type"]) => void;
   deleteFormItem: (id: QuestionnaireQuestionTypes["id"]) => void;
-  selectedQuestionId: string;
+
+  selectedQuestionId: string | undefined;
   questionLabel: string;
   questionDescription: string;
   questionIsRequired: boolean;
   setSelectedQuestionId: React.Dispatch<
-    React.SetStateAction<QuestionnaireQuestionTypes["id"]>
+    React.SetStateAction<QuestionnaireQuestionTypes["id"] | undefined>
   >;
   changeQuestionLabel: (input: string) => void;
   changeQuestionDescription: (input: string) => void;
@@ -49,23 +53,23 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     "Beschreibung eingeben",
   );
 
-  const [questionLabel, setQuestionLabel] = useState();
-  const [questionDescription, setQuestionDescription] = useState();
+  const [questionLabel, setQuestionLabel] = useState("");
+  const [questionDescription, setQuestionDescription] = useState("");
   const [questionIsRequired, setQuestionIsRequired] = useState(false);
 
   const [formDraft, setFormDraft] = useState<QuestionnaireQuestionTypes[]>([
     {
-      id: "1",
-      label: "TextFeld label",
       description: "TextFeld description",
-      is_required: true,
-      order_index: 0,
       field_type: "textField",
+      id: "1-test",
+      is_required: true,
+      label: "TextFeld label",
+      order_index: 0,
     },
   ]);
 
   const [selectedQuestionId, setSelectedQuestionId] = useState<
-    QuestionnaireQuestionTypes["id"] | null
+    QuestionnaireQuestionTypes["id"] | undefined
   >();
 
   const changeWorkflowTitle = (input: string) => {
@@ -121,7 +125,11 @@ export function EditorProvider({ children }: { children: ReactNode }) {
       id: crypto.randomUUID(),
       label: newLabel,
       field_type: field_type,
+      description: "",
+      is_required: false,
+      order_index: -1,
     };
+
     setFormDraft((prev) => [...prev, newItem]);
   };
 

@@ -158,9 +158,9 @@ export default function FormEditor() {
               >
                 {formDraft.map((i) => (
                   <Question
-                    activeItem={activeItem ? activeItem.id : -1}
+                    activeItem={activeItem ? activeItem.id : undefined}
                     key={i.id}
-                    order_index={i.id}
+                    id={i.id}
                     label={i.label}
                     field_type={i.field_type}
                     onClick={() => toggleDrawer(i.id)}
@@ -173,7 +173,7 @@ export default function FormEditor() {
               {activeItem ? (
                 <Question
                   key={activeItem.id}
-                  order_index={activeItem.id}
+                  id={activeItem.id}
                   label={activeItem.label}
                   field_type={activeItem.field_type as "textField" | "upload"}
                 />

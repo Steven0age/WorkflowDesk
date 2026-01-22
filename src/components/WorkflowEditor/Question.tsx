@@ -11,18 +11,18 @@ import type { QuestionnaireQuestionTypes } from "../../types/types";
 
 export type QuestionProps = Pick<
   QuestionnaireQuestionTypes,
-  "label" | "field_type" | "order_index"
+  "label" | "field_type" | "id"
 > & {
-  activeItem?: number;
+  activeItem?: string;
   onClick?: () => void;
   onDelete?: () => void;
 };
 
 export default function Question({
   activeItem,
+  id,
   field_type,
   label,
-  order_index,
   onClick,
   onDelete,
 }: QuestionProps) {
@@ -32,7 +32,7 @@ export default function Question({
   };
 
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: order_index });
+    useSortable({ id: id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -41,16 +41,13 @@ export default function Question({
 
   return (
     <Box
-      id={`${order_index}`}
+      id={id}
       ref={setNodeRef}
       style={style}
       {...attributes}
       onClick={onClick}
       sx={{
-        bgcolor:
-          activeItem === order_index
-            ? "background.default"
-            : "background.paper",
+        bgcolor: activeItem === id ? "background.default" : "background.paper",
         p: 3,
         border: 2,
         borderColor: "border.main",

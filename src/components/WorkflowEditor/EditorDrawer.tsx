@@ -16,6 +16,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 type EditorDrawerProps = {
   handleClose: () => void;
+  itemId: string | undefined;
 };
 
 export default function EditorDrawer({ handleClose }: EditorDrawerProps) {
@@ -28,6 +29,7 @@ export default function EditorDrawer({ handleClose }: EditorDrawerProps) {
     changeQuestionDescription,
     changeQuestionIsRequired,
   } = useEditor();
+
   if (!formDraft) {
     return;
   }
@@ -102,7 +104,7 @@ export default function EditorDrawer({ handleClose }: EditorDrawerProps) {
               control={
                 <Checkbox
                   checked={questionIsRequired}
-                  onClick={(event) =>
+                  onChange={(event) =>
                     changeQuestionIsRequired(event.target.checked)
                   }
                   sx={{ color: "primary.main" }}
