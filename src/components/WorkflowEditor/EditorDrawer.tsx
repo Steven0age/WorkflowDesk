@@ -12,6 +12,7 @@ import {
 import { useEditor } from "../../context/EditorContext";
 import CardShell from "../CardShell";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
+import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
 
 type EditorDrawerProps = {
@@ -57,8 +58,8 @@ export default function EditorDrawer({ handleClose }: EditorDrawerProps) {
         }}
       >
         <Box sx={{ display: "flex", gap: 1 }}>
-          <FileUploadIcon sx={{ color: "primary.main" }}></FileUploadIcon>
-          <Typography sx={{ fontWeight: "bold" }}>{"Upload Feld"}</Typography>
+          <EditIcon sx={{ color: "primary.main" }}></EditIcon>
+          <Typography sx={{ fontWeight: "bold" }}>Feld bearbeiten</Typography>
         </Box>
 
         <Box>

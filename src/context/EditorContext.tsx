@@ -35,14 +35,6 @@ type EditorContextType = {
   LoadQuestionToEdit: () => void;
 };
 
-// export type QuestionnaireQuestionTypes = {
-//   id: string;
-//   label: string;
-//   description: string;
-//   is_required: boolean;
-//   iconType: FormDragItemTypes["iconType"];
-// };
-
 export const EditorContext = createContext<EditorContextType | undefined>(
   undefined,
 );
@@ -57,16 +49,7 @@ export function EditorProvider({ children }: { children: ReactNode }) {
   const [questionDescription, setQuestionDescription] = useState("");
   const [questionIsRequired, setQuestionIsRequired] = useState(false);
 
-  const [formDraft, setFormDraft] = useState<QuestionnaireQuestionTypes[]>([
-    {
-      description: "TextFeld description",
-      field_type: "textField",
-      id: "1-test",
-      is_required: true,
-      label: "TextFeld label",
-      order_index: 0,
-    },
-  ]);
+  const [formDraft, setFormDraft] = useState<QuestionnaireQuestionTypes[]>([]);
 
   const [selectedQuestionId, setSelectedQuestionId] = useState<
     QuestionnaireQuestionTypes["id"] | undefined
@@ -107,23 +90,9 @@ export function EditorProvider({ children }: { children: ReactNode }) {
   const addFormItem = (
     field_type: QuestionnaireQuestionTypes["field_type"],
   ) => {
-    let newLabel;
-
-    switch (field_type) {
-      case "upload":
-        newLabel = "Datei Upload";
-        break;
-
-      case "textField":
-        newLabel = "Textfeld";
-        break;
-
-      default:
-        return;
-    }
     const newItem = {
       id: crypto.randomUUID(),
-      label: newLabel,
+      label: "",
       field_type: field_type,
       description: "",
       is_required: false,

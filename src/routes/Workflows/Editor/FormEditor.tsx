@@ -25,12 +25,6 @@ import { useEffect, useState } from "react";
 import EditorDrawer from "../../../components/WorkflowEditor/EditorDrawer";
 import type { QuestionnaireQuestionTypes } from "../../../types/types";
 
-// type ItemType = {
-//   id: string;
-//   label: string;
-//   iconType: FormDragItemTypes["iconType"];
-// };
-
 export default function FormEditor() {
   const [activeItem, setActiveItem] =
     useState<QuestionnaireQuestionTypes | null>(null);
@@ -156,19 +150,25 @@ export default function FormEditor() {
                   overflowX: "auto",
                 }}
               >
-                {formDraft.map((i) => (
-                  <Question
-                    activeItem={activeItem ? activeItem.id : undefined}
-                    key={i.id}
-                    id={i.id}
-                    label={i.label}
-                    field_type={i.field_type}
-                    onClick={() => toggleDrawer(i.id)}
-                    onDelete={() => deleteFormItem(i.id)}
-                  />
-                ))}
+                {formDraft.map((i) => {
+                  const placeholder =
+                    i.field_type === "textField" ? "Frage" : " Datei Upload";
+
+                  return (
+                    <Question
+                      activeItem={activeItem ? activeItem.id : undefined}
+                      key={i.id}
+                      id={i.id}
+                      label={i.label ? i.label : placeholder}
+                      field_type={i.field_type}
+                      onClick={() => toggleDrawer(i.id)}
+                      onDelete={() => deleteFormItem(i.id)}
+                    />
+                  );
+                })}
               </Box>
             </SortableContext>
+
             <DragOverlay>
               {activeItem ? (
                 <Question
@@ -197,7 +197,7 @@ export default function FormEditor() {
             >
               <AddNewQuestion
                 onClick={() => addFormItem("textField")}
-                label="Textfeld"
+                label="Frage"
                 field_type="textField"
               />
               <AddNewQuestion

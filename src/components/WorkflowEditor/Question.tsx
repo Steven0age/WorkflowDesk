@@ -63,10 +63,6 @@ export default function Question({
         </Box>
         <Box sx={{ display: "flex", gap: 1 }}>
           <IconButton
-            onClick={(e) => {
-              e.stopPropagation();
-              alert("Edit-Icon clicked");
-            }}
             sx={{
               p: 0,
               m: 0,
@@ -76,7 +72,7 @@ export default function Question({
             <EditIcon />
           </IconButton>
 
-          <IconButton
+          {/* <IconButton
             onClick={(e) => {
               e.stopPropagation();
               alert("Duplicate-Icon clicked");
@@ -88,7 +84,7 @@ export default function Question({
             }}
           >
             <FileCopyIcon />
-          </IconButton>
+          </IconButton> */}
 
           <IconButton
             onClick={(e) => {
