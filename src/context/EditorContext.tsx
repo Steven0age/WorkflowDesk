@@ -5,7 +5,7 @@ import React, {
   type ReactNode,
 } from "react";
 
-import type { QuestionnaireQuestionTypes } from "../types/types";
+import type { QuestionnaireQuestionTypes, TemplatePhase } from "../types/types";
 
 type EditorContextType = {
   workflowTitle: string;
@@ -33,6 +33,8 @@ type EditorContextType = {
   changeQuestionDescription: (input: string) => void;
   changeQuestionIsRequired: (input: boolean) => void;
   LoadQuestionToEdit: () => void;
+
+  phasesDraft: TemplatePhase[];
 };
 
 export const EditorContext = createContext<EditorContextType | undefined>(
@@ -50,6 +52,36 @@ export function EditorProvider({ children }: { children: ReactNode }) {
   const [questionIsRequired, setQuestionIsRequired] = useState(false);
 
   const [formDraft, setFormDraft] = useState<QuestionnaireQuestionTypes[]>([]);
+  const [phasesDraft, setPhasesDraft] = useState<TemplatePhase[]>([
+    {
+      title: "1. Phase",
+      id: "1",
+      tasks: [
+        {
+          label: "Todo 1.1 ",
+          id: "1.1",
+        },
+        {
+          label: "Todo 1.2 ",
+          id: "1.2",
+        },
+      ],
+    },
+    {
+      title: "2. Phase",
+      id: "2",
+      tasks: [
+        {
+          label: "Todo 2.1 ",
+          id: "2.1",
+        },
+        {
+          label: "Todo 2.2 ",
+          id: "2.2",
+        },
+      ],
+    },
+  ]);
 
   const [selectedQuestionId, setSelectedQuestionId] = useState<
     QuestionnaireQuestionTypes["id"] | undefined
@@ -112,6 +144,7 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     workflowDescription,
     changeWorkflowDescription,
     formDraft,
+    phasesDraft,
     addFormItem,
     setFormDraft,
     deleteFormItem,

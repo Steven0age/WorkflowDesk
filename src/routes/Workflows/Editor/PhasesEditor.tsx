@@ -1,11 +1,12 @@
-import { Box, CardContent, CardHeader } from "@mui/material";
+import { Box, CardContent, CardHeader, Typography } from "@mui/material";
 import CardShell from "../../../components/CardShell";
 import WorkflowHeader from "../../../components/WorkflowEditor/WorkflowHeader";
 import { useEditor } from "../../../context/EditorContext";
 import EditorAddButton from "../../../components/WorkflowEditor/EditorAddButton";
+import Phase from "../../../components/WorkflowEditor/Phase";
 
 export default function PhasesEditor() {
-  const { workflowTitle, workflowDescription } = useEditor();
+  const { workflowTitle, workflowDescription, phasesDraft } = useEditor();
   return (
     <>
       <Box
@@ -32,6 +33,23 @@ export default function PhasesEditor() {
             title={workflowTitle}
             description={workflowDescription}
           />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 3,
+              height: "100%",
+              bgcolor: "background.default",
+              borderRadius: 3,
+              mt: 3,
+              p: 3,
+              overflowX: "auto",
+            }}
+          >
+            {phasesDraft.map((i) => {
+              return <Phase title={i.title} id={i.id} tasks={i.tasks} />;
+            })}
+          </Box>
         </Box>
         <Box
           component="aside"

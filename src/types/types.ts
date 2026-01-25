@@ -97,3 +97,22 @@ export type ActivityLogDataTypes = {
   user_id: string;
   created_at: string;
 };
+
+export type TemplateTask = {
+  id: string;
+  template_phase_id?: string;
+  order_index?: number;
+  label: string;
+  is_required?: boolean;
+};
+
+export type TemplatePhase = {
+  id: string;
+  template_id?: string;
+  order_index?: number;
+  title: string;
+  description?: string;
+  proof_required?: boolean;
+  approval_required?: boolean;
+  tasks?: TemplateTask[];
+};
