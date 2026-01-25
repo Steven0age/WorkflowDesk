@@ -2,7 +2,7 @@ import { Box, CardContent, CardHeader, Drawer } from "@mui/material";
 import CardShell from "../../../components/CardShell";
 import WorkflowHeader from "../../../components/WorkflowEditor/WorkflowHeader";
 import { useEditor } from "../../../context/EditorContext";
-import AddNewQuestion from "../../../components/WorkflowEditor/AddNewQuestion";
+import EditorAddButton from "../../../components/WorkflowEditor/EditorAddButton";
 import Question from "../../../components/WorkflowEditor/Question";
 import {
   closestCenter,
@@ -188,15 +188,13 @@ export default function FormEditor() {
             <CardContent
               sx={{ display: "flex", flexDirection: "column", gap: 2 }}
             >
-              <AddNewQuestion
+              <EditorAddButton
                 onClick={() => addFormItem("textField")}
-                label="Frage"
-                field_type="textField"
+                variant="textField"
               />
-              <AddNewQuestion
+              <EditorAddButton
                 onClick={() => addFormItem("upload")}
-                label="Datei Upload"
-                field_type="upload"
+                variant="upload"
               />
             </CardContent>
           </CardShell>

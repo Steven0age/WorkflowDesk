@@ -1,7 +1,8 @@
-import { Box, CardHeader } from "@mui/material";
+import { Box, CardContent, CardHeader } from "@mui/material";
 import CardShell from "../../../components/CardShell";
 import WorkflowHeader from "../../../components/WorkflowEditor/WorkflowHeader";
 import { useEditor } from "../../../context/EditorContext";
+import EditorAddButton from "../../../components/WorkflowEditor/EditorAddButton";
 
 export default function PhasesEditor() {
   const { workflowTitle, workflowDescription } = useEditor();
@@ -42,6 +43,18 @@ export default function PhasesEditor() {
         >
           <CardShell elevation={1} sx={{ height: "100%" }}>
             <CardHeader title={"Phasen und Todo's anlegen"}></CardHeader>
+            <CardContent
+              sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+            >
+              <EditorAddButton
+                variant="phase"
+                onClick={() => alert("new Phase added")}
+              />
+              <EditorAddButton
+                variant="task"
+                onClick={() => alert("new Task added")}
+              />
+            </CardContent>
           </CardShell>
         </Box>
       </Box>
