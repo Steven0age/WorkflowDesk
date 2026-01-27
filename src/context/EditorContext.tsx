@@ -46,6 +46,8 @@ type EditorContextType = {
   setPhasesDraft: React.Dispatch<React.SetStateAction<TemplatePhase[]>>;
   addPhase: () => void;
   deletePhase: (id: TemplatePhase["id"]) => void;
+
+  addTask: () => void;
 };
 
 export const EditorContext = createContext<EditorContextType | undefined>(
@@ -198,6 +200,25 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     setPhasesDraft((prev) => prev.filter((i) => i.id !== id));
   };
 
+  const addTask = () => {
+    if (!selectedPhaseId) {
+      return alert("Bitte erst eine Phase auswählen");
+    }
+
+    const newTask = {
+      label: "Neues Todo",
+      id: crypto.randomUUID(),
+    };
+
+    setPhasesDraft((prev) =>
+      prev.map((phase) => {
+        return phase.id === selectedPhaseId
+          ? { ...phase, tasks: [...phase.tasks, newTask] }
+          : phase;
+      }),
+    );
+  };
+
   const value: EditorContextType = {
     workflowTitle,
     changeWorkflowTitle,
@@ -222,6 +243,7 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     setPhasesDraft,
     addPhase,
     deletePhase,
+    addTask,
   };
 
   return (

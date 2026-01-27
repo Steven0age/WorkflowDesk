@@ -114,5 +114,5 @@ export type TemplatePhase = {
   description?: string;
   proof_required?: boolean;
   approval_required?: boolean;
-  tasks?: TemplateTask[];
+  tasks: TemplateTask[];
 };

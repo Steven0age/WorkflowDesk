@@ -18,6 +18,7 @@ type PhaseProps = Pick<TicketPhaseDataTypes, "id" | "title"> & {
   activeItem?: string;
   onClick?: () => void;
   onDelete?: () => void;
+  onEdit?: () => void;
   tasks?: TaskProps[];
   selectedPhaseId?: TemplatePhase["id"] | undefined;
 };
@@ -25,6 +26,7 @@ type PhaseProps = Pick<TicketPhaseDataTypes, "id" | "title"> & {
 export default function Phase({
   onDelete,
   onClick,
+  onEdit,
   activeItem,
   title,
   tasks,
@@ -64,6 +66,12 @@ export default function Phase({
             <Typography sx={{ fontWeight: "bold" }}>{title}</Typography>
             <Box sx={{ display: "flex", gap: 1 }}>
               <IconButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (onEdit) {
+                    onEdit();
+                  }
+                }}
                 sx={{
                   p: 0,
                   m: 0,

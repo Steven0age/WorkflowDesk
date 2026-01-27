@@ -39,6 +39,7 @@ export default function PhasesEditor() {
     selectedQuestionId,
     setSelectedQuestionId,
     questionLabel,
+    addTask,
   } = useEditor();
 
   const [open, setOpen] = useState<boolean>(false);
@@ -153,9 +154,9 @@ export default function PhasesEditor() {
                       selectedPhaseId={selectedPhaseId}
                       onClick={() => {
                         ChangePhaseSelected(phase.id);
-                        togglePhaseDrawer(phase.id);
                       }}
                       onDelete={() => deletePhase(phase.id)}
+                      onEdit={() => togglePhaseDrawer(phase.id)}
                     />
                   );
                 })}
@@ -188,10 +189,7 @@ export default function PhasesEditor() {
               sx={{ display: "flex", flexDirection: "column", gap: 2 }}
             >
               <EditorAddButton variant="phase" onClick={addPhase} />
-              <EditorAddButton
-                variant="task"
-                onClick={() => alert("new Task added")}
-              />
+              <EditorAddButton variant="task" onClick={addTask} />
             </CardContent>
           </CardShell>
         </Box>
