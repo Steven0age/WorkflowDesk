@@ -35,6 +35,9 @@ type EditorContextType = {
   LoadQuestionToEdit: () => void;
 
   phasesDraft: TemplatePhase[];
+
+  selectedPhaseId: TemplatePhase["id"] | undefined;
+  ChangePhaseSelected: (input: string) => void;
 };
 
 export const EditorContext = createContext<EditorContextType | undefined>(
@@ -82,6 +85,10 @@ export function EditorProvider({ children }: { children: ReactNode }) {
       ],
     },
   ]);
+
+  const [selectedPhaseId, setSelectedPhaseId] = useState<
+    TemplatePhase["id"] | undefined
+  >();
 
   const [selectedQuestionId, setSelectedQuestionId] = useState<
     QuestionnaireQuestionTypes["id"] | undefined
@@ -138,6 +145,10 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     setFormDraft((prev) => prev.filter((i) => i.id !== id));
   };
 
+  const ChangePhaseSelected = (input: string) => {
+    setSelectedPhaseId(() => (input === selectedPhaseId ? undefined : input));
+  };
+
   const value: EditorContextType = {
     workflowTitle,
     changeWorkflowTitle,
@@ -157,6 +168,8 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     changeQuestionDescription,
     changeQuestionIsRequired,
     LoadQuestionToEdit,
+    selectedPhaseId,
+    ChangePhaseSelected,
   };
 
   return (

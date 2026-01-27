@@ -6,7 +6,13 @@ import EditorAddButton from "../../../components/WorkflowEditor/EditorAddButton"
 import Phase from "../../../components/WorkflowEditor/Phase";
 
 export default function PhasesEditor() {
-  const { workflowTitle, workflowDescription, phasesDraft } = useEditor();
+  const {
+    workflowTitle,
+    workflowDescription,
+    phasesDraft,
+    ChangePhaseSelected,
+    selectedPhaseId,
+  } = useEditor();
   return (
     <>
       <Box
@@ -46,8 +52,19 @@ export default function PhasesEditor() {
               overflowX: "auto",
             }}
           >
-            {phasesDraft.map((i) => {
-              return <Phase title={i.title} id={i.id} tasks={i.tasks} />;
+            {phasesDraft.map((phase) => {
+              return (
+                <Phase
+                  title={phase.title}
+                  key={phase.id}
+                  id={phase.id}
+                  tasks={phase.tasks}
+                  selectedPhaseId={selectedPhaseId}
+                  onClick={() => {
+                    ChangePhaseSelected(phase.id);
+                  }}
+                />
+              );
             })}
           </Box>
         </Box>

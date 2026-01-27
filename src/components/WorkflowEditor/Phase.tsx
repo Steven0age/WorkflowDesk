@@ -10,13 +10,14 @@ import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Task, { type TaskProps } from "./Task";
-import type { TicketPhaseDataTypes } from "../../types/types";
+import type { TemplatePhase, TicketPhaseDataTypes } from "../../types/types";
 
 type PhaseProps = Pick<TicketPhaseDataTypes, "id" | "title"> & {
   activeItem?: string;
   onClick?: () => void;
   onDelete?: () => void;
   tasks?: TaskProps[];
+  selectedPhaseId: TemplatePhase["id"] | undefined;
 };
 
 export default function Phase({
@@ -25,12 +26,26 @@ export default function Phase({
   activeItem,
   title,
   tasks,
+  id,
+  selectedPhaseId,
 }: PhaseProps) {
   return (
-    <CardShell elevation={1} onClick={onClick}>
+    <CardShell
+      sx={{
+        backgroundColor:
+          selectedPhaseId === id ? "primary.main" : "background.default",
+      }}
+      elevation={1}
+      onClick={onClick}
+    >
       <CardHeader
         title={
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
             <Typography sx={{ fontWeight: "bold" }}>{title}</Typography>
             <Box sx={{ display: "flex", gap: 1 }}>
               <IconButton

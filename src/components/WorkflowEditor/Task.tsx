@@ -44,13 +44,19 @@ export default function Task({
         cursor: "pointer",
       }}
     >
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
         <Box
           sx={{
             display: "flex",
             gap: 1,
             mr: 1,
             minWidth: 0,
+            alignItems: "center",
           }}
         >
           <CheckBoxIcon sx={{ color: "primary.main" }}></CheckBoxIcon>
@@ -59,6 +65,7 @@ export default function Task({
             sx={{
               overflow: "hidden",
               textOverflow: "ellipsis",
+              fontSize: "0.9rem",
             }}
           >
             {label}
