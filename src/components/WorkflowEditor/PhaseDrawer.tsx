@@ -14,12 +14,12 @@ import CardShell from "../CardShell";
 import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
 
-type EditorDrawerProps = {
+type PhaseDrawerProps = {
   handleClose: () => void;
   itemId: string | undefined;
 };
 
-export default function EditorDrawer({ handleClose }: EditorDrawerProps) {
+export default function PhaseDrawer({ handleClose }: PhaseDrawerProps) {
   const {
     formDraft,
     questionLabel,

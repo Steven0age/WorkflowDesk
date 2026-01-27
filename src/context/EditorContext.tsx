@@ -5,7 +5,12 @@ import React, {
   type ReactNode,
 } from "react";
 
-import type { QuestionnaireQuestionTypes, TemplatePhase } from "../types/types";
+import type {
+  QuestionnaireQuestionTypes,
+  TemplatePhase,
+  TicketPhaseDataTypes,
+} from "../types/types";
+import type { PhaseCardTypes } from "../components/TicketModal/PhaseCard";
 
 type EditorContextType = {
   workflowTitle: string;
@@ -39,6 +44,8 @@ type EditorContextType = {
   selectedPhaseId: TemplatePhase["id"] | undefined;
   ChangePhaseSelected: (input: string) => void;
   setPhasesDraft: React.Dispatch<React.SetStateAction<TemplatePhase[]>>;
+  addPhase: () => void;
+  deletePhase: (id: TemplatePhase["id"]) => void;
 };
 
 export const EditorContext = createContext<EditorContextType | undefined>(
@@ -164,7 +171,6 @@ export function EditorProvider({ children }: { children: ReactNode }) {
       field_type: field_type,
       description: "",
       is_required: false,
-      order_index: -1,
     };
 
     setFormDraft((prev) => [...prev, newItem]);
@@ -176,6 +182,20 @@ export function EditorProvider({ children }: { children: ReactNode }) {
 
   const ChangePhaseSelected = (input: string) => {
     setSelectedPhaseId(() => (input === selectedPhaseId ? undefined : input));
+  };
+
+  const addPhase = () => {
+    const newPhase = {
+      title: "Neue Phase",
+      id: crypto.randomUUID(),
+      tasks: [],
+    };
+
+    setPhasesDraft((prev) => [...prev, newPhase]);
+  };
+
+  const deletePhase = (id: TicketPhaseDataTypes["id"]) => {
+    setPhasesDraft((prev) => prev.filter((i) => i.id !== id));
   };
 
   const value: EditorContextType = {
@@ -200,6 +220,8 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     selectedPhaseId,
     ChangePhaseSelected,
     setPhasesDraft,
+    addPhase,
+    deletePhase,
   };
 
   return (

@@ -1,4 +1,4 @@
-import { Box, CardContent, CardHeader } from "@mui/material";
+import { Box, CardContent, CardHeader, Drawer } from "@mui/material";
 import CardShell from "../../../components/CardShell";
 import WorkflowHeader from "../../../components/WorkflowEditor/WorkflowHeader";
 import { useEditor } from "../../../context/EditorContext";
@@ -24,6 +24,7 @@ import {
 } from "@dnd-kit/sortable";
 import type { TemplatePhase } from "../../../types/types";
 import { useState } from "react";
+import QuestionDrawer from "../../../components/WorkflowEditor/QuestionDrawer";
 
 export default function PhasesEditor() {
   const {
@@ -33,7 +34,14 @@ export default function PhasesEditor() {
     ChangePhaseSelected,
     selectedPhaseId,
     setPhasesDraft,
+    addPhase,
+    deletePhase,
+    selectedQuestionId,
+    setSelectedQuestionId,
+    questionLabel,
   } = useEditor();
+
+  const [open, setOpen] = useState<boolean>(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -63,6 +71,26 @@ export default function PhasesEditor() {
 
       return arrayMove(phasesDraft, oldIndex, newIndex);
     });
+  }
+
+  function togglePhaseDrawer(id = "close") {
+    if (id == "close") {
+      setPhasesDraft((draft) =>
+        draft.map((q) =>
+          q.id === selectedQuestionId
+            ? {
+                ...q,
+                title: questionLabel,
+                // description: questionDescription,
+                // is_required: questionIsRequired,
+              }
+            : q,
+        ),
+      );
+    }
+
+    open === true ? setOpen(false) : setOpen(true);
+    setSelectedQuestionId(id);
   }
 
   return (
@@ -125,7 +153,9 @@ export default function PhasesEditor() {
                       selectedPhaseId={selectedPhaseId}
                       onClick={() => {
                         ChangePhaseSelected(phase.id);
+                        togglePhaseDrawer(phase.id);
                       }}
+                      onDelete={() => deletePhase(phase.id)}
                     />
                   );
                 })}
@@ -157,10 +187,7 @@ export default function PhasesEditor() {
             <CardContent
               sx={{ display: "flex", flexDirection: "column", gap: 2 }}
             >
-              <EditorAddButton
-                variant="phase"
-                onClick={() => alert("new Phase added")}
-              />
+              <EditorAddButton variant="phase" onClick={addPhase} />
               <EditorAddButton
                 variant="task"
                 onClick={() => alert("new Task added")}
@@ -168,6 +195,16 @@ export default function PhasesEditor() {
             </CardContent>
           </CardShell>
         </Box>
+        <Drawer
+          open={open}
+          anchor={"right"}
+          onClose={() => togglePhaseDrawer()}
+        >
+          <QuestionDrawer
+            itemId={selectedQuestionId}
+            handleClose={() => togglePhaseDrawer()}
+          />
+        </Drawer>
       </Box>
     </>
   );

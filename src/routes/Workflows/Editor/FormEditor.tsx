@@ -22,7 +22,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useEffect, useState } from "react";
-import EditorDrawer from "../../../components/WorkflowEditor/EditorDrawer";
+import QuestionDrawer from "../../../components/WorkflowEditor/QuestionDrawer";
 import type { QuestionnaireQuestionTypes } from "../../../types/types";
 
 export default function FormEditor() {
@@ -77,7 +77,7 @@ export default function FormEditor() {
     });
   }
 
-  function toggleDrawer(id = "close") {
+  function toggleQuestionDrawer(id = "close") {
     if (id == "close") {
       setFormDraft((draft) =>
         draft.map((q) =>
@@ -154,7 +154,7 @@ export default function FormEditor() {
                       id={i.id}
                       label={i.label}
                       field_type={i.field_type}
-                      onClick={() => toggleDrawer(i.id)}
+                      onClick={() => toggleQuestionDrawer(i.id)}
                       onDelete={() => deleteFormItem(i.id)}
                     />
                   );
@@ -203,11 +203,11 @@ export default function FormEditor() {
         <Drawer
           open={open}
           anchor={"right"}
-          onClose={() => toggleDrawer("close")}
+          onClose={() => toggleQuestionDrawer()}
         >
-          <EditorDrawer
+          <QuestionDrawer
             itemId={selectedQuestionId}
-            handleClose={() => toggleDrawer("close")}
+            handleClose={() => toggleQuestionDrawer()}
           />
         </Drawer>
       </Box>
