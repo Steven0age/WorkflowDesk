@@ -11,12 +11,14 @@ export type TaskProps = Pick<TicketTaskDataTypes, "label" | "id"> & {
   activeItem?: string;
   onClick?: () => void;
   onDelete?: () => void;
+  onEdit?: () => void;
 };
 
 export default function Task({
   activeItem,
   id,
   onClick,
+  onEdit,
   onDelete,
   label,
 }: TaskProps) {
@@ -73,6 +75,12 @@ export default function Task({
         </Box>
         <Box sx={{ display: "flex", gap: 1 }}>
           <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onEdit) {
+                onEdit();
+              }
+            }}
             sx={{
               p: 0,
               m: 0,

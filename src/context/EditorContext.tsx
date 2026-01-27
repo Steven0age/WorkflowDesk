@@ -50,6 +50,9 @@ type EditorContextType = {
 
   addTask: () => void;
   deleteTask: (phaseId: string, taskId: string) => void;
+
+  selectedTaskId: any;
+  setSelectedTaskId: any;
 };
 
 export const EditorContext = createContext<EditorContextType | undefined>(
@@ -128,6 +131,10 @@ export function EditorProvider({ children }: { children: ReactNode }) {
 
   const [selectedPhaseId, setSelectedPhaseId] = useState<
     TemplatePhase["id"] | undefined
+  >();
+
+  const [selectedTaskId, setSelectedTaskId] = useState<
+    TicketTaskDataTypes["id"] | undefined
   >();
 
   const [selectedQuestionId, setSelectedQuestionId] = useState<
@@ -264,6 +271,8 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     deletePhase,
     addTask,
     deleteTask,
+    selectedTaskId,
+    setSelectedTaskId,
   };
 
   return (
