@@ -13,6 +13,7 @@ import Task, { type TaskProps } from "./Task";
 import type { TemplatePhase, TicketPhaseDataTypes } from "../../types/types";
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
+import { useEditor } from "../../context/EditorContext";
 
 type PhaseProps = Pick<TicketPhaseDataTypes, "id" | "title"> & {
   activeItem?: string;
@@ -33,6 +34,8 @@ export default function Phase({
   id,
   selectedPhaseId,
 }: PhaseProps) {
+  const { deleteTask } = useEditor();
+
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: id });
 
@@ -127,7 +130,14 @@ export default function Phase({
         }}
       >
         {tasks
-          ? tasks.map((i) => <Task key={i.id} id={i.id} label={i.label} />)
+          ? tasks.map((i) => (
+              <Task
+                key={i.id}
+                id={i.id}
+                label={i.label}
+                onDelete={() => deleteTask(id, i.id)}
+              />
+            ))
           : ""}
       </CardContent>
     </CardShell>

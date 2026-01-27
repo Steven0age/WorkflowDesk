@@ -9,6 +9,7 @@ import type {
   QuestionnaireQuestionTypes,
   TemplatePhase,
   TicketPhaseDataTypes,
+  TicketTaskDataTypes,
 } from "../types/types";
 import type { PhaseCardTypes } from "../components/TicketModal/PhaseCard";
 
@@ -48,6 +49,7 @@ type EditorContextType = {
   deletePhase: (id: TemplatePhase["id"]) => void;
 
   addTask: () => void;
+  deleteTask: (phaseId: string, taskId: string) => void;
 };
 
 export const EditorContext = createContext<EditorContextType | undefined>(
@@ -219,6 +221,23 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     );
   };
 
+  const deleteTask = (
+    phaseId: TicketPhaseDataTypes["id"],
+    taskId: TicketTaskDataTypes["id"],
+  ) => {
+    const phaseIndex = phasesDraft.findIndex((i) => i.id === phaseId);
+
+    const newTasks = phasesDraft[phaseIndex].tasks.filter(
+      (task) => task.id !== taskId,
+    );
+
+    setPhasesDraft((prev) =>
+      prev.map((phase) => {
+        return phase.id !== phaseId ? phase : { ...phase, tasks: newTasks };
+      }),
+    );
+  };
+
   const value: EditorContextType = {
     workflowTitle,
     changeWorkflowTitle,
@@ -244,6 +263,7 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     addPhase,
     deletePhase,
     addTask,
+    deleteTask,
   };
 
   return (
