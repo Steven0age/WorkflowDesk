@@ -1,9 +1,29 @@
-import { Box, CardContent, CardHeader, Typography } from "@mui/material";
+import { Box, CardContent, CardHeader } from "@mui/material";
 import CardShell from "../../../components/CardShell";
 import WorkflowHeader from "../../../components/WorkflowEditor/WorkflowHeader";
 import { useEditor } from "../../../context/EditorContext";
 import EditorAddButton from "../../../components/WorkflowEditor/EditorAddButton";
 import Phase from "../../../components/WorkflowEditor/Phase";
+import {
+  closestCenter,
+  closestCorners,
+  DndContext,
+  DragOverlay,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+  type DragStartEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import type { TemplatePhase } from "../../../types/types";
+import { useState } from "react";
 
 export default function PhasesEditor() {
   const {
@@ -12,7 +32,39 @@ export default function PhasesEditor() {
     phasesDraft,
     ChangePhaseSelected,
     selectedPhaseId,
+    setPhasesDraft,
   } = useEditor();
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
+  const [activeItem, setActiveItem] = useState<TemplatePhase | null>(null);
+
+  function handleDragStart(event: DragStartEvent) {
+    const findItem = phasesDraft.find((item) => item.id === event.active.id);
+    if (!findItem) return;
+    setActiveItem(findItem);
+  }
+
+  function handleDragEnd(event: DragEndEvent) {
+    setActiveItem(null);
+
+    const { active, over } = event;
+
+    if (!over) return;
+
+    setPhasesDraft((phasesDraft) => {
+      const oldIndex = phasesDraft.findIndex((item) => item.id === active.id);
+      const newIndex = phasesDraft.findIndex((item) => item.id === over.id);
+
+      return arrayMove(phasesDraft, oldIndex, newIndex);
+    });
+  }
+
   return (
     <>
       <Box
@@ -39,34 +91,58 @@ export default function PhasesEditor() {
             title={workflowTitle}
             description={workflowDescription}
           />
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 3,
-              height: "100%",
-              bgcolor: "background.default",
-              borderRadius: 3,
-              mt: 3,
-              p: 3,
-              overflowX: "auto",
-            }}
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCorners}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
           >
-            {phasesDraft.map((phase) => {
-              return (
+            <SortableContext
+              items={phasesDraft}
+              strategy={verticalListSortingStrategy}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 3,
+                  height: "100%",
+                  bgcolor: "background.default",
+                  borderRadius: 3,
+                  mt: 3,
+                  p: 3,
+                  overflowX: "auto",
+                }}
+              >
+                {phasesDraft.map((phase) => {
+                  return (
+                    <Phase
+                      activeItem={activeItem ? activeItem.id : undefined}
+                      title={phase.title}
+                      key={phase.id}
+                      id={phase.id}
+                      tasks={phase.tasks}
+                      selectedPhaseId={selectedPhaseId}
+                      onClick={() => {
+                        ChangePhaseSelected(phase.id);
+                      }}
+                    />
+                  );
+                })}
+              </Box>
+            </SortableContext>
+
+            <DragOverlay>
+              {activeItem ? (
                 <Phase
-                  title={phase.title}
-                  key={phase.id}
-                  id={phase.id}
-                  tasks={phase.tasks}
-                  selectedPhaseId={selectedPhaseId}
-                  onClick={() => {
-                    ChangePhaseSelected(phase.id);
-                  }}
+                  title={activeItem.title}
+                  key={activeItem.id}
+                  id={activeItem.id}
+                  tasks={activeItem.tasks}
                 />
-              );
-            })}
-          </Box>
+              ) : null}
+            </DragOverlay>
+          </DndContext>
         </Box>
         <Box
           component="aside"

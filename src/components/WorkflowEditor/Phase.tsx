@@ -11,13 +11,15 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Task, { type TaskProps } from "./Task";
 import type { TemplatePhase, TicketPhaseDataTypes } from "../../types/types";
+import { CSS } from "@dnd-kit/utilities";
+import { useSortable } from "@dnd-kit/sortable";
 
 type PhaseProps = Pick<TicketPhaseDataTypes, "id" | "title"> & {
   activeItem?: string;
   onClick?: () => void;
   onDelete?: () => void;
   tasks?: TaskProps[];
-  selectedPhaseId: TemplatePhase["id"] | undefined;
+  selectedPhaseId?: TemplatePhase["id"] | undefined;
 };
 
 export default function Phase({
@@ -29,11 +31,24 @@ export default function Phase({
   id,
   selectedPhaseId,
 }: PhaseProps) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   return (
     <CardShell
+      id={id}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
       sx={{
         backgroundColor:
           selectedPhaseId === id ? "primary.main" : "background.default",
+        flexShrink: 0,
       }}
       elevation={1}
       onClick={onClick}
@@ -89,6 +104,7 @@ export default function Phase({
               </IconButton>
 
               <DragIndicatorIcon
+                {...listeners}
                 sx={{ color: "text.secondary", cursor: "grab", ml: 2 }}
               />
             </Box>

@@ -38,6 +38,7 @@ type EditorContextType = {
 
   selectedPhaseId: TemplatePhase["id"] | undefined;
   ChangePhaseSelected: (input: string) => void;
+  setPhasesDraft: React.Dispatch<React.SetStateAction<TemplatePhase[]>>;
 };
 
 export const EditorContext = createContext<EditorContextType | undefined>(
@@ -81,6 +82,34 @@ export function EditorProvider({ children }: { children: ReactNode }) {
         {
           label: "Todo 2.2 ",
           id: "2.2",
+        },
+      ],
+    },
+    {
+      title: "3. Phase",
+      id: "3",
+      tasks: [
+        {
+          label: "Todo 3.1 ",
+          id: "3.1",
+        },
+        {
+          label: "Todo 3.2 ",
+          id: "3.2",
+        },
+      ],
+    },
+    {
+      title: "4. Phase",
+      id: "4",
+      tasks: [
+        {
+          label: "Todo 4.1 ",
+          id: "4.1",
+        },
+        {
+          label: "Todo 4.2 ",
+          id: "4.2",
         },
       ],
     },
@@ -170,6 +199,7 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     LoadQuestionToEdit,
     selectedPhaseId,
     ChangePhaseSelected,
+    setPhasesDraft,
   };
 
   return (
