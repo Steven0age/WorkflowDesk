@@ -157,7 +157,7 @@ export default function PhasesEditor() {
                       key={phase.id}
                       id={phase.id}
                       tasks={phase.tasks}
-                      selectedPhaseId={selectedPhaseId}
+                      phaseSelectedidentifier={selectedPhaseId}
                       onClick={() => {
                         ChangePhaseSelected(phase.id);
                       }}

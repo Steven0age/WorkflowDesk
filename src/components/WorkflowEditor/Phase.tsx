@@ -21,6 +21,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { useEditor } from "../../context/EditorContext";
 import TaskDrawer from "./TaskDrawer";
 import { useEffect, useState } from "react";
+import { getPhaseIdAndIndexByTaskId } from "./utils";
 
 type PhaseProps = Pick<TicketPhaseDataTypes, "id" | "title"> & {
   activeItem?: string;
@@ -28,7 +29,7 @@ type PhaseProps = Pick<TicketPhaseDataTypes, "id" | "title"> & {
   onDelete?: () => void;
   onEdit?: () => void;
   tasks?: TaskProps[];
-  selectedPhaseId?: TemplatePhase["id"] | undefined;
+  phaseSelectedidentifier?: TemplatePhase["id"] | undefined;
 };
 
 export default function Phase({
@@ -39,7 +40,7 @@ export default function Phase({
   title,
   tasks,
   id,
-  selectedPhaseId,
+  phaseSelectedidentifier,
 }: PhaseProps) {
   const {
     deleteTask,
@@ -48,8 +49,7 @@ export default function Phase({
     questionLabel,
     phasesDraft,
     setSelectedQuestionId,
-    selectedPhaseId: currentId,
-    ChangePhaseSelected,
+    selectedPhaseId,
     resetDrawerStates,
     LoadTaskToEdit,
   } = useEditor();
@@ -69,11 +69,23 @@ export default function Phase({
   };
 
   function toggleTaskDrawer(
-    phaseId: TicketPhaseDataTypes["id"],
-    taskId: TicketTaskDataTypes["id"],
+    PhaseId?: TicketPhaseDataTypes["id"],
+    taskId?: TicketTaskDataTypes["id"],
   ) {
+    console.log("given phaseID = ", PhaseId);
+    console.log("given taskId = ", taskId);
+    console.log("phasesDraft =", phasesDraft);
+    const { phaseId, phaseIndex } = getPhaseIdAndIndexByTaskId();
+    console.log("phasesDraft =", phaseId);
+    console.log("phaseIndex =", phaseIndex);
+
+    //console.log("toggleTaskDrawer gefeuert");
     if (!phaseId) {
-      const phaseIndex = phasesDraft.findIndex((i) => i.id === currentId);
+      console.log("toggleTaskDrawer - im 1. if");
+
+      const phaseIndex = phasesDraft.findIndex((i) => i.id === "1");
+
+      console.log("phaseIndex (1. IF) =", phaseIndex);
       if (phaseIndex === -1) {
         return;
       }
@@ -96,10 +108,10 @@ export default function Phase({
       );
       resetDrawerStates();
     }
+    //console.log("toggleTaskDrawer - 1. if übersprungen");
 
     open === true ? setOpen(false) : setOpen(true);
     setSelectedQuestionId(taskId);
-    ChangePhaseSelected(phaseId);
   }
 
   return (
@@ -110,7 +122,9 @@ export default function Phase({
       {...attributes}
       sx={{
         backgroundColor:
-          selectedPhaseId === id ? "primary.main" : "background.default",
+          phaseSelectedidentifier === id
+            ? "primary.main"
+            : "background.default",
         flexShrink: 0,
       }}
       elevation={1}
