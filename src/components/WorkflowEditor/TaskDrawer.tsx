@@ -21,7 +21,7 @@ type TaskDrawerProps = {
 
 export default function TaskDrawer({ handleClose }: TaskDrawerProps) {
   const {
-    formDraft,
+    phasesDraft,
     questionLabel,
     questionDescription,
     questionIsRequired,
@@ -30,7 +30,7 @@ export default function TaskDrawer({ handleClose }: TaskDrawerProps) {
     changeQuestionIsRequired,
   } = useEditor();
 
-  if (!formDraft) {
+  if (!phasesDraft) {
     return;
   }
 

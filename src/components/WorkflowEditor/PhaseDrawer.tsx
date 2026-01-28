@@ -21,7 +21,7 @@ type PhaseDrawerProps = {
 
 export default function PhaseDrawer({ handleClose }: PhaseDrawerProps) {
   const {
-    formDraft,
+    phasesDraft,
     questionLabel,
     questionDescription,
     questionIsRequired,
@@ -30,7 +30,7 @@ export default function PhaseDrawer({ handleClose }: PhaseDrawerProps) {
     changeQuestionIsRequired,
   } = useEditor();
 
-  if (!formDraft) {
+  if (!phasesDraft) {
     return;
   }
 

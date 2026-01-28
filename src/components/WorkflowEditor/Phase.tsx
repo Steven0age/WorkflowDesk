@@ -11,12 +11,16 @@ import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Task, { type TaskProps } from "./Task";
-import type { TemplatePhase, TicketPhaseDataTypes } from "../../types/types";
+import type {
+  TemplatePhase,
+  TicketPhaseDataTypes,
+  TicketTaskDataTypes,
+} from "../../types/types";
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
 import { useEditor } from "../../context/EditorContext";
 import TaskDrawer from "./TaskDrawer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type PhaseProps = Pick<TicketPhaseDataTypes, "id" | "title"> & {
   activeItem?: string;
@@ -45,10 +49,14 @@ export default function Phase({
     phasesDraft,
     setSelectedQuestionId,
     selectedPhaseId: currentId,
-    selectedTaskId,
-    setSelectedTaskId,
     ChangePhaseSelected,
+    resetDrawerStates,
+    LoadTaskToEdit,
   } = useEditor();
+
+  useEffect(() => {
+    LoadTaskToEdit();
+  }, [selectedQuestionId, phasesDraft]);
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -60,10 +68,12 @@ export default function Phase({
     transition,
   };
 
-  function toggleTaskDrawer(phaseId = "close", taskId) {
-    if (phaseId == "close") {
+  function toggleTaskDrawer(
+    phaseId: TicketPhaseDataTypes["id"],
+    taskId: TicketTaskDataTypes["id"],
+  ) {
+    if (!phaseId) {
       const phaseIndex = phasesDraft.findIndex((i) => i.id === currentId);
-
       if (phaseIndex === -1) {
         return;
       }
@@ -84,11 +94,12 @@ export default function Phase({
           return phase.id !== phaseId ? phase : { ...phase, tasks: newTasks };
         }),
       );
+      resetDrawerStates();
     }
 
     open === true ? setOpen(false) : setOpen(true);
-    ChangePhaseSelected(phaseId);
     setSelectedQuestionId(taskId);
+    ChangePhaseSelected(phaseId);
   }
 
   return (

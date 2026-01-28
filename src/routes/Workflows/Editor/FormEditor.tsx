@@ -43,6 +43,7 @@ export default function FormEditor() {
     questionDescription,
     questionIsRequired,
     LoadQuestionToEdit,
+    resetDrawerStates,
   } = useEditor();
 
   useEffect(() => {
@@ -91,6 +92,7 @@ export default function FormEditor() {
             : q,
         ),
       );
+      resetDrawerStates();
     }
 
     open === true ? setOpen(false) : setOpen(true);

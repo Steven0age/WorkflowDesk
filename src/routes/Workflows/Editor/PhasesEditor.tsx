@@ -5,7 +5,6 @@ import { useEditor } from "../../../context/EditorContext";
 import EditorAddButton from "../../../components/WorkflowEditor/EditorAddButton";
 import Phase from "../../../components/WorkflowEditor/Phase";
 import {
-  closestCenter,
   closestCorners,
   DndContext,
   DragOverlay,
@@ -23,7 +22,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import type { TemplatePhase } from "../../../types/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import QuestionDrawer from "../../../components/WorkflowEditor/QuestionDrawer";
 
 export default function PhasesEditor() {
@@ -40,7 +39,13 @@ export default function PhasesEditor() {
     setSelectedQuestionId,
     questionLabel,
     addTask,
+    LoadPhaseToEdit,
+    resetDrawerStates,
   } = useEditor();
+
+  useEffect(() => {
+    LoadPhaseToEdit();
+  }, [selectedQuestionId, phasesDraft]);
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -88,6 +93,7 @@ export default function PhasesEditor() {
             : q,
         ),
       );
+      resetDrawerStates();
     }
 
     open === true ? setOpen(false) : setOpen(true);

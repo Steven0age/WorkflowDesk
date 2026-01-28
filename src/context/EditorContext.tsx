@@ -51,8 +51,12 @@ type EditorContextType = {
   addTask: () => void;
   deleteTask: (phaseId: string, taskId: string) => void;
 
-  selectedTaskId: any;
-  setSelectedTaskId: any;
+  //Set proper Types!!
+  //selectedTaskId: any;
+  //setSelectedTaskId: any;
+  LoadPhaseToEdit: any;
+  resetDrawerStates: any;
+  LoadTaskToEdit: any;
 };
 
 export const EditorContext = createContext<EditorContextType | undefined>(
@@ -133,9 +137,10 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     TemplatePhase["id"] | undefined
   >();
 
-  const [selectedTaskId, setSelectedTaskId] = useState<
-    TicketTaskDataTypes["id"] | undefined
-  >();
+  // Wird scheinbar nicht gebraucht
+  //const [selectedTaskId, setSelectedTaskId] = useState<
+  //   TicketTaskDataTypes["id"] | undefined
+  // >();
 
   const [selectedQuestionId, setSelectedQuestionId] = useState<
     QuestionnaireQuestionTypes["id"] | undefined
@@ -159,8 +164,14 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     setQuestionIsRequired(input);
   };
 
+  const resetDrawerStates = () => {
+    setQuestionLabel("");
+    setQuestionDescription("");
+    setQuestionIsRequired(false);
+  };
+
   const LoadQuestionToEdit = () => {
-    if (!selectedQuestionId || !formDraft) {
+    if (!selectedQuestionId) {
       return;
     }
     const index = formDraft.findIndex((i) => i.id === selectedQuestionId);
@@ -171,6 +182,45 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     changeQuestionLabel(label);
     changeQuestionDescription(description);
     changeQuestionIsRequired(is_required);
+  };
+
+  const LoadPhaseToEdit = () => {
+    if (!selectedQuestionId) {
+      return;
+    }
+    const index = phasesDraft.findIndex((i) => i.id === selectedQuestionId);
+    if (index === -1) return;
+
+    // const { title, description, is_required } = phasesDraft[index];
+    const { title } = phasesDraft[index];
+
+    changeQuestionLabel(title);
+    //   changeQuestionDescription(description);
+    //   changeQuestionIsRequired(is_required);
+  };
+
+  const LoadTaskToEdit = () => {
+    if (!selectedQuestionId) {
+      return;
+    }
+    const currentPhase = phasesDraft.find((phase) =>
+      phase.tasks.some((task) => task.id === selectedQuestionId),
+    );
+    if (!currentPhase) return;
+
+    const phaseIndex = phasesDraft.findIndex((i) => i.id === currentPhase.id);
+    if (phaseIndex === -1) return;
+
+    const taskIndex = currentPhase.tasks.findIndex(
+      (i) => i.id === selectedQuestionId,
+    );
+    if (taskIndex === -1) return;
+
+    const { label } = phasesDraft[phaseIndex].tasks[taskIndex];
+
+    changeQuestionLabel(label);
+    //   changeQuestionDescription(description);
+    //   changeQuestionIsRequired(is_required);
   };
 
   const addFormItem = (
@@ -271,8 +321,11 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     deletePhase,
     addTask,
     deleteTask,
-    selectedTaskId,
-    setSelectedTaskId,
+    //selectedTaskId,
+    //setSelectedTaskId,
+    LoadPhaseToEdit,
+    resetDrawerStates,
+    LoadTaskToEdit,
   };
 
   return (
