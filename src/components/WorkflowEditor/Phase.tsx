@@ -13,6 +13,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Task, { type TaskProps } from "./Task";
 import type {
   TemplatePhase,
+  TemplateTask,
   TicketPhaseDataTypes,
   TicketTaskDataTypes,
 } from "../../types/types";
@@ -21,7 +22,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { useEditor } from "../../context/EditorContext";
 import TaskDrawer from "./TaskDrawer";
 import { useEffect, useState } from "react";
-import { getPhaseIdAndIndexByTaskId } from "./utils";
+import { getPhaseIdByTaskId, getPhaseIndexByTaskId } from "./utils";
 
 type PhaseProps = Pick<TicketPhaseDataTypes, "id" | "title"> & {
   activeItem?: string;
@@ -68,25 +69,12 @@ export default function Phase({
     transition,
   };
 
-  function toggleTaskDrawer(
-    PhaseId?: TicketPhaseDataTypes["id"],
-    taskId?: TicketTaskDataTypes["id"],
-  ) {
-    console.log("given phaseID = ", PhaseId);
-    console.log("given taskId = ", taskId);
-    console.log("phasesDraft =", phasesDraft);
-    const { phaseId, phaseIndex } = getPhaseIdAndIndexByTaskId();
-    console.log("phasesDraft =", phaseId);
-    console.log("phaseIndex =", phaseIndex);
+  function toggleTaskDrawer(taskId?: TemplateTask["id"]) {
+    if (!taskId && selectedQuestionId) {
+      const phaseIndex = getPhaseIndexByTaskId(phasesDraft, selectedQuestionId);
+      const phaseId = getPhaseIdByTaskId(phasesDraft, selectedQuestionId);
 
-    //console.log("toggleTaskDrawer gefeuert");
-    if (!phaseId) {
-      console.log("toggleTaskDrawer - im 1. if");
-
-      const phaseIndex = phasesDraft.findIndex((i) => i.id === "1");
-
-      console.log("phaseIndex (1. IF) =", phaseIndex);
-      if (phaseIndex === -1) {
+      if (phaseIndex === undefined || phaseIndex === -1) {
         return;
       }
 
@@ -108,7 +96,6 @@ export default function Phase({
       );
       resetDrawerStates();
     }
-    //console.log("toggleTaskDrawer - 1. if übersprungen");
 
     open === true ? setOpen(false) : setOpen(true);
     setSelectedQuestionId(taskId);
@@ -207,8 +194,8 @@ export default function Phase({
                 key={i.id}
                 id={i.id}
                 label={i.label}
-                onEdit={() => toggleTaskDrawer(id, i.id)}
-                onDelete={() => deleteTask(id, i.id)}
+                onEdit={() => toggleTaskDrawer(i.id)}
+                onDelete={() => deleteTask(i.id)}
               />
             ))
           : ""}
