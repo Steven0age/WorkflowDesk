@@ -1,13 +1,29 @@
-export function findPhaseIndexByTaskId(phases, taskId) {
+import type { TemplatePhase, TemplateTask } from "../../types/types";
+
+export function getPhaseIdByTaskId(
+  phases: TemplatePhase[],
+  taskId: TemplateTask["id"],
+): TemplatePhase["id"] | undefined {
   const currentPhase = phases.find((phase) =>
     phase.tasks.some((task) => task.id === taskId),
   );
 
-  return currentPhase;
+  if (!currentPhase) return;
+
+  const phaseId = currentPhase.id;
+  return phaseId;
 }
 
-export function getPhaseIdAndIndexByTaskId() {
-  const phaseId = 11;
-  const phaseIndex = 111;
-  return { phaseId, phaseIndex };
+export function getPhaseIndexByTaskId(
+  phases: TemplatePhase[],
+  taskId: TemplateTask["id"],
+): number | undefined {
+  const currentPhase = phases.find((phase) =>
+    phase.tasks.some((task) => task.id === taskId),
+  );
+
+  if (!currentPhase) return;
+
+  const phaseIndex = phases.findIndex((phase) => phase.id === currentPhase.id);
+  return phaseIndex;
 }
