@@ -11,7 +11,6 @@ import type {
   TicketPhaseDataTypes,
   TicketTaskDataTypes,
 } from "../types/types";
-import type { PhaseCardTypes } from "../components/TicketModal/PhaseCard";
 import {
   getPhaseIdByTaskId,
   getPhaseIndexByTaskId,
@@ -32,11 +31,11 @@ type EditorContextType = {
   addFormItem: (input: QuestionnaireQuestionTypes["field_type"]) => void;
   deleteFormItem: (id: QuestionnaireQuestionTypes["id"]) => void;
 
-  selectedQuestionId: string | undefined;
+  activeDrawerItemId: string | undefined;
   questionLabel: string;
   questionDescription: string;
   questionIsRequired: boolean;
-  setSelectedQuestionId: React.Dispatch<
+  setActiveDrawerItemId: React.Dispatch<
     React.SetStateAction<QuestionnaireQuestionTypes["id"] | undefined>
   >;
   changeQuestionLabel: (input: string) => void;
@@ -138,8 +137,8 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     TemplatePhase["id"] | undefined
   >();
 
-  const [selectedQuestionId, setSelectedQuestionId] = useState<
-    QuestionnaireQuestionTypes["id"] | undefined
+  const [activeDrawerItemId, setActiveDrawerItemId] = useState<
+    string | undefined
   >();
 
   const changeWorkflowTitle = (input: string) => {
@@ -167,10 +166,10 @@ export function EditorProvider({ children }: { children: ReactNode }) {
   };
 
   const LoadQuestionToEdit = () => {
-    if (!selectedQuestionId) {
+    if (!activeDrawerItemId) {
       return;
     }
-    const index = formDraft.findIndex((i) => i.id === selectedQuestionId);
+    const index = formDraft.findIndex((i) => i.id === activeDrawerItemId);
     if (index === -1) return;
 
     const { label, description, is_required } = formDraft[index];
@@ -181,10 +180,10 @@ export function EditorProvider({ children }: { children: ReactNode }) {
   };
 
   const LoadPhaseToEdit = () => {
-    if (!selectedQuestionId) {
+    if (!activeDrawerItemId) {
       return;
     }
-    const index = phasesDraft.findIndex((i) => i.id === selectedQuestionId);
+    const index = phasesDraft.findIndex((i) => i.id === activeDrawerItemId);
     if (index === -1) return;
 
     // const { title, description, is_required } = phasesDraft[index];
@@ -196,11 +195,11 @@ export function EditorProvider({ children }: { children: ReactNode }) {
   };
 
   const LoadTaskToEdit = () => {
-    if (!selectedQuestionId) {
+    if (!activeDrawerItemId) {
       return;
     }
     const currentPhase = phasesDraft.find((phase) =>
-      phase.tasks.some((task) => task.id === selectedQuestionId),
+      phase.tasks.some((task) => task.id === activeDrawerItemId),
     );
     if (!currentPhase) return;
 
@@ -208,7 +207,7 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     if (phaseIndex === -1) return;
 
     const taskIndex = currentPhase.tasks.findIndex(
-      (i) => i.id === selectedQuestionId,
+      (i) => i.id === activeDrawerItemId,
     );
     if (taskIndex === -1) return;
 
@@ -301,11 +300,11 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     addFormItem,
     setFormDraft,
     deleteFormItem,
-    selectedQuestionId,
+    activeDrawerItemId,
     questionLabel,
     questionDescription,
     questionIsRequired,
-    setSelectedQuestionId,
+    setActiveDrawerItemId,
     changeQuestionLabel,
     changeQuestionDescription,
     changeQuestionIsRequired,

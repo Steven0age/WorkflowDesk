@@ -40,8 +40,8 @@ export default function PhasesEditor() {
     setPhasesDraft,
     addPhase,
     deletePhase,
-    selectedQuestionId,
-    setSelectedQuestionId,
+    activeDrawerItemId,
+    setActiveDrawerItemId,
     questionLabel,
     addTask,
     LoadPhaseToEdit,
@@ -50,7 +50,7 @@ export default function PhasesEditor() {
 
   useEffect(() => {
     LoadPhaseToEdit();
-  }, [selectedQuestionId, phasesDraft]);
+  }, [activeDrawerItemId, phasesDraft]);
 
   const [open, setOpen] = useState<boolean>(false);
   const [drawerType, setDrawerType] = useState<"phase" | "task" | undefined>();
@@ -89,7 +89,7 @@ export default function PhasesEditor() {
     if (id == "close") {
       setPhasesDraft((draft) =>
         draft.map((q) =>
-          q.id === selectedQuestionId
+          q.id === activeDrawerItemId
             ? {
                 ...q,
                 title: questionLabel,
@@ -105,20 +105,20 @@ export default function PhasesEditor() {
     open === true ? setOpen(false) : setOpen(true);
     drawerType ? setDrawerType(undefined) : setDrawerType("phase");
 
-    setSelectedQuestionId(id);
+    setActiveDrawerItemId(id);
   }
 
   function toggleTaskDrawer(taskId?: TemplateTask["id"]) {
-    if (!taskId && selectedQuestionId) {
-      const phaseIndex = getPhaseIndexByTaskId(phasesDraft, selectedQuestionId);
-      const phaseId = getPhaseIdByTaskId(phasesDraft, selectedQuestionId);
+    if (!taskId && activeDrawerItemId) {
+      const phaseIndex = getPhaseIndexByTaskId(phasesDraft, activeDrawerItemId);
+      const phaseId = getPhaseIdByTaskId(phasesDraft, activeDrawerItemId);
 
       if (phaseIndex === undefined || phaseIndex === -1) {
         return;
       }
 
       const newTasks = phasesDraft[phaseIndex].tasks.map((q) =>
-        q.id === selectedQuestionId
+        q.id === activeDrawerItemId
           ? {
               ...q,
               label: questionLabel,
@@ -139,7 +139,7 @@ export default function PhasesEditor() {
     open === true ? setOpen(false) : setOpen(true);
     drawerType ? setDrawerType(undefined) : setDrawerType("task");
 
-    setSelectedQuestionId(taskId);
+    setActiveDrawerItemId(taskId);
   }
 
   return (
@@ -253,7 +253,7 @@ export default function PhasesEditor() {
         >
           {drawerType === "phase" && (
             <PhaseDrawer
-              itemId={selectedQuestionId}
+              itemId={activeDrawerItemId}
               handleClose={() => {
                 togglePhaseDrawer();
               }}
@@ -261,7 +261,7 @@ export default function PhasesEditor() {
           )}
           {drawerType === "task" && (
             <TaskDrawer
-              itemId={selectedQuestionId}
+              itemId={activeDrawerItemId}
               handleClose={() => {
                 toggleTaskDrawer();
               }}

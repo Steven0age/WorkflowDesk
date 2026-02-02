@@ -41,12 +41,12 @@ export default function Phase({
   phaseSelectedidentifier,
   handleTaskEdit,
 }: PhaseProps) {
-  const { deleteTask, selectedQuestionId, phasesDraft, LoadTaskToEdit } =
+  const { deleteTask, activeDrawerItemId, phasesDraft, LoadTaskToEdit } =
     useEditor();
 
   useEffect(() => {
     LoadTaskToEdit();
-  }, [selectedQuestionId, phasesDraft]);
+  }, [activeDrawerItemId, phasesDraft]);
 
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: id });

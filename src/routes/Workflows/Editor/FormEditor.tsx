@@ -37,8 +37,8 @@ export default function FormEditor() {
     setFormDraft,
     addFormItem,
     deleteFormItem,
-    selectedQuestionId,
-    setSelectedQuestionId,
+    activeDrawerItemId,
+    setActiveDrawerItemId,
     questionLabel,
     questionDescription,
     questionIsRequired,
@@ -48,7 +48,7 @@ export default function FormEditor() {
 
   useEffect(() => {
     LoadQuestionToEdit();
-  }, [selectedQuestionId, formDraft]);
+  }, [activeDrawerItemId, formDraft]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -82,7 +82,7 @@ export default function FormEditor() {
     if (id == "close") {
       setFormDraft((draft) =>
         draft.map((q) =>
-          q.id === selectedQuestionId
+          q.id === activeDrawerItemId
             ? {
                 ...q,
                 label: questionLabel,
@@ -96,7 +96,7 @@ export default function FormEditor() {
     }
 
     open === true ? setOpen(false) : setOpen(true);
-    setSelectedQuestionId(id);
+    setActiveDrawerItemId(id);
   }
 
   return (
@@ -208,7 +208,7 @@ export default function FormEditor() {
           onClose={() => toggleQuestionDrawer()}
         >
           <QuestionDrawer
-            itemId={selectedQuestionId}
+            itemId={activeDrawerItemId}
             handleClose={() => toggleQuestionDrawer()}
           />
         </Drawer>
