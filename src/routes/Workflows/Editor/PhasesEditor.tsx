@@ -65,25 +65,75 @@ export default function PhasesEditor() {
   const [activeItem, setActiveItem] = useState<TemplatePhase | null>(null);
 
   function handleDragStart(event: DragStartEvent) {
-    const findItem = phasesDraft.find((item) => item.id === event.active.id);
+    const findPhaseIndex = getPhaseIndexByTaskId(phasesDraft, event.active.id);
+    if (findPhaseIndex === undefined || findPhaseIndex === -1) return;
+
+    const findItem = phasesDraft[findPhaseIndex].tasks.find(
+      (item) => item.id === event.active.id,
+    );
     if (!findItem) return;
     setActiveItem(findItem);
   }
+  // function handleDragStart(event: DragStartEvent) {
+  //   const findItem = phasesDraft.find((item) => item.id === event.active.id);
+  //   if (!findItem) return;
+  //   setActiveItem(findItem);
+  // }
 
   function handleDragEnd(event: DragEndEvent) {
     setActiveItem(null);
+    console.log("handleDragEnd fired");
+    console.log("phasesDraft =", phasesDraft);
 
     const { active, over } = event;
 
+    console.log("over =", over);
     if (!over) return;
 
-    setPhasesDraft((phasesDraft) => {
-      const oldIndex = phasesDraft.findIndex((item) => item.id === active.id);
-      const newIndex = phasesDraft.findIndex((item) => item.id === over.id);
+    const findPhaseId = getPhaseIdByTaskId(phasesDraft, event.active.id);
+    const findPhaseIndex = getPhaseIndexByTaskId(phasesDraft, event.active.id);
+    console.log("findPhaseId =", findPhaseId);
+    console.log("findPhaseIndex =", findPhaseIndex);
 
-      return arrayMove(phasesDraft, oldIndex, newIndex);
+    if (findPhaseIndex === undefined || findPhaseIndex === -1) return;
+
+    setPhasesDraft((phasesDraft) => {
+      return phasesDraft.map((phase) =>
+        phase.id !== findPhaseId
+          ? phase
+          : (() => {
+              const oldIndex = phasesDraft[findPhaseIndex].tasks.findIndex(
+                (item) => item.id === active.id,
+              );
+              const newIndex = phasesDraft[findPhaseIndex].tasks.findIndex(
+                (item) => item.id === over.id,
+              );
+
+              const newTasks = arrayMove(
+                phasesDraft[findPhaseIndex].tasks,
+                oldIndex,
+                newIndex,
+              );
+
+              return { ...phase, tasks: newTasks };
+            })(),
+      );
     });
   }
+  // function handleDragEnd(event: DragEndEvent) {
+  //   setActiveItem(null);
+
+  //   const { active, over } = event;
+
+  //   if (!over) return;
+
+  //   setPhasesDraft((phasesDraft) => {
+  //     const oldIndex = phasesDraft.findIndex((item) => item.id === active.id);
+  //     const newIndex = phasesDraft.findIndex((item) => item.id === over.id);
+
+  //     return arrayMove(phasesDraft, oldIndex, newIndex);
+  //   });
+  // }
 
   function togglePhaseDrawer(id = "close") {
     if (id == "close") {
@@ -214,7 +264,7 @@ export default function PhasesEditor() {
               </Box>
             </SortableContext>
 
-            <DragOverlay>
+            {/* <DragOverlay>
               {activeItem ? (
                 <Phase
                   title={activeItem.title}
@@ -223,7 +273,7 @@ export default function PhasesEditor() {
                   tasks={activeItem.tasks}
                 />
               ) : null}
-            </DragOverlay>
+            </DragOverlay> */}
           </DndContext>
         </Box>
         <Box
