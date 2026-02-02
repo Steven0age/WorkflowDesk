@@ -58,7 +58,8 @@ export default function TaskDrawer({ handleClose }: TaskDrawerProps) {
       >
         <Box sx={{ display: "flex", gap: 1 }}>
           <EditIcon sx={{ color: "primary.main" }}></EditIcon>
-          <Typography sx={{ fontWeight: "bold" }}>Feld bearbeiten</Typography>
+          <Typography sx={{ fontWeight: "bold" }}>TASK DRAWER</Typography>
+          {/* <Typography sx={{ fontWeight: "bold" }}>Feld bearbeiten</Typography> */}
         </Box>
 
         <Box>

@@ -4,7 +4,6 @@ import {
   Typography,
   Box,
   IconButton,
-  Drawer,
 } from "@mui/material";
 import CardShell from "../CardShell";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
@@ -15,14 +14,11 @@ import type {
   TemplatePhase,
   TemplateTask,
   TicketPhaseDataTypes,
-  TicketTaskDataTypes,
 } from "../../types/types";
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
 import { useEditor } from "../../context/EditorContext";
-import TaskDrawer from "./TaskDrawer";
-import { useEffect, useState } from "react";
-import { getPhaseIdByTaskId, getPhaseIndexByTaskId } from "./utils";
+import { useEffect } from "react";
 
 type PhaseProps = Pick<TicketPhaseDataTypes, "id" | "title"> & {
   activeItem?: string;
@@ -31,6 +27,7 @@ type PhaseProps = Pick<TicketPhaseDataTypes, "id" | "title"> & {
   onEdit?: () => void;
   tasks?: TaskProps[];
   phaseSelectedidentifier?: TemplatePhase["id"] | undefined;
+  handleTaskEdit?: (taskId: TemplateTask["id"]) => void;
 };
 
 export default function Phase({
@@ -42,24 +39,14 @@ export default function Phase({
   tasks,
   id,
   phaseSelectedidentifier,
+  handleTaskEdit,
 }: PhaseProps) {
-  const {
-    deleteTask,
-    setPhasesDraft,
-    selectedQuestionId,
-    questionLabel,
-    phasesDraft,
-    setSelectedQuestionId,
-    selectedPhaseId,
-    resetDrawerStates,
-    LoadTaskToEdit,
-  } = useEditor();
+  const { deleteTask, selectedQuestionId, phasesDraft, LoadTaskToEdit } =
+    useEditor();
 
   useEffect(() => {
     LoadTaskToEdit();
   }, [selectedQuestionId, phasesDraft]);
-
-  const [open, setOpen] = useState<boolean>(false);
 
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: id });
@@ -68,38 +55,6 @@ export default function Phase({
     transform: CSS.Transform.toString(transform),
     transition,
   };
-
-  function toggleTaskDrawer(taskId?: TemplateTask["id"]) {
-    if (!taskId && selectedQuestionId) {
-      const phaseIndex = getPhaseIndexByTaskId(phasesDraft, selectedQuestionId);
-      const phaseId = getPhaseIdByTaskId(phasesDraft, selectedQuestionId);
-
-      if (phaseIndex === undefined || phaseIndex === -1) {
-        return;
-      }
-
-      const newTasks = phasesDraft[phaseIndex].tasks.map((q) =>
-        q.id === selectedQuestionId
-          ? {
-              ...q,
-              label: questionLabel,
-              // description: questionDescription,
-              // is_required: questionIsRequired,
-            }
-          : q,
-      );
-
-      setPhasesDraft((draft) =>
-        draft.map((phase) => {
-          return phase.id !== phaseId ? phase : { ...phase, tasks: newTasks };
-        }),
-      );
-      resetDrawerStates();
-    }
-
-    open === true ? setOpen(false) : setOpen(true);
-    setSelectedQuestionId(taskId);
-  }
 
   return (
     <CardShell
@@ -194,18 +149,12 @@ export default function Phase({
                 key={i.id}
                 id={i.id}
                 label={i.label}
-                onEdit={() => toggleTaskDrawer(i.id)}
+                onEdit={() => handleTaskEdit?.(i.id)}
                 onDelete={() => deleteTask(i.id)}
               />
             ))
           : ""}
       </CardContent>
-      <Drawer open={open} anchor={"right"} onClose={() => toggleTaskDrawer()}>
-        <TaskDrawer
-          itemId={selectedQuestionId}
-          handleClose={() => toggleTaskDrawer()}
-        />
-      </Drawer>
     </CardShell>
   );
 }

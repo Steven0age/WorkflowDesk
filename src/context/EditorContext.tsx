@@ -246,6 +246,11 @@ export function EditorProvider({ children }: { children: ReactNode }) {
   };
 
   const ChangePhaseSelected = (input: string) => {
+    console.log("ChangePhaseSelected clicked");
+    //console.log("input =", input);
+    // console.log("event.target =", event.target);
+    // console.log("event.currentTarget =", event.currentTarget);
+
     setSelectedPhaseId(() => (input === selectedPhaseId ? undefined : input));
   };
 

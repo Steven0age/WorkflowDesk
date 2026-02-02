@@ -58,7 +58,8 @@ export default function PhaseDrawer({ handleClose }: PhaseDrawerProps) {
       >
         <Box sx={{ display: "flex", gap: 1 }}>
           <EditIcon sx={{ color: "primary.main" }}></EditIcon>
-          <Typography sx={{ fontWeight: "bold" }}>Feld bearbeiten</Typography>
+          <Typography sx={{ fontWeight: "bold" }}>PHASE DRAWER</Typography>
+          {/* <Typography sx={{ fontWeight: "bold" }}>Feld bearbeiten</Typography> */}
         </Box>
 
         <Box>

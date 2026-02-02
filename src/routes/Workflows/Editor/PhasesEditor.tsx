@@ -21,9 +21,14 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import type { TemplatePhase } from "../../../types/types";
+import type { TemplatePhase, TemplateTask } from "../../../types/types";
 import { useEffect, useState } from "react";
-import QuestionDrawer from "../../../components/WorkflowEditor/QuestionDrawer";
+import TaskDrawer from "../../../components/WorkflowEditor/TaskDrawer";
+import PhaseDrawer from "../../../components/WorkflowEditor/PhaseDrawer";
+import {
+  getPhaseIdByTaskId,
+  getPhaseIndexByTaskId,
+} from "../../../components/WorkflowEditor/utils";
 
 export default function PhasesEditor() {
   const {
@@ -48,6 +53,7 @@ export default function PhasesEditor() {
   }, [selectedQuestionId, phasesDraft]);
 
   const [open, setOpen] = useState<boolean>(false);
+  const [drawerType, setDrawerType] = useState<"phase" | "task" | undefined>();
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -97,7 +103,43 @@ export default function PhasesEditor() {
     }
 
     open === true ? setOpen(false) : setOpen(true);
+    drawerType ? setDrawerType(undefined) : setDrawerType("phase");
+
     setSelectedQuestionId(id);
+  }
+
+  function toggleTaskDrawer(taskId?: TemplateTask["id"]) {
+    if (!taskId && selectedQuestionId) {
+      const phaseIndex = getPhaseIndexByTaskId(phasesDraft, selectedQuestionId);
+      const phaseId = getPhaseIdByTaskId(phasesDraft, selectedQuestionId);
+
+      if (phaseIndex === undefined || phaseIndex === -1) {
+        return;
+      }
+
+      const newTasks = phasesDraft[phaseIndex].tasks.map((q) =>
+        q.id === selectedQuestionId
+          ? {
+              ...q,
+              label: questionLabel,
+              // description: questionDescription,
+              // is_required: questionIsRequired,
+            }
+          : q,
+      );
+
+      setPhasesDraft((draft) =>
+        draft.map((phase) => {
+          return phase.id !== phaseId ? phase : { ...phase, tasks: newTasks };
+        }),
+      );
+      resetDrawerStates();
+    }
+
+    open === true ? setOpen(false) : setOpen(true);
+    drawerType ? setDrawerType(undefined) : setDrawerType("task");
+
+    setSelectedQuestionId(taskId);
   }
 
   return (
@@ -158,6 +200,9 @@ export default function PhasesEditor() {
                       id={phase.id}
                       tasks={phase.tasks}
                       phaseSelectedidentifier={selectedPhaseId}
+                      handleTaskEdit={(taskId) => {
+                        toggleTaskDrawer(taskId);
+                      }}
                       onClick={() => {
                         ChangePhaseSelected(phase.id);
                       }}
@@ -202,12 +247,26 @@ export default function PhasesEditor() {
         <Drawer
           open={open}
           anchor={"right"}
-          onClose={() => togglePhaseDrawer()}
+          onClose={() => {
+            drawerType === "task" ? toggleTaskDrawer() : togglePhaseDrawer();
+          }}
         >
-          <QuestionDrawer
-            itemId={selectedQuestionId}
-            handleClose={() => togglePhaseDrawer()}
-          />
+          {drawerType === "phase" && (
+            <PhaseDrawer
+              itemId={selectedQuestionId}
+              handleClose={() => {
+                togglePhaseDrawer();
+              }}
+            />
+          )}
+          {drawerType === "task" && (
+            <TaskDrawer
+              itemId={selectedQuestionId}
+              handleClose={() => {
+                toggleTaskDrawer();
+              }}
+            />
+          )}
         </Drawer>
       </Box>
     </>
