@@ -55,12 +55,9 @@ type EditorContextType = {
   addTask: () => void;
   deleteTask: (taskId: string) => void;
 
-  //Set proper Types!!
-  //selectedTaskId: any;
-  //setSelectedTaskId: any;
-  LoadPhaseToEdit: any;
-  resetDrawerStates: any;
-  LoadTaskToEdit: any;
+  LoadPhaseToEdit: () => void;
+  resetDrawerStates: () => void;
+  LoadTaskToEdit: () => void;
 };
 
 export const EditorContext = createContext<EditorContextType | undefined>(
@@ -140,11 +137,6 @@ export function EditorProvider({ children }: { children: ReactNode }) {
   const [selectedPhaseId, setSelectedPhaseId] = useState<
     TemplatePhase["id"] | undefined
   >();
-
-  // Wird scheinbar nicht gebraucht
-  //const [selectedTaskId, setSelectedTaskId] = useState<
-  //   TicketTaskDataTypes["id"] | undefined
-  // >();
 
   const [selectedQuestionId, setSelectedQuestionId] = useState<
     QuestionnaireQuestionTypes["id"] | undefined
@@ -246,11 +238,6 @@ export function EditorProvider({ children }: { children: ReactNode }) {
   };
 
   const ChangePhaseSelected = (input: string) => {
-    console.log("ChangePhaseSelected clicked");
-    //console.log("input =", input);
-    // console.log("event.target =", event.target);
-    // console.log("event.currentTarget =", event.currentTarget);
-
     setSelectedPhaseId(() => (input === selectedPhaseId ? undefined : input));
   };
 
