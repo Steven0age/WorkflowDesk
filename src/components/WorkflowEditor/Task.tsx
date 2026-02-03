@@ -23,12 +23,18 @@ export default function Task({
   label,
 }: TaskProps) {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: id });
+    useSortable({
+      id: id,
+      data: {
+        type: "Task",
+      },
+    });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
   return (
     <Box
       id={id}

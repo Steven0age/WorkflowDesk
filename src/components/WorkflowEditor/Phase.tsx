@@ -16,9 +16,13 @@ import type {
   TicketPhaseDataTypes,
 } from "../../types/types";
 import { CSS } from "@dnd-kit/utilities";
-import { useSortable } from "@dnd-kit/sortable";
+import {
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { useEditor } from "../../context/EditorContext";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 type PhaseProps = Pick<TicketPhaseDataTypes, "id" | "title"> & {
   activeItem?: string;
@@ -44,12 +48,21 @@ export default function Phase({
   const { deleteTask, activeDrawerItemId, phasesDraft, LoadTaskToEdit } =
     useEditor();
 
+  const taskIds = useMemo(() => {
+    return phasesDraft.map((phase) => phase.tasks.map((t) => t.id)).flat();
+  }, [phasesDraft]);
+
   useEffect(() => {
     LoadTaskToEdit();
   }, [activeDrawerItemId, phasesDraft]);
 
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: id });
+    useSortable({
+      id: id,
+      data: {
+        type: "Phase",
+      },
+    });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -143,17 +156,19 @@ export default function Phase({
           gap: 1,
         }}
       >
-        {tasks
-          ? tasks.map((i) => (
-              <Task
-                key={i.id}
-                id={i.id}
-                label={i.label}
-                onEdit={() => handleTaskEdit?.(i.id)}
-                onDelete={() => deleteTask(i.id)}
-              />
-            ))
-          : ""}
+        <SortableContext items={taskIds} strategy={verticalListSortingStrategy}>
+          {tasks
+            ? tasks.map((i) => (
+                <Task
+                  key={i.id}
+                  id={i.id}
+                  label={i.label}
+                  onEdit={() => handleTaskEdit?.(i.id)}
+                  onDelete={() => deleteTask(i.id)}
+                />
+              ))
+            : ""}
+        </SortableContext>
       </CardContent>
     </CardShell>
   );
