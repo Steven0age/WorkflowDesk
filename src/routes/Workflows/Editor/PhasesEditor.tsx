@@ -13,6 +13,7 @@ import {
   useSensor,
   useSensors,
   type DragEndEvent,
+  type DragOverEvent,
   type DragStartEvent,
 } from "@dnd-kit/core";
 import {
@@ -22,13 +23,14 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import type { TemplatePhase, TemplateTask } from "../../../types/types";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import TaskDrawer from "../../../components/WorkflowEditor/TaskDrawer";
 import PhaseDrawer from "../../../components/WorkflowEditor/PhaseDrawer";
 import {
   getPhaseIdByTaskId,
   getPhaseIndexByTaskId,
 } from "../../../components/WorkflowEditor/utils";
+import Task from "../../../components/WorkflowEditor/Task";
 
 export default function PhasesEditor() {
   const {
@@ -62,96 +64,50 @@ export default function PhasesEditor() {
     }),
   );
 
-  const [activeItem, setActiveItem] = useState<TemplatePhase | null>(null);
+  const phaseIds = useMemo(() => {
+    return phasesDraft.map((phase) => phase.id);
+  }, [phasesDraft]);
 
-  // First try //
-  //  function handleDragStart(event: DragStartEvent) {
-  //   const findPhaseIndex = getPhaseIndexByTaskId(phasesDraft, event.active.id);
-  //   if (findPhaseIndex === undefined || findPhaseIndex === -1) return;
-
-  //   const findItem = phasesDraft[findPhaseIndex].tasks.find(
-  //     (item) => item.id === event.active.id,
-  //   );
-  //   if (!findItem) return;
-  //   setActiveItem(findItem);
-  // }
+  const [activePhase, setActivePhase] = useState<TemplatePhase | null>(null);
+  const [activeTask, setActiveTask] = useState<TemplateTask | null>(null);
 
   function handleDragStart(event: DragStartEvent) {
     if (event.active.data.current?.type === "Phase") {
       const findItem = phasesDraft.find(
         (phase) => phase.id === event.active.id,
       );
-      if (!findItem) return;
 
-      setActiveItem(findItem);
+      if (findItem === undefined) return;
+
+      setActivePhase(findItem);
       return;
     }
 
     if (event.active.data.current?.type === "Task") {
       const currentPhase = getPhaseIndexByTaskId(phasesDraft, event.active.id);
-      if (!currentPhase) return;
-      console.log("currentPhase =", currentPhase);
+      if (currentPhase === undefined || currentPhase === -1) return;
+
       const findItem = phasesDraft[currentPhase].tasks.find(
         (task) => task.id === event.active.id,
       );
-      if (!findItem) return;
 
-      setActiveItem(findItem);
+      if (findItem === undefined) return;
+
+      setActiveTask(findItem);
       return;
     }
   }
 
-  // function handleDragStart(event: DragStartEvent) {
+  //   Backup handleDragStart
+  //   function handleDragStart(event: DragStartEvent) {
   //   const findItem = phasesDraft.find((item) => item.id === event.active.id);
   //   if (!findItem) return;
-  //   setActiveItem(findItem);
+  //   setActivePhase(findItem);
   // }
 
-  // //First try //
-  // function handleDragEnd(event: DragEndEvent) {
-  //   setActiveItem(null);
-  //   console.log("handleDragEnd fired");
-  //   console.log("phasesDraft =", phasesDraft);
-
-  //   const { active, over } = event;
-
-  //   console.log("over =", over);
-  //   if (!over) return;
-
-  //   const findPhaseId = getPhaseIdByTaskId(phasesDraft, event.active.id);
-  //   const findPhaseIndex = getPhaseIndexByTaskId(phasesDraft, event.active.id);
-  //   console.log("findPhaseId =", findPhaseId);
-  //   console.log("findPhaseIndex =", findPhaseIndex);
-
-  //   if (findPhaseIndex === undefined || findPhaseIndex === -1) return;
-
-  //   setPhasesDraft((phasesDraft) => {
-  //     return phasesDraft.map((phase) =>
-  //       phase.id !== findPhaseId
-  //         ? phase
-  //         : (() => {
-  //             const oldIndex = phasesDraft[findPhaseIndex].tasks.findIndex(
-  //               (item) => item.id === active.id,
-  //             );
-  //             const newIndex = phasesDraft[findPhaseIndex].tasks.findIndex(
-  //               (item) => item.id === over.id,
-  //             );
-
-  //             const newTasks = arrayMove(
-  //               phasesDraft[findPhaseIndex].tasks,
-  //               oldIndex,
-  //               newIndex,
-  //             );
-
-  //             return { ...phase, tasks: newTasks };
-  //           })(),
-  //     );
-  //   });
-  // }
-
-  //Second try
   function handleDragEnd(event: DragEndEvent) {
-    setActiveItem(null);
+    setActivePhase(null);
+    setActiveTask(null);
 
     const { active, over } = event;
 
@@ -165,20 +121,63 @@ export default function PhasesEditor() {
     });
   }
 
-  // function handleDragEnd(event: DragEndEvent) {
-  //   setActiveItem(null);
+  function handleDragOver(event: DragOverEvent) {
+    const { active, over } = event;
+    if (!over) return;
 
-  //   const { active, over } = event;
+    const activeId = String(active.id);
+    const overId = String(over.id);
+    if (activeId === overId) return;
 
-  //   if (!over) return;
+    // const isActiveATask = active.data.current?.type === "Task";
+    // const isOverATask = over.data.current?.type === "Task";
+    // const isOverAPhase = over.data.current?.type === "Phase";
+    // if (!isActiveATask) return;
 
-  //   setPhasesDraft((phasesDraft) => {
-  //     const oldIndex = phasesDraft.findIndex((item) => item.id === active.id);
-  //     const newIndex = phasesDraft.findIndex((item) => item.id === over.id);
+    setPhasesDraft((phasesDraft) => {
+      const currentPhaseId = getPhaseIdByTaskId(phasesDraft, activeId);
+      const newPhaseId = getPhaseIdByTaskId(phasesDraft, overId);
 
-  //     return arrayMove(phasesDraft, oldIndex, newIndex);
-  //   });
-  // }
+      const currentPhaseIndex = phasesDraft.findIndex(
+        (p) => p.id === currentPhaseId,
+      );
+      const newPhaseIndex = phasesDraft.findIndex((p) => p.id === newPhaseId);
+
+      const currentTasks = phasesDraft[currentPhaseIndex].tasks;
+      const newTasks = phasesDraft[newPhaseIndex].tasks;
+
+      const fromIndex = currentTasks.findIndex((t) => t.id === activeId);
+      const toIndex = newTasks.findIndex((t) => t.id === overId);
+
+      // Task over Task (same Phase)
+      if (currentPhaseId === newPhaseId) {
+        if (fromIndex === toIndex) return phasesDraft;
+
+        const newTasks = arrayMove(currentTasks, fromIndex, toIndex);
+
+        return phasesDraft.map((p) =>
+          p.id !== currentPhaseId ? p : { ...p, tasks: newTasks },
+        );
+      }
+
+      // Task over Task (different Phase)
+      const movingTask = currentTasks[fromIndex];
+
+      const newSourceTasks = currentTasks.filter((t) => t.id !== activeId);
+
+      const newTargetTasks = [
+        ...newTasks.slice(0, toIndex),
+        movingTask,
+        ...newTasks.slice(toIndex),
+      ];
+
+      return phasesDraft.map((p) => {
+        if (p.id === currentPhaseId) return { ...p, tasks: newSourceTasks };
+        if (p.id === newPhaseId) return { ...p, tasks: newTargetTasks };
+        return p;
+      });
+    });
+  }
 
   function togglePhaseDrawer(id = "close") {
     if (id == "close") {
@@ -268,9 +267,10 @@ export default function PhasesEditor() {
             collisionDetection={closestCorners}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
+            onDragOver={handleDragOver}
           >
             <SortableContext
-              items={phasesDraft}
+              items={phaseIds}
               strategy={verticalListSortingStrategy}
             >
               <Box
@@ -289,7 +289,7 @@ export default function PhasesEditor() {
                 {phasesDraft.map((phase) => {
                   return (
                     <Phase
-                      activeItem={activeItem ? activeItem.id : undefined}
+                      activeItem={activePhase ? activePhase.id : undefined}
                       title={phase.title}
                       key={phase.id}
                       id={phase.id}
@@ -310,12 +310,20 @@ export default function PhasesEditor() {
             </SortableContext>
 
             <DragOverlay>
-              {activeItem ? (
+              {activePhase ? (
                 <Phase
-                  title={activeItem.title}
-                  key={activeItem.id}
-                  id={activeItem.id}
-                  tasks={activeItem.tasks}
+                  title={activePhase.title}
+                  key={activePhase.id}
+                  id={activePhase.id}
+                  tasks={activePhase.tasks}
+                />
+              ) : null}
+
+              {activeTask ? (
+                <Task
+                  label={activeTask.label}
+                  key={activeTask.id}
+                  id={activeTask.id}
                 />
               ) : null}
             </DragOverlay>
