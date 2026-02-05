@@ -54,6 +54,10 @@ export default function PhasesEditor() {
     LoadPhaseToEdit();
   }, [activeDrawerItemId, phasesDraft]);
 
+  useEffect(() => {
+    console.log("phasesDraf ist nun: ", phasesDraft);
+  }, [phasesDraft]);
+
   const [open, setOpen] = useState<boolean>(false);
   const [drawerType, setDrawerType] = useState<"phase" | "task" | undefined>();
 
@@ -123,16 +127,17 @@ export default function PhasesEditor() {
 
   function handleDragOver(event: DragOverEvent) {
     const { active, over } = event;
+    console.log("over =", over);
     if (!over) return;
 
     const activeId = String(active.id);
     const overId = String(over.id);
     if (activeId === overId) return;
 
-    // const isActiveATask = active.data.current?.type === "Task";
-    // const isOverATask = over.data.current?.type === "Task";
-    // const isOverAPhase = over.data.current?.type === "Phase";
-    // if (!isActiveATask) return;
+    const isActiveATask = active.data.current?.type === "Task";
+    const isOverATask = over.data.current?.type === "Task";
+    const isOverAPhase = over.data.current?.type === "Phase";
+    if (!isActiveATask) return;
 
     setPhasesDraft((phasesDraft) => {
       const currentPhaseId = getPhaseIdByTaskId(phasesDraft, activeId);
@@ -141,41 +146,57 @@ export default function PhasesEditor() {
       const currentPhaseIndex = phasesDraft.findIndex(
         (p) => p.id === currentPhaseId,
       );
-      const newPhaseIndex = phasesDraft.findIndex((p) => p.id === newPhaseId);
 
       const currentTasks = phasesDraft[currentPhaseIndex].tasks;
-      const newTasks = phasesDraft[newPhaseIndex].tasks;
 
       const fromIndex = currentTasks.findIndex((t) => t.id === activeId);
-      const toIndex = newTasks.findIndex((t) => t.id === overId);
 
       // Task over Task (same Phase)
-      if (currentPhaseId === newPhaseId) {
-        if (fromIndex === toIndex) return phasesDraft;
+      if (isOverATask) {
+        const newPhaseIndex = phasesDraft.findIndex((p) => p.id === newPhaseId);
+        const newTasks = phasesDraft[newPhaseIndex].tasks;
+        const toIndex = newTasks.findIndex((t) => t.id === overId);
 
-        const newTasks = arrayMove(currentTasks, fromIndex, toIndex);
+        if (currentPhaseId === newPhaseId) {
+          if (fromIndex === toIndex) return phasesDraft;
 
-        return phasesDraft.map((p) =>
-          p.id !== currentPhaseId ? p : { ...p, tasks: newTasks },
-        );
+          const newTasks = arrayMove(currentTasks, fromIndex, toIndex);
+
+          return phasesDraft.map((p) =>
+            p.id !== currentPhaseId ? p : { ...p, tasks: newTasks },
+          );
+        }
+
+        // Task over Task (different Phase)
+
+        const movingTask = currentTasks[fromIndex];
+
+        const newSourceTasks = currentTasks.filter((t) => t.id !== activeId);
+
+        const newTargetTasks = [
+          ...newTasks.slice(0, toIndex),
+          movingTask,
+          ...newTasks.slice(toIndex),
+        ];
+
+        return phasesDraft.map((p) => {
+          if (p.id === currentPhaseId) return { ...p, tasks: newSourceTasks };
+          if (p.id === newPhaseId) return { ...p, tasks: newTargetTasks };
+          return p;
+        });
       }
 
-      // Task over Task (different Phase)
-      const movingTask = currentTasks[fromIndex];
+      // Task over Phase (empty Phase)
+      if (isOverAPhase) {
+        const movingTask = currentTasks[fromIndex];
+        const newSourceTasks = currentTasks.filter((t) => t.id !== activeId);
 
-      const newSourceTasks = currentTasks.filter((t) => t.id !== activeId);
-
-      const newTargetTasks = [
-        ...newTasks.slice(0, toIndex),
-        movingTask,
-        ...newTasks.slice(toIndex),
-      ];
-
-      return phasesDraft.map((p) => {
-        if (p.id === currentPhaseId) return { ...p, tasks: newSourceTasks };
-        if (p.id === newPhaseId) return { ...p, tasks: newTargetTasks };
-        return p;
-      });
+        return phasesDraft.map((p) => {
+          if (p.id === currentPhaseId) return { ...p, tasks: newSourceTasks };
+          if (p.id === over.id) return { ...p, tasks: [movingTask] };
+          return p;
+        });
+      }
     });
   }
 
