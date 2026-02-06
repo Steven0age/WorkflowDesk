@@ -54,10 +54,6 @@ export default function PhasesEditor() {
     LoadPhaseToEdit();
   }, [activeDrawerItemId, phasesDraft]);
 
-  useEffect(() => {
-    console.log("phasesDraf ist nun: ", phasesDraft);
-  }, [phasesDraft]);
-
   const [open, setOpen] = useState<boolean>(false);
   const [drawerType, setDrawerType] = useState<"phase" | "task" | undefined>();
 
@@ -88,7 +84,10 @@ export default function PhasesEditor() {
     }
 
     if (event.active.data.current?.type === "Task") {
-      const currentPhase = getPhaseIndexByTaskId(phasesDraft, event.active.id);
+      const currentPhase = getPhaseIndexByTaskId(
+        phasesDraft,
+        String(event.active.id),
+      );
       if (currentPhase === undefined || currentPhase === -1) return;
 
       const findItem = phasesDraft[currentPhase].tasks.find(
@@ -141,42 +140,49 @@ export default function PhasesEditor() {
 
     setPhasesDraft((phasesDraft) => {
       const currentPhaseId = getPhaseIdByTaskId(phasesDraft, activeId);
-      const newPhaseId = getPhaseIdByTaskId(phasesDraft, overId);
+      if (!currentPhaseId) return phasesDraft;
 
       const currentPhaseIndex = phasesDraft.findIndex(
         (p) => p.id === currentPhaseId,
       );
+      if (currentPhaseIndex === -1) return phasesDraft;
 
       const currentTasks = phasesDraft[currentPhaseIndex].tasks;
+      const currentTaskIndex = currentTasks.findIndex((t) => t.id === activeId);
+      if (currentTaskIndex === -1) return phasesDraft;
 
-      const fromIndex = currentTasks.findIndex((t) => t.id === activeId);
+      const movingTask = currentTasks[currentTaskIndex];
+      if (!movingTask) return phasesDraft;
 
-      // Task over Task (same Phase)
+      // Task over Task (different Phase)
       if (isOverATask) {
+        const newPhaseId = getPhaseIdByTaskId(phasesDraft, overId);
+        if (!newPhaseId) return phasesDraft;
+
         const newPhaseIndex = phasesDraft.findIndex((p) => p.id === newPhaseId);
+        if (newPhaseIndex === -1) return phasesDraft;
+
         const newTasks = phasesDraft[newPhaseIndex].tasks;
-        const toIndex = newTasks.findIndex((t) => t.id === overId);
+        const newTaskIndex = newTasks.findIndex((t) => t.id === overId);
+        if (newTaskIndex === -1) return phasesDraft;
 
         if (currentPhaseId === newPhaseId) {
-          if (fromIndex === toIndex) return phasesDraft;
-
-          const newTasks = arrayMove(currentTasks, fromIndex, toIndex);
-
+          if (currentTaskIndex === newTaskIndex) return phasesDraft;
+          const reorderedTasks = arrayMove(
+            currentTasks,
+            currentTaskIndex,
+            newTaskIndex,
+          );
           return phasesDraft.map((p) =>
-            p.id !== currentPhaseId ? p : { ...p, tasks: newTasks },
+            p.id === currentPhaseId ? { ...p, tasks: reorderedTasks } : p,
           );
         }
 
-        // Task over Task (different Phase)
-
-        const movingTask = currentTasks[fromIndex];
-
         const newSourceTasks = currentTasks.filter((t) => t.id !== activeId);
-
         const newTargetTasks = [
-          ...newTasks.slice(0, toIndex),
+          ...newTasks.slice(0, newTaskIndex),
           movingTask,
-          ...newTasks.slice(toIndex),
+          ...newTasks.slice(newTaskIndex),
         ];
 
         return phasesDraft.map((p) => {
@@ -188,15 +194,21 @@ export default function PhasesEditor() {
 
       // Task over Phase (empty Phase)
       if (isOverAPhase) {
-        const movingTask = currentTasks[fromIndex];
+        const targetPhaseId = overId;
+
+        if (targetPhaseId === currentPhaseId) return phasesDraft;
+
         const newSourceTasks = currentTasks.filter((t) => t.id !== activeId);
 
         return phasesDraft.map((p) => {
           if (p.id === currentPhaseId) return { ...p, tasks: newSourceTasks };
-          if (p.id === over.id) return { ...p, tasks: [movingTask] };
+          if (p.id === targetPhaseId)
+            return { ...p, tasks: [...p.tasks, movingTask] };
           return p;
         });
       }
+
+      return phasesDraft;
     });
   }
 
