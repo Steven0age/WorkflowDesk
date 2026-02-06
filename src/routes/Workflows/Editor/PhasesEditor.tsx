@@ -52,7 +52,7 @@ export default function PhasesEditor() {
 
   useEffect(() => {
     LoadPhaseToEdit();
-  }, [activeDrawerItemId, phasesDraft]);
+  }, [activeDrawerItemId]);
 
   const [open, setOpen] = useState<boolean>(false);
   const [drawerType, setDrawerType] = useState<"phase" | "task" | undefined>();
@@ -115,10 +115,16 @@ export default function PhasesEditor() {
     const { active, over } = event;
 
     if (!over) return;
+    if (
+      active.data.current?.type !== "Phase" ||
+      over.data.current?.type !== "Phase"
+    )
+      return;
 
     setPhasesDraft((phasesDraft) => {
       const oldIndex = phasesDraft.findIndex((item) => item.id === active.id);
       const newIndex = phasesDraft.findIndex((item) => item.id === over.id);
+      if (oldIndex === -1 || newIndex === -1) return phasesDraft;
 
       return arrayMove(phasesDraft, oldIndex, newIndex);
     });
@@ -126,7 +132,6 @@ export default function PhasesEditor() {
 
   function handleDragOver(event: DragOverEvent) {
     const { active, over } = event;
-    console.log("over =", over);
     if (!over) return;
 
     const activeId = String(active.id);
