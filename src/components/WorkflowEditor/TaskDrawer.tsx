@@ -26,8 +26,8 @@ export default function TaskDrawer({ handleClose }: TaskDrawerProps) {
     questionDescription,
     questionIsRequired,
     changeQuestionLabel,
-    changeQuestionDescription,
-    changeQuestionIsRequired,
+    changeItemDescription: changeQuestionDescription,
+    changeItemIsRequired: changeQuestionIsRequired,
   } = useEditor();
 
   if (!phasesDraft) {

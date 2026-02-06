@@ -22,12 +22,12 @@ type PhaseDrawerProps = {
 export default function PhaseDrawer({ handleClose }: PhaseDrawerProps) {
   const {
     phasesDraft,
-    questionLabel,
-    questionDescription,
-    questionIsRequired,
-    changeQuestionLabel,
-    changeQuestionDescription,
-    changeQuestionIsRequired,
+    itemLabel,
+    itemDescription,
+    itemIsRequired,
+    changeItemLabel,
+    changeItemDescription,
+    changeItemIsRequired,
   } = useEditor();
 
   if (!phasesDraft) {
@@ -78,9 +78,9 @@ export default function PhaseDrawer({ handleClose }: PhaseDrawerProps) {
             fullWidth
             multiline
             placeholder={"Feldname eingeben"}
-            value={questionLabel}
+            value={itemLabel}
             onChange={(event) => {
-              changeQuestionLabel(event.target.value);
+              changeItemLabel(event.target.value);
             }}
           ></TextField>
           <Typography variant="h5">Beschreibung</Typography>
@@ -89,9 +89,9 @@ export default function PhaseDrawer({ handleClose }: PhaseDrawerProps) {
             fullWidth
             multiline
             placeholder={"Beschreibung eingeben"}
-            value={questionDescription}
+            value={itemDescription}
             onChange={(event) => {
-              changeQuestionDescription(event.target.value);
+              changeItemDescription(event.target.value);
             }}
           ></TextField>
         </CardContent>
@@ -104,9 +104,9 @@ export default function PhaseDrawer({ handleClose }: PhaseDrawerProps) {
               sx={{ display: "flex", gap: 1 }}
               control={
                 <Checkbox
-                  checked={questionIsRequired}
+                  checked={itemIsRequired}
                   onChange={(event) =>
-                    changeQuestionIsRequired(event.target.checked)
+                    changeItemIsRequired(event.target.checked)
                   }
                   sx={{ color: "primary.main" }}
                 />

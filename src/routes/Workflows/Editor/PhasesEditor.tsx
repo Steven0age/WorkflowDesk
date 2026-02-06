@@ -44,7 +44,7 @@ export default function PhasesEditor() {
     deletePhase,
     activeDrawerItemId,
     setActiveDrawerItemId,
-    questionLabel,
+    itemLabel,
     addTask,
     LoadPhaseToEdit,
     resetDrawerStates,
@@ -227,7 +227,7 @@ export default function PhasesEditor() {
           q.id === activeDrawerItemId
             ? {
                 ...q,
-                title: questionLabel,
+                title: itemLabel,
                 // description: questionDescription,
                 // is_required: questionIsRequired,
               }
@@ -256,7 +256,7 @@ export default function PhasesEditor() {
         q.id === activeDrawerItemId
           ? {
               ...q,
-              label: questionLabel,
+              label: itemLabel,
               // description: questionDescription,
               // is_required: questionIsRequired,
             }

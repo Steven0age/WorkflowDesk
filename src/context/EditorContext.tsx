@@ -32,15 +32,17 @@ type EditorContextType = {
   deleteFormItem: (id: QuestionnaireQuestionTypes["id"]) => void;
 
   activeDrawerItemId: string | undefined;
-  questionLabel: string;
-  questionDescription: string;
-  questionIsRequired: boolean;
+  itemLabel: string;
+  itemDescription: string;
+  itemIsRequired: boolean;
+  itemRequiresProof: boolean;
+  itemRequiresApproval: boolean;
   setActiveDrawerItemId: React.Dispatch<
     React.SetStateAction<QuestionnaireQuestionTypes["id"] | undefined>
   >;
-  changeQuestionLabel: (input: string) => void;
-  changeQuestionDescription: (input: string) => void;
-  changeQuestionIsRequired: (input: boolean) => void;
+  changeItemLabel: (input: string) => void;
+  changeItemDescription: (input: string) => void;
+  changeItemIsRequired: (input: boolean) => void;
   LoadQuestionToEdit: () => void;
 
   phasesDraft: TemplatePhase[];
@@ -69,9 +71,11 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     "Beschreibung eingeben",
   );
 
-  const [questionLabel, setQuestionLabel] = useState("");
-  const [questionDescription, setQuestionDescription] = useState("");
-  const [questionIsRequired, setQuestionIsRequired] = useState(false);
+  const [itemLabel, setItemLabel] = useState("");
+  const [itemDescription, setItemDescription] = useState("");
+  const [itemIsRequired, setItemIsRequired] = useState(false);
+  const [itemRequiresApproval, setItemRequiresApproval] = useState(false);
+  const [itemRequiresProof, setItemRequiresProof] = useState(false);
 
   const [formDraft, setFormDraft] = useState<QuestionnaireQuestionTypes[]>([]);
   const [phasesDraft, setPhasesDraft] = useState<TemplatePhase[]>([
@@ -149,20 +153,20 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     setWorkflowDescription(input);
   };
 
-  const changeQuestionLabel = (input: string) => {
-    setQuestionLabel(input);
+  const changeItemLabel = (input: string) => {
+    setItemLabel(input);
   };
-  const changeQuestionDescription = (input: string) => {
-    setQuestionDescription(input);
+  const changeItemDescription = (input: string) => {
+    setItemDescription(input);
   };
-  const changeQuestionIsRequired = (input: boolean) => {
-    setQuestionIsRequired(input);
+  const changeItemIsRequired = (input: boolean) => {
+    setItemIsRequired(input);
   };
 
   const resetDrawerStates = () => {
-    setQuestionLabel("");
-    setQuestionDescription("");
-    setQuestionIsRequired(false);
+    setItemLabel("");
+    setItemDescription("");
+    setItemIsRequired(false);
   };
 
   const LoadQuestionToEdit = () => {
@@ -174,9 +178,9 @@ export function EditorProvider({ children }: { children: ReactNode }) {
 
     const { label, description, is_required } = formDraft[index];
 
-    changeQuestionLabel(label);
-    changeQuestionDescription(description);
-    changeQuestionIsRequired(is_required);
+    changeItemLabel(label);
+    changeItemDescription(description);
+    changeItemIsRequired(is_required);
   };
 
   const LoadPhaseToEdit = () => {
@@ -189,9 +193,9 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     // const { title, description, is_required } = phasesDraft[index];
     const { title } = phasesDraft[index];
 
-    changeQuestionLabel(title);
-    //   changeQuestionDescription(description);
-    //   changeQuestionIsRequired(is_required);
+    changeItemLabel(title);
+    //   changeItemDescription(description);
+    //   changeItemIsRequired(is_required);
   };
 
   const LoadTaskToEdit = () => {
@@ -213,9 +217,9 @@ export function EditorProvider({ children }: { children: ReactNode }) {
 
     const { label } = phasesDraft[phaseIndex].tasks[taskIndex];
 
-    changeQuestionLabel(label);
-    //   changeQuestionDescription(description);
-    //   changeQuestionIsRequired(is_required);
+    changeItemLabel(label);
+    //   changeItemDescription(description);
+    //   changeItemIsRequired(is_required);
   };
 
   const addFormItem = (
@@ -301,13 +305,13 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     setFormDraft,
     deleteFormItem,
     activeDrawerItemId,
-    questionLabel,
-    questionDescription,
-    questionIsRequired,
+    itemLabel,
+    itemDescription,
+    itemIsRequired,
     setActiveDrawerItemId,
-    changeQuestionLabel,
-    changeQuestionDescription,
-    changeQuestionIsRequired,
+    changeItemLabel,
+    changeItemDescription,
+    changeItemIsRequired,
     LoadQuestionToEdit,
     selectedPhaseId,
     ChangePhaseSelected,
@@ -321,6 +325,8 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     LoadPhaseToEdit,
     resetDrawerStates,
     LoadTaskToEdit,
+    itemRequiresProof,
+    itemRequiresApproval,
   };
 
   return (
