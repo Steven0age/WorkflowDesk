@@ -171,6 +171,9 @@ export default function PhasesEditor() {
         const newTaskIndex = newTasks.findIndex((t) => t.id === overId);
         if (newTaskIndex === -1) return phasesDraft;
 
+        const isLast = newTaskIndex === newTasks.length - 1;
+        const insertIndex = isLast ? newTasks.length : newTaskIndex;
+
         if (currentPhaseId === newPhaseId) {
           if (currentTaskIndex === newTaskIndex) return phasesDraft;
           const reorderedTasks = arrayMove(
@@ -185,9 +188,9 @@ export default function PhasesEditor() {
 
         const newSourceTasks = currentTasks.filter((t) => t.id !== activeId);
         const newTargetTasks = [
-          ...newTasks.slice(0, newTaskIndex),
+          ...newTasks.slice(0, insertIndex),
           movingTask,
-          ...newTasks.slice(newTaskIndex),
+          ...newTasks.slice(insertIndex),
         ];
 
         return phasesDraft.map((p) => {
