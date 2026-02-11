@@ -24,10 +24,14 @@ export default function PhaseDrawer({ handleClose }: PhaseDrawerProps) {
     phasesDraft,
     itemLabel,
     itemDescription,
-    itemIsRequired,
+    itemProofRequired,
+    itemProofDescription,
+    itemApprovalRequired,
     changeItemLabel,
     changeItemDescription,
-    changeItemIsRequired,
+    changeItemProofRequired,
+    changeItemProofDescription,
+    changeItemApprovalRequired,
   } = useEditor();
 
   if (!phasesDraft) {
@@ -58,8 +62,7 @@ export default function PhaseDrawer({ handleClose }: PhaseDrawerProps) {
       >
         <Box sx={{ display: "flex", gap: 1 }}>
           <EditIcon sx={{ color: "primary.main" }}></EditIcon>
-          <Typography sx={{ fontWeight: "bold" }}>PHASE DRAWER</Typography>
-          {/* <Typography sx={{ fontWeight: "bold" }}>Feld bearbeiten</Typography> */}
+          <Typography sx={{ fontWeight: "bold" }}>Phase bearbeiten</Typography>
         </Box>
 
         <Box>
@@ -104,14 +107,39 @@ export default function PhaseDrawer({ handleClose }: PhaseDrawerProps) {
               sx={{ display: "flex", gap: 1 }}
               control={
                 <Checkbox
-                  checked={itemIsRequired}
+                  checked={itemProofRequired}
                   onChange={(event) =>
-                    changeItemIsRequired(event.target.checked)
+                    changeItemProofRequired(event.target.checked)
                   }
                   sx={{ color: "primary.main" }}
                 />
               }
-              label="Verpflichtend"
+              label="Datei-Upload zum Phasenabschluss erforderlich"
+            />
+            {itemProofRequired && (
+              <TextField
+                sx={{ mb: 2 }}
+                fullWidth
+                multiline
+                placeholder={"Was soll hochgeladen werden?"}
+                value={itemProofDescription}
+                onChange={(event) => {
+                  changeItemProofDescription(event.target.value);
+                }}
+              />
+            )}
+            <FormControlLabel
+              sx={{ display: "flex", gap: 1 }}
+              control={
+                <Checkbox
+                  checked={itemApprovalRequired}
+                  onChange={(event) =>
+                    changeItemApprovalRequired(event.target.checked)
+                  }
+                  sx={{ color: "primary.main" }}
+                />
+              }
+              label="Freigabe durch Workflow-Ersteller erforderlich"
             />
           </FormGroup>
         </CardContent>

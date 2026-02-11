@@ -45,6 +45,11 @@ export default function PhasesEditor() {
     activeDrawerItemId,
     setActiveDrawerItemId,
     itemLabel,
+    itemDescription,
+    itemIsRequired,
+    itemProofRequired,
+    itemProofDescription,
+    itemApprovalRequired,
     addTask,
     LoadPhaseToEdit,
     resetDrawerStates,
@@ -53,6 +58,10 @@ export default function PhasesEditor() {
   useEffect(() => {
     LoadPhaseToEdit();
   }, [activeDrawerItemId]);
+
+  useEffect(() => {
+    console.log("phasesDraft ist nun:", phasesDraft);
+  }, [phasesDraft]);
 
   const [open, setOpen] = useState<boolean>(false);
   const [drawerType, setDrawerType] = useState<"phase" | "task" | undefined>();
@@ -228,8 +237,11 @@ export default function PhasesEditor() {
             ? {
                 ...q,
                 title: itemLabel,
-                // description: questionDescription,
-                // is_required: questionIsRequired,
+                description: itemDescription,
+                is_required: itemIsRequired,
+                proof_required: itemProofRequired,
+                proof_description: itemProofDescription,
+                approval_required: itemApprovalRequired,
               }
             : q,
         ),
@@ -257,8 +269,8 @@ export default function PhasesEditor() {
           ? {
               ...q,
               label: itemLabel,
-              // description: questionDescription,
-              // is_required: questionIsRequired,
+              description: itemDescription,
+              is_required: itemIsRequired,
             }
           : q,
       );

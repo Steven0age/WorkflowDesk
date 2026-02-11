@@ -11,6 +11,7 @@ import type {
   TicketPhaseDataTypes,
   TicketTaskDataTypes,
 } from "../types/types";
+
 import {
   getPhaseIdByTaskId,
   getPhaseIndexByTaskId,
@@ -35,14 +36,18 @@ type EditorContextType = {
   itemLabel: string;
   itemDescription: string;
   itemIsRequired: boolean;
-  itemRequiresProof: boolean;
-  itemRequiresApproval: boolean;
+  itemProofRequired: boolean;
+  itemProofDescription: string;
+  itemApprovalRequired: boolean;
   setActiveDrawerItemId: React.Dispatch<
     React.SetStateAction<QuestionnaireQuestionTypes["id"] | undefined>
   >;
   changeItemLabel: (input: string) => void;
   changeItemDescription: (input: string) => void;
   changeItemIsRequired: (input: boolean) => void;
+  changeItemProofRequired: (input: boolean) => void;
+  changeItemProofDescription: (input: string) => void;
+  changeItemApprovalRequired: (input: boolean) => void;
   LoadQuestionToEdit: () => void;
 
   phasesDraft: TemplatePhase[];
@@ -74,64 +79,97 @@ export function EditorProvider({ children }: { children: ReactNode }) {
   const [itemLabel, setItemLabel] = useState("");
   const [itemDescription, setItemDescription] = useState("");
   const [itemIsRequired, setItemIsRequired] = useState(false);
-  const [itemRequiresApproval, setItemRequiresApproval] = useState(false);
-  const [itemRequiresProof, setItemRequiresProof] = useState(false);
+  const [itemProofRequired, setItemProofRequired] = useState(false);
+  const [itemProofDescription, setItemProofDescription] = useState("");
+  const [itemApprovalRequired, setItemApprovalRequired] = useState(false);
 
   const [formDraft, setFormDraft] = useState<QuestionnaireQuestionTypes[]>([]);
   const [phasesDraft, setPhasesDraft] = useState<TemplatePhase[]>([
     {
-      title: "1. Phase",
       id: "1",
+      title: "1. Phase",
+      description: "",
+      proof_required: false,
+      proof_description: "",
+      approval_required: false,
       tasks: [
         {
-          label: "Todo 1.1 ",
           id: "1.1",
+          label: "Todo 1.1 ",
+          description: "",
+          is_required: false,
         },
         {
-          label: "Todo 1.2 ",
           id: "1.2",
+          label: "Todo 1.2 ",
+          description: "",
+          is_required: false,
         },
       ],
     },
     {
-      title: "2. Phase",
       id: "2",
+      title: "2. Phase",
+      description: "",
+      proof_required: false,
+      proof_description: "",
+      approval_required: false,
       tasks: [
         {
-          label: "Todo 2.1 ",
           id: "2.1",
+          label: "Todo 2.1 ",
+          description: "",
+          is_required: false,
         },
         {
-          label: "Todo 2.2 ",
           id: "2.2",
+          label: "Todo 2.2 ",
+          description: "",
+          is_required: false,
         },
       ],
     },
     {
-      title: "3. Phase",
       id: "3",
+      title: "3. Phase",
+      description: "",
+      proof_required: false,
+      proof_description: "",
+      approval_required: false,
       tasks: [
         {
-          label: "Todo 3.1 ",
           id: "3.1",
+          label: "Todo 3.1 ",
+          description: "",
+          is_required: false,
         },
         {
-          label: "Todo 3.2 ",
           id: "3.2",
+          label: "Todo 3.2 ",
+          description: "",
+          is_required: false,
         },
       ],
     },
     {
-      title: "4. Phase",
       id: "4",
+      title: "4. Phase",
+      description: "",
+      proof_required: false,
+      proof_description: "",
+      approval_required: false,
       tasks: [
         {
-          label: "Todo 4.1 ",
           id: "4.1",
+          label: "Todo 4.1 ",
+          description: "",
+          is_required: false,
         },
         {
-          label: "Todo 4.2 ",
           id: "4.2",
+          label: "Todo 4.2 ",
+          description: "",
+          is_required: false,
         },
       ],
     },
@@ -162,11 +200,23 @@ export function EditorProvider({ children }: { children: ReactNode }) {
   const changeItemIsRequired = (input: boolean) => {
     setItemIsRequired(input);
   };
+  const changeItemProofRequired = (input: boolean) => {
+    setItemProofRequired(input);
+  };
+  const changeItemProofDescription = (input: string) => {
+    setItemProofDescription(input);
+  };
+  const changeItemApprovalRequired = (input: boolean) => {
+    setItemApprovalRequired(input);
+  };
 
   const resetDrawerStates = () => {
     setItemLabel("");
     setItemDescription("");
     setItemIsRequired(false);
+    setItemProofRequired(false);
+    setItemProofDescription("");
+    setItemApprovalRequired(false);
   };
 
   const LoadQuestionToEdit = () => {
@@ -190,12 +240,19 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     const index = phasesDraft.findIndex((i) => i.id === activeDrawerItemId);
     if (index === -1) return;
 
-    // const { title, description, is_required } = phasesDraft[index];
-    const { title } = phasesDraft[index];
+    const {
+      title,
+      description,
+      proof_required,
+      proof_description,
+      approval_required,
+    } = phasesDraft[index];
 
     changeItemLabel(title);
-    //   changeItemDescription(description);
-    //   changeItemIsRequired(is_required);
+    changeItemDescription(description);
+    changeItemProofRequired(proof_required);
+    changeItemProofDescription(proof_description);
+    changeItemApprovalRequired(approval_required);
   };
 
   const LoadTaskToEdit = () => {
@@ -215,11 +272,12 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     );
     if (taskIndex === -1) return;
 
-    const { label } = phasesDraft[phaseIndex].tasks[taskIndex];
+    const { label, description, is_required } =
+      phasesDraft[phaseIndex].tasks[taskIndex];
 
     changeItemLabel(label);
-    //   changeItemDescription(description);
-    //   changeItemIsRequired(is_required);
+    changeItemDescription(description);
+    changeItemIsRequired(is_required);
   };
 
   const addFormItem = (
@@ -248,6 +306,10 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     const newPhase = {
       title: "Neue Phase",
       id: crypto.randomUUID(),
+      description: "",
+      proof_required: false,
+      proof_description: "",
+      approval_required: false,
       tasks: [],
     };
 
@@ -264,8 +326,10 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     }
 
     const newTask = {
-      label: "Neues Todo",
       id: crypto.randomUUID(),
+      label: "Neues Todo",
+      description: "",
+      is_required: false,
     };
 
     setPhasesDraft((prev) =>
@@ -308,11 +372,17 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     itemLabel,
     itemDescription,
     itemIsRequired,
+    itemProofRequired,
+    itemProofDescription,
+    itemApprovalRequired,
     setActiveDrawerItemId,
     changeItemLabel,
     changeItemDescription,
     changeItemIsRequired,
     LoadQuestionToEdit,
+    changeItemProofRequired,
+    changeItemProofDescription,
+    changeItemApprovalRequired,
     selectedPhaseId,
     ChangePhaseSelected,
     setPhasesDraft,
@@ -320,13 +390,9 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     deletePhase,
     addTask,
     deleteTask,
-    //selectedTaskId,
-    //setSelectedTaskId,
     LoadPhaseToEdit,
     resetDrawerStates,
     LoadTaskToEdit,
-    itemRequiresProof,
-    itemRequiresApproval,
   };
 
   return (

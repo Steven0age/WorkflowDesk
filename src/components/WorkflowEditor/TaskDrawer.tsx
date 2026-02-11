@@ -22,10 +22,10 @@ type TaskDrawerProps = {
 export default function TaskDrawer({ handleClose }: TaskDrawerProps) {
   const {
     phasesDraft,
-    questionLabel,
-    questionDescription,
-    questionIsRequired,
-    changeQuestionLabel,
+    itemLabel,
+    itemDescription,
+    itemIsRequired,
+    changeItemLabel,
     changeItemDescription: changeQuestionDescription,
     changeItemIsRequired: changeQuestionIsRequired,
   } = useEditor();
@@ -58,8 +58,7 @@ export default function TaskDrawer({ handleClose }: TaskDrawerProps) {
       >
         <Box sx={{ display: "flex", gap: 1 }}>
           <EditIcon sx={{ color: "primary.main" }}></EditIcon>
-          <Typography sx={{ fontWeight: "bold" }}>TASK DRAWER</Typography>
-          {/* <Typography sx={{ fontWeight: "bold" }}>Feld bearbeiten</Typography> */}
+          <Typography sx={{ fontWeight: "bold" }}>Todo bearbeiten</Typography>
         </Box>
 
         <Box>
@@ -78,9 +77,9 @@ export default function TaskDrawer({ handleClose }: TaskDrawerProps) {
             fullWidth
             multiline
             placeholder={"Feldname eingeben"}
-            value={questionLabel}
+            value={itemLabel}
             onChange={(event) => {
-              changeQuestionLabel(event.target.value);
+              changeItemLabel(event.target.value);
             }}
           ></TextField>
           <Typography variant="h5">Beschreibung</Typography>
@@ -89,7 +88,7 @@ export default function TaskDrawer({ handleClose }: TaskDrawerProps) {
             fullWidth
             multiline
             placeholder={"Beschreibung eingeben"}
-            value={questionDescription}
+            value={itemDescription}
             onChange={(event) => {
               changeQuestionDescription(event.target.value);
             }}
@@ -104,7 +103,7 @@ export default function TaskDrawer({ handleClose }: TaskDrawerProps) {
               sx={{ display: "flex", gap: 1 }}
               control={
                 <Checkbox
-                  checked={questionIsRequired}
+                  checked={itemIsRequired}
                   onChange={(event) =>
                     changeQuestionIsRequired(event.target.checked)
                   }

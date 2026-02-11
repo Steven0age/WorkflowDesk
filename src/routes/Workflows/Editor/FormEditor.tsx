@@ -39,9 +39,9 @@ export default function FormEditor() {
     deleteFormItem,
     activeDrawerItemId,
     setActiveDrawerItemId,
-    questionLabel,
-    questionDescription,
-    questionIsRequired,
+    itemLabel,
+    itemDescription,
+    itemIsRequired,
     LoadQuestionToEdit,
     resetDrawerStates,
   } = useEditor();
@@ -85,9 +85,9 @@ export default function FormEditor() {
           q.id === activeDrawerItemId
             ? {
                 ...q,
-                label: questionLabel,
-                description: questionDescription,
-                is_required: questionIsRequired,
+                label: itemLabel,
+                description: itemDescription,
+                is_required: itemIsRequired,
               }
             : q,
         ),

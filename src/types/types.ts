@@ -103,7 +103,8 @@ export type TemplateTask = {
   template_phase_id?: string;
   order_index?: number;
   label: string;
-  is_required?: boolean;
+  description: string;
+  is_required: boolean;
 };
 
 export type TemplatePhase = {
@@ -111,8 +112,9 @@ export type TemplatePhase = {
   template_id?: string;
   order_index?: number;
   title: string;
-  description?: string;
-  proof_required?: boolean;
-  approval_required?: boolean;
+  description: string;
+  proof_required: boolean;
+  proof_description: string;
+  approval_required: boolean;
   tasks: TemplateTask[];
 };
