@@ -22,10 +22,12 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useEditor } from "../../context/EditorContext";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { BorderAll, BorderBottom, BorderColor } from "@mui/icons-material";
 
 type PhaseProps = Pick<TicketPhaseDataTypes, "id" | "title"> & {
-  activeItem?: string;
+  draggingPhase?: string;
+  draggingTask?: string;
   onClick?: () => void;
   onDelete?: () => void;
   onEdit?: () => void;
@@ -38,7 +40,8 @@ export default function Phase({
   onDelete,
   onClick,
   onEdit,
-  activeItem,
+  draggingPhase,
+  draggingTask,
   title,
   tasks,
   id,
@@ -69,23 +72,58 @@ export default function Phase({
     transition,
   };
 
+  const customStyles = {
+    cardShell: {
+      default: { backgroundColor: "background.paper", flexShrink: 0 },
+      dragging: {
+        backgroundColor: "background.default",
+        border: 1,
+        borderColor: "border.main",
+      },
+      selected: { backgroundColor: "primary.main" },
+      SelectedAndDragging: { backgroundColor: "primary.main" },
+    },
+    cardHeader: {
+      default: {},
+      dragging: {
+        "&.MuiCardHeader-root": {
+          backgroundColor: "background.default",
+          borderBottom: 1,
+          borderColor: "border.main",
+        },
+      },
+      selected: {},
+      SelectedAndDragging: {},
+    },
+  };
+
+  const isDragging = draggingPhase === id;
+  const isSelected = phaseSelectedidentifier === id;
+  const isSelectedAndDragging =
+    draggingPhase === id && phaseSelectedidentifier === id;
+
   return (
     <CardShell
       id={id}
       ref={setNodeRef}
       style={style}
       {...attributes}
-      sx={{
-        backgroundColor:
-          phaseSelectedidentifier === id
-            ? "primary.main"
-            : "background.default",
-        flexShrink: 0,
-      }}
+      sx={[
+        customStyles.cardShell.default,
+        isDragging && customStyles.cardShell.dragging,
+        isSelected && customStyles.cardShell.selected,
+        isSelectedAndDragging && customStyles.cardShell.SelectedAndDragging,
+      ]}
       elevation={1}
       onClick={onClick}
     >
       <CardHeader
+        sx={[
+          customStyles.cardHeader.default,
+          isDragging && customStyles.cardHeader.dragging,
+          isSelected && customStyles.cardHeader.selected,
+          isSelectedAndDragging && customStyles.cardHeader.SelectedAndDragging,
+        ]}
         title={
           <Box
             sx={{
@@ -160,6 +198,7 @@ export default function Phase({
           {tasks
             ? tasks.map((i) => (
                 <Task
+                  draggingTask={draggingTask ? draggingTask : undefined}
                   key={i.id}
                   id={i.id}
                   label={i.label}

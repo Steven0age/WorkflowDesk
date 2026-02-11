@@ -8,14 +8,14 @@ import { CSS } from "@dnd-kit/utilities";
 import type { TicketTaskDataTypes } from "../../types/types";
 
 export type TaskProps = Pick<TicketTaskDataTypes, "label" | "id"> & {
-  activeItem?: string;
+  draggingTask?: string;
   onClick?: () => void;
   onDelete?: () => void;
   onEdit?: () => void;
 };
 
 export default function Task({
-  activeItem,
+  draggingTask,
   id,
   onClick,
   onEdit,
@@ -43,7 +43,8 @@ export default function Task({
       {...attributes}
       onClick={onClick}
       sx={{
-        bgcolor: activeItem === id ? "background.default" : "background.paper",
+        bgcolor:
+          draggingTask === id ? "background.default" : "background.paper",
         px: 2,
         py: 1,
         border: 2,

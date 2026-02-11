@@ -65,6 +65,12 @@ export default function PhasesEditor() {
 
   const [open, setOpen] = useState<boolean>(false);
   const [drawerType, setDrawerType] = useState<"phase" | "task" | undefined>();
+  const [activePhase, setActivePhase] = useState<TemplatePhase | null>(null);
+  const [activeTask, setActiveTask] = useState<TemplateTask | null>(null);
+  const [draggingPhase, setDraggingPhase] = useState<TemplatePhase | null>(
+    null,
+  );
+  const [draggingTask, setDraggingTask] = useState<TemplateTask | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -77,9 +83,6 @@ export default function PhasesEditor() {
     return phasesDraft.map((phase) => phase.id);
   }, [phasesDraft]);
 
-  const [activePhase, setActivePhase] = useState<TemplatePhase | null>(null);
-  const [activeTask, setActiveTask] = useState<TemplateTask | null>(null);
-
   function handleDragStart(event: DragStartEvent) {
     if (event.active.data.current?.type === "Phase") {
       const findItem = phasesDraft.find(
@@ -89,6 +92,7 @@ export default function PhasesEditor() {
       if (findItem === undefined) return;
 
       setActivePhase(findItem);
+      setDraggingPhase(findItem);
       return;
     }
 
@@ -106,20 +110,16 @@ export default function PhasesEditor() {
       if (findItem === undefined) return;
 
       setActiveTask(findItem);
+      setDraggingTask(findItem);
       return;
     }
   }
 
-  //   Backup handleDragStart
-  //   function handleDragStart(event: DragStartEvent) {
-  //   const findItem = phasesDraft.find((item) => item.id === event.active.id);
-  //   if (!findItem) return;
-  //   setActivePhase(findItem);
-  // }
-
   function handleDragEnd(event: DragEndEvent) {
     setActivePhase(null);
     setActiveTask(null);
+    setDraggingPhase(null);
+    setDraggingTask(null);
 
     const { active, over } = event;
 
@@ -342,11 +342,14 @@ export default function PhasesEditor() {
                 {phasesDraft.map((phase) => {
                   return (
                     <Phase
-                      activeItem={activePhase ? activePhase.id : undefined}
+                      draggingPhase={
+                        draggingPhase ? draggingPhase.id : undefined
+                      }
                       title={phase.title}
                       key={phase.id}
                       id={phase.id}
                       tasks={phase.tasks}
+                      draggingTask={draggingTask ? draggingTask.id : undefined}
                       phaseSelectedidentifier={selectedPhaseId}
                       handleTaskEdit={(taskId) => {
                         toggleTaskDrawer(taskId);
@@ -363,20 +366,21 @@ export default function PhasesEditor() {
             </SortableContext>
 
             <DragOverlay>
-              {activePhase ? (
+              {draggingPhase ? (
                 <Phase
-                  title={activePhase.title}
-                  key={activePhase.id}
-                  id={activePhase.id}
-                  tasks={activePhase.tasks}
+                  phaseSelectedidentifier={selectedPhaseId}
+                  title={draggingPhase.title}
+                  key={draggingPhase.id}
+                  id={draggingPhase.id}
+                  tasks={draggingPhase.tasks}
                 />
               ) : null}
 
-              {activeTask ? (
+              {draggingTask ? (
                 <Task
-                  label={activeTask.label}
-                  key={activeTask.id}
-                  id={activeTask.id}
+                  label={draggingTask.label}
+                  key={draggingTask.id}
+                  id={draggingTask.id}
                 />
               ) : null}
             </DragOverlay>
