@@ -1,4 +1,6 @@
-import "./App.css";
+import { useEffect, useState } from "react";
+import { Auth } from "./components/Auth";
+import { supabase } from "./supabase-client";
 import Dashboard from "./routes/Dashboard";
 import Root from "./routes/Root";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -8,9 +10,10 @@ import EditorSettings from "./routes/Workflows/Editor/EditorSettings";
 import EditorLayout from "./routes/EditorLayout";
 import FormEditor from "./routes/Workflows/Editor/FormEditor";
 import PhasesEditor from "./routes/Workflows/Editor/PhasesEditor";
-import { Authentication } from "./Authentication";
 
-function App() {
+export function Authentication() {
+  const [session, setSession] = useState<any>(null);
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -54,13 +57,41 @@ function App() {
       ],
     },
   ]);
+
+  const fetchSession = async () => {
+    const currentSession = await supabase.auth.getSession();
+    console.log("currentSession:", currentSession);
+    if (currentSession.error) {
+      console.error("fetchSession error:", currentSession.error);
+      return;
+    }
+    console.log("setSession(currentSession.data.session); ausgeführt");
+    setSession(currentSession.data.session);
+  };
+
+  useEffect(() => {
+    fetchSession();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session);
+      },
+    );
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
+
+  //console.log("session", session);
   return (
     <>
-      <Authentication />
+      {session ? (
+        <>
+          <RouterProvider router={router} />;
+        </>
+      ) : (
+        <Auth />
+      )}
     </>
   );
-
-  return <RouterProvider router={router} />;
 }
-
-export default App;
