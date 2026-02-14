@@ -15,7 +15,7 @@ export default function RootSidebar() {
         flexDirection: "column",
         gap: 3,
         p: 1,
-        height: "100vh",
+        height: "100%",
       }}
     >
       <Box
@@ -29,6 +29,7 @@ export default function RootSidebar() {
       >
         <Typography>L O G O</Typography>
       </Box>
+
       <Box
         sx={{
           color: "text.contrast",
@@ -53,7 +54,12 @@ export default function RootSidebar() {
           <MenuItem linkAnchor="Einstellungen" linkTarget="settings" />
         </Box>
 
-        <Button variant="outlined" color="inherit" onClick={() => logout()}>
+        <Button
+          variant="outlined"
+          color="inherit"
+          sx={{ mb: 2 }}
+          onClick={() => logout()}
+        >
           Log Out
         </Button>
       </Box>

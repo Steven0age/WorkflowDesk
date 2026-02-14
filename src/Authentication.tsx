@@ -87,15 +87,5 @@ export function Authentication() {
     };
   }, []);
 
-  return (
-    <>
-      {session ? (
-        <>
-          <RouterProvider router={router} />;
-        </>
-      ) : (
-        <Auth />
-      )}
-    </>
-  );
+  return <>{session ? <RouterProvider router={router} /> : <Auth />}</>;
 }
