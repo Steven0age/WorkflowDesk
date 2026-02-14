@@ -65,8 +65,6 @@ export default function PhasesEditor() {
 
   const [open, setOpen] = useState<boolean>(false);
   const [drawerType, setDrawerType] = useState<"phase" | "task" | undefined>();
-  const [activePhase, setActivePhase] = useState<TemplatePhase | null>(null);
-  const [activeTask, setActiveTask] = useState<TemplateTask | null>(null);
   const [draggingPhase, setDraggingPhase] = useState<TemplatePhase | null>(
     null,
   );
@@ -91,7 +89,6 @@ export default function PhasesEditor() {
 
       if (findItem === undefined) return;
 
-      setActivePhase(findItem);
       setDraggingPhase(findItem);
       return;
     }
@@ -109,15 +106,12 @@ export default function PhasesEditor() {
 
       if (findItem === undefined) return;
 
-      setActiveTask(findItem);
       setDraggingTask(findItem);
       return;
     }
   }
 
   function handleDragEnd(event: DragEndEvent) {
-    setActivePhase(null);
-    setActiveTask(null);
     setDraggingPhase(null);
     setDraggingTask(null);
 

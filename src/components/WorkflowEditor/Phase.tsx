@@ -22,8 +22,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useEditor } from "../../context/EditorContext";
-import { useEffect, useMemo, useState } from "react";
-import { BorderAll, BorderBottom, BorderColor } from "@mui/icons-material";
+import { useEffect, useMemo } from "react";
 
 type PhaseProps = Pick<TicketPhaseDataTypes, "id" | "title"> & {
   draggingPhase?: string;
