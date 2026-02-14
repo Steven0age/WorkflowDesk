@@ -14,49 +14,54 @@ import PhasesEditor from "./routes/Workflows/Editor/PhasesEditor";
 export function Authentication() {
   const [session, setSession] = useState<any>(null);
 
-  const router = createBrowserRouter([
+  const router = createBrowserRouter(
+    [
+      {
+        path: "/",
+        element: <Root />,
+        children: [
+          {
+            index: true,
+            element: <Dashboard />,
+          },
+          {
+            path: "workflows",
+            element: <Workflows />,
+          },
+          {
+            path: "settings",
+            element: <Settings />,
+          },
+        ],
+      },
+      {
+        path: "/",
+        element: <EditorLayout />,
+        children: [
+          {
+            path: "workflows/editor",
+            children: [
+              {
+                index: true,
+                element: <EditorSettings />,
+              },
+              {
+                path: "form",
+                element: <FormEditor />,
+              },
+              {
+                path: "phases",
+                element: <PhasesEditor />,
+              },
+            ],
+          },
+        ],
+      },
+    ],
     {
-      path: "/",
-      element: <Root />,
-      children: [
-        {
-          index: true,
-          element: <Dashboard />,
-        },
-        {
-          path: "workflows",
-          element: <Workflows />,
-        },
-        {
-          path: "settings",
-          element: <Settings />,
-        },
-      ],
+      basename: import.meta.env.BASE_URL,
     },
-    {
-      path: "/",
-      element: <EditorLayout />,
-      children: [
-        {
-          path: "workflows/editor",
-          children: [
-            {
-              index: true,
-              element: <EditorSettings />,
-            },
-            {
-              path: "form",
-              element: <FormEditor />,
-            },
-            {
-              path: "phases",
-              element: <PhasesEditor />,
-            },
-          ],
-        },
-      ],
-    },
-  ]);
+  );
 
   const fetchSession = async () => {
     const currentSession = await supabase.auth.getSession();
