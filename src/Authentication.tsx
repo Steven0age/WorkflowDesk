@@ -82,7 +82,6 @@ export function Authentication() {
     };
   }, []);
 
-  //console.log("session", session);
   return (
     <>
       {session ? (

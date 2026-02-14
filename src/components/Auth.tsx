@@ -7,6 +7,7 @@ import {
   TextField,
   Button,
   Stack,
+  Link,
 } from "@mui/material";
 
 export const Auth = () => {
@@ -77,9 +78,28 @@ export const Auth = () => {
               }
             />
 
-            <Button type="submit" variant="contained" size="large">
+            <Button
+              type="submit"
+              variant="contained"
+              size="large"
+              disabled={isSignUp}
+            >
               {isSignUp ? "Jetzt registrieren" : "Log in"}
             </Button>
+
+            {isSignUp && (
+              <Box>
+                <Typography fontWeight="bold">
+                  Registrieren nicht möglich!
+                </Typography>
+                <Typography>
+                  Um einen Zugang zu erhalten, schreiben Sie eine E-Mail an{" "}
+                  <Link href="mailto:info@stephan-haak.com">
+                    info@stephan-haak.com
+                  </Link>
+                </Typography>
+              </Box>
+            )}
 
             <Button variant="text" onClick={() => setIsSignUp(!isSignUp)}>
               {isSignUp ? "zu Login wechseln" : "zur Registration wechseln"}
