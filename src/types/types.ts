@@ -98,6 +98,14 @@ export type ActivityLogDataTypes = {
   created_at: string;
 };
 
+export type TemplateWorkflow = {
+  id: string;
+  title: string;
+  description: string;
+  questionnaire: QuestionnaireQuestionTypes[];
+  phases: TemplatePhase[];
+};
+
 export type TemplateTask = {
   id: string;
   template_phase_id?: string;

@@ -2,10 +2,22 @@ import { Outlet } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import EditorSidebar from "../components/EditorSidebar";
-import { EditorProvider } from "../context/EditorContext";
+import { EditorProvider, useEditor } from "../context/EditorContext";
+import { createWorkflow } from "../data/workflowEditor.api";
 
 export default function EditorLayout() {
+  return (
+    <EditorProvider>
+      <EditorLayoutInner />
+    </EditorProvider>
+  );
+}
+function EditorLayoutInner() {
   const navigate = useNavigate();
+
+  const { workflowTitle, workflowDescription, formDraft, phasesDraft } =
+    useEditor();
+
   return (
     <Box
       sx={{
@@ -39,7 +51,19 @@ export default function EditorLayout() {
             gap: 2,
           }}
         >
-          <Button variant="contained">Speichern</Button>
+          <Button
+            variant="contained"
+            onClick={() =>
+              createWorkflow(
+                workflowTitle,
+                workflowDescription,
+                formDraft,
+                phasesDraft,
+              )
+            }
+          >
+            Speichern
+          </Button>
           <Button variant="outlined" onClick={() => navigate("/workflows")}>
             Abbrechen
           </Button>
@@ -73,9 +97,7 @@ export default function EditorLayout() {
             flexDirection: "column",
           }}
         >
-          <EditorProvider>
-            <Outlet />
-          </EditorProvider>
+          <Outlet />
         </Box>
       </Box>
     </Box>
