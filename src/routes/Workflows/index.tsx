@@ -2,13 +2,15 @@ import { Button, Box, IconButton } from "@mui/material";
 import Header from "../../components/Header";
 import AddIcon from "@mui/icons-material/Add";
 import { DataGrid } from "@mui/x-data-grid";
-import { templates } from "../../MockData/workflowTemplates";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
+import { useApp } from "../../context/AppContext";
+import { useEffect, useState } from "react";
+import { getWorkflowList } from "../../data/app.api";
+import type { TemplateWorkflow } from "../../types/types";
 
 const columns = [
-  { width: 60, field: "id", headerName: "Nr." },
   { flex: 1, minWidth: 300, field: "title", headerName: "Titel" },
   { flex: 1, minWidth: 300, field: "description", headerName: "Beschreibung" },
   { width: 200, field: "created_from_user", headerName: "Erstellt von" },
@@ -48,15 +50,21 @@ const columns = [
   },
 ];
 
-const rows = templates.map((t) => ({
-  id: t.id,
-  title: t.title,
-  description: t.description,
-  created_from_user: t.created_from_user,
-}));
-
 export default function Workflows() {
   const navigate = useNavigate();
+  const {} = useApp();
+  const [workflowList, setWorkflowList] = useState<TemplateWorkflow[]>([]);
+
+  useEffect(() => {
+    setWorkflowList(getWorkflowList());
+  }, []);
+
+  const rows = workflowList.map((t) => ({
+    id: t.id,
+    title: t.title,
+    description: t.description,
+    created_from_user: "Demo User",
+  }));
 
   return (
     <Box

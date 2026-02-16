@@ -20,5 +20,17 @@ export const createWorkflow: CreateWorkflowFn = (
     questionnaire: formDraft,
     phases: phasesDraft,
   };
-  localStorage.setItem("templateWorkflow", JSON.stringify(newWorkflow));
+
+  let workflowList;
+  const list = localStorage.getItem("templateWorkflow");
+  if (list) {
+    workflowList = JSON.parse(list);
+
+    localStorage.setItem(
+      "templateWorkflow",
+      JSON.stringify([...workflowList, newWorkflow]),
+    );
+  } else {
+    localStorage.setItem("templateWorkflow", JSON.stringify([newWorkflow]));
+  }
 };

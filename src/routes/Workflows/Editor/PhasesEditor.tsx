@@ -59,10 +59,6 @@ export default function PhasesEditor() {
     LoadPhaseToEdit();
   }, [activeDrawerItemId]);
 
-  useEffect(() => {
-    console.log("phasesDraft ist nun:", phasesDraft);
-  }, [phasesDraft]);
-
   const [open, setOpen] = useState<boolean>(false);
   const [drawerType, setDrawerType] = useState<"phase" | "task" | undefined>();
   const [draggingPhase, setDraggingPhase] = useState<TemplatePhase | null>(
