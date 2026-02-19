@@ -7,6 +7,10 @@ type CreateWorkflowFn = (
   phasesDraft: TemplateWorkflow["phases"],
 ) => void;
 
+type editWorkflowFn = (
+  id: TemplateWorkflow["id"],
+) => TemplateWorkflow | undefined;
+
 export const createWorkflow: CreateWorkflowFn = (
   workflowTitle,
   workflowDescription,
@@ -33,4 +37,15 @@ export const createWorkflow: CreateWorkflowFn = (
   } else {
     localStorage.setItem("templateWorkflow", JSON.stringify([newWorkflow]));
   }
+};
+
+export const editWorkflow: editWorkflowFn = (id) => {
+  const list = localStorage.getItem("templateWorkflow");
+  if (!list) return;
+
+  const workflowList: TemplateWorkflow[] = JSON.parse(list);
+
+  const workflow = workflowList.find((flow) => flow.id === id);
+
+  return workflow;
 };
