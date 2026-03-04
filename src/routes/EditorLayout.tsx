@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import EditorSidebar from "../components/EditorSidebar";
@@ -17,6 +17,8 @@ function EditorLayoutInner() {
 
   const { workflowTitle, workflowDescription, formDraft, phasesDraft } =
     useEditor();
+
+  const params = useParams();
 
   return (
     <Box
@@ -45,6 +47,7 @@ function EditorLayoutInner() {
         <Typography variant="h1" color="text.primary">
           Neuen Workflow erstellen
         </Typography>
+        <Typography>{`Folgende Params sind geladen: ${params.workflowId}`}</Typography>
         <Box
           sx={{
             display: "flex",

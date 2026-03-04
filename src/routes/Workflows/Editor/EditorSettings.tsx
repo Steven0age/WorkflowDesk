@@ -16,6 +16,7 @@ export default function EditorSettings() {
     workflowDescription,
     changeWorkflowDescription,
   } = useEditor();
+
   return (
     <>
       <Box

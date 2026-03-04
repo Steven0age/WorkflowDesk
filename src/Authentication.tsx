@@ -3,7 +3,11 @@ import { Auth } from "./components/Auth";
 import { supabase } from "./supabase-client";
 import Dashboard from "./routes/Dashboard";
 import Root from "./routes/Root";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import Workflows from "./routes/Workflows";
 import Settings from "./routes/Settings";
 import EditorSettings from "./routes/Workflows/Editor/EditorSettings";
@@ -20,39 +24,33 @@ export function Authentication() {
         path: "/",
         element: <Root />,
         children: [
-          {
-            index: true,
-            element: <Dashboard />,
-          },
-          {
-            path: "workflows",
-            element: <Workflows />,
-          },
-          {
-            path: "settings",
-            element: <Settings />,
-          },
+          { index: true, element: <Dashboard /> },
+          { path: "workflows", element: <Workflows /> },
+          { path: "settings", element: <Settings /> },
         ],
       },
+
       {
-        path: "/",
+        path: "/workflows/editor",
         element: <EditorLayout />,
         children: [
+          { index: true, element: <Navigate to="new" replace /> },
+
           {
-            path: "workflows/editor",
+            path: "new",
             children: [
-              {
-                index: true,
-                element: <EditorSettings />,
-              },
-              {
-                path: "form",
-                element: <FormEditor />,
-              },
-              {
-                path: "phases",
-                element: <PhasesEditor />,
-              },
+              { index: true, element: <EditorSettings /> },
+              { path: "form", element: <FormEditor /> },
+              { path: "phases", element: <PhasesEditor /> },
+            ],
+          },
+
+          {
+            path: ":workflowId",
+            children: [
+              { index: true, element: <EditorSettings /> },
+              { path: "form", element: <FormEditor /> },
+              { path: "phases", element: <PhasesEditor /> },
             ],
           },
         ],
