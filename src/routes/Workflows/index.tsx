@@ -9,6 +9,7 @@ import { useApp } from "../../context/AppContext";
 import { useEffect, useState } from "react";
 import { getWorkflowList } from "../../data/app.api";
 import type { TemplateWorkflow } from "../../types/types";
+import { editWorkflow } from "../../data/workflowEditor.api";
 
 const columns = [
   { flex: 1, minWidth: 300, field: "title", headerName: "Titel" },
@@ -113,6 +114,11 @@ export default function Workflows() {
               {
                 outline: "none",
               },
+          }}
+          onRowClick={(event) => {
+            console.log("event =", event.id);
+            const workflow = editWorkflow(event.id as string);
+            console.log("workflow =", workflow);
           }}
           rows={rows}
           columns={columns}
