@@ -1,7 +1,7 @@
 import { Button, Box, IconButton } from "@mui/material";
 import Header from "../../components/Header";
 import AddIcon from "@mui/icons-material/Add";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, type GridRenderCellParams } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
@@ -9,52 +9,57 @@ import { useApp } from "../../context/AppContext";
 import { useEffect, useState } from "react";
 import { getWorkflowList } from "../../data/app.api";
 import type { TemplateWorkflow } from "../../types/types";
-import { editWorkflow } from "../../data/workflowEditor.api";
-
-const columns = [
-  { flex: 1, minWidth: 300, field: "title", headerName: "Titel" },
-  { flex: 1, minWidth: 300, field: "description", headerName: "Beschreibung" },
-  { width: 200, field: "created_from_user", headerName: "Erstellt von" },
-  {
-    width: 100,
-    field: "settings",
-    headerName: "",
-    sortable: false,
-    filterable: false,
-    renderCell: () => (
-      <>
-        <IconButton
-          onClick={(e) => {
-            e.stopPropagation();
-            alert("Edit-Icon clicked");
-          }}
-          sx={{
-            "&:hover": { color: "primary.main" },
-          }}
-        >
-          <EditIcon />
-        </IconButton>
-
-        <IconButton
-          onClick={(e) => {
-            e.stopPropagation();
-            alert("Delete-Icon clicked");
-          }}
-          sx={{
-            "&:hover": { color: "error.main" },
-          }}
-        >
-          <DeleteIcon />
-        </IconButton>
-      </>
-    ),
-  },
-];
 
 export default function Workflows() {
   const navigate = useNavigate();
   const {} = useApp();
   const [workflowList, setWorkflowList] = useState<TemplateWorkflow[]>([]);
+  const columns = [
+    { flex: 1, minWidth: 300, field: "title", headerName: "Titel" },
+    {
+      flex: 1,
+      minWidth: 300,
+      field: "description",
+      headerName: "Beschreibung",
+    },
+    { width: 200, field: "created_from_user", headerName: "Erstellt von" },
+    {
+      width: 100,
+      field: "settings",
+      headerName: "",
+      sortable: false,
+      filterable: false,
+      renderCell: (params: GridRenderCellParams) => (
+        <>
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              const id = String(params.id);
+              console.log("params =", params);
+              navigate(`/workflows/editor/${id}`);
+            }}
+            sx={{
+              "&:hover": { color: "primary.main" },
+            }}
+          >
+            <EditIcon />
+          </IconButton>
+
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              alert("Delete-Icon clicked");
+            }}
+            sx={{
+              "&:hover": { color: "error.main" },
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </>
+      ),
+    },
+  ];
 
   useEffect(() => {
     setWorkflowList(getWorkflowList());
@@ -115,10 +120,9 @@ export default function Workflows() {
                 outline: "none",
               },
           }}
-          onRowClick={(event) => {
-            console.log("event =", event.id);
-            const workflow = editWorkflow(event.id as string);
-            console.log("workflow =", workflow);
+          onRowClick={(params) => {
+            const id = String(params.id);
+            navigate(`/workflows/editor/${id}`);
           }}
           rows={rows}
           columns={columns}

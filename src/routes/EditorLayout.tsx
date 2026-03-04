@@ -3,7 +3,8 @@ import { Box, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import EditorSidebar from "../components/EditorSidebar";
 import { EditorProvider, useEditor } from "../context/EditorContext";
-import { createWorkflow } from "../data/workflowEditor.api";
+import { createWorkflow, editWorkflow } from "../data/workflowEditor.api";
+import { useEffect } from "react";
 
 export default function EditorLayout() {
   return (
@@ -13,12 +14,32 @@ export default function EditorLayout() {
   );
 }
 function EditorLayoutInner() {
+  const { workflowId } = useParams();
+
   const navigate = useNavigate();
 
-  const { workflowTitle, workflowDescription, formDraft, phasesDraft } =
-    useEditor();
+  const {
+    workflowTitle,
+    workflowDescription,
+    formDraft,
+    phasesDraft,
+    changeWorkflowTitle,
+    changeWorkflowDescription,
+    setFormDraft,
+    setPhasesDraft,
+  } = useEditor();
 
-  const params = useParams();
+  useEffect(() => {
+    if (!workflowId) return;
+
+    const wf = editWorkflow(workflowId);
+    if (!wf) return;
+
+    changeWorkflowTitle(wf.title);
+    changeWorkflowDescription(wf.description);
+    setFormDraft(wf.questionnaire);
+    setPhasesDraft(wf.phases);
+  }, [workflowId]);
 
   return (
     <Box
@@ -47,7 +68,7 @@ function EditorLayoutInner() {
         <Typography variant="h1" color="text.primary">
           Neuen Workflow erstellen
         </Typography>
-        <Typography>{`Folgende Params sind geladen: ${params.workflowId}`}</Typography>
+        <Typography>{`Folgende Params sind geladen: ${workflowId}`}</Typography>
         <Box
           sx={{
             display: "flex",
