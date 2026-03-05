@@ -23,7 +23,7 @@ export type QuestionnaireQuestionTypes = {
   label: string;
   description: string;
   is_required: boolean;
-  order_index?: number;
+  order_index: number;
   field_type: "textField" | "upload";
 };
 
