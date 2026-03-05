@@ -35,7 +35,6 @@ export default function Workflows() {
             onClick={(e) => {
               e.stopPropagation();
               const id = String(params.id);
-              console.log("params =", params);
               navigate(`/workflows/editor/${id}`);
             }}
             sx={{

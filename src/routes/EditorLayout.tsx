@@ -3,7 +3,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import EditorSidebar from "../components/EditorSidebar";
 import { EditorProvider, useEditor } from "../context/EditorContext";
-import { createWorkflow, editWorkflow } from "../data/workflowEditor.api";
+import { saveWorkflow, editWorkflow } from "../data/workflowEditor.api";
 import { useEffect } from "react";
 
 export default function EditorLayout() {
@@ -78,7 +78,8 @@ function EditorLayoutInner() {
           <Button
             variant="contained"
             onClick={() =>
-              createWorkflow(
+              saveWorkflow(
+                workflowId,
                 workflowTitle,
                 workflowDescription,
                 formDraft,
