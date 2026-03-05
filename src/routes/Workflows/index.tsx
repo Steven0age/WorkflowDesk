@@ -9,6 +9,7 @@ import { useApp } from "../../context/AppContext";
 import { useEffect, useState } from "react";
 import { getWorkflowList } from "../../data/app.api";
 import type { TemplateWorkflow } from "../../types/types";
+import { deleteWorkflow } from "../../data/workflowEditor.api";
 
 export default function Workflows() {
   const navigate = useNavigate();
@@ -47,7 +48,9 @@ export default function Workflows() {
           <IconButton
             onClick={(e) => {
               e.stopPropagation();
-              alert("Delete-Icon clicked");
+              const id = String(params.id);
+              deleteWorkflow(id);
+              setWorkflowList(getWorkflowList());
             }}
             sx={{
               "&:hover": { color: "error.main" },
