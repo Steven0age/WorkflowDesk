@@ -11,6 +11,7 @@ import StatusChip from "../../components/StatusChip";
 import TicketModal from "../../components/TicketModal/TicketModal";
 import { useState } from "react";
 import type { TicketDataTypes } from "../../types/types";
+import CreateTicketModal from "../../components/CreateTicketModal/CreateTicket";
 
 const columns = [
   { width: 30, field: "id", headerName: "Nr." },
@@ -46,17 +47,24 @@ const columns = [
 
 export default function Dashboard() {
   const [modalState, setModalState] = useState(false);
+  const [createTicket, setCreateTicket] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState<TicketDataTypes | null>(
-    null
+    null,
   );
 
-  const openModal = (item: GridRowParams) => {
+  const openModal = (item?: GridRowParams) => {
     setModalState(true);
-    setSelectedTicket(item.row);
+
+    if (item) {
+      setSelectedTicket(item.row);
+    } else {
+      setCreateTicket(true);
+    }
   };
   const closeModal = () => {
     setModalState(false);
     setSelectedTicket(null);
+    setCreateTicket(false);
   };
   return (
     <Box
@@ -78,7 +86,11 @@ export default function Dashboard() {
           px: "1rem",
         }}
       >
-        <Button startIcon={<AddIcon />} variant="create">
+        <Button
+          startIcon={<AddIcon />}
+          variant="create"
+          onClick={() => openModal()}
+        >
           Workflow starten
         </Button>
       </Box>
@@ -116,6 +128,9 @@ export default function Dashboard() {
           handleOnClose={closeModal}
           item={selectedTicket}
         />
+      )}
+      {createTicket && (
+        <CreateTicketModal openModal={modalState} handleOnClose={closeModal} />
       )}
     </Box>
   );

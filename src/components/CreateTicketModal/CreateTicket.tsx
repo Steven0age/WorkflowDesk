@@ -1,25 +1,41 @@
-import type { TicketDataTypes } from "../../types/types";
-import theme from "../../theme";
-import { Box, Typography, Modal, Button } from "@mui/material";
-import StatusChip from "../StatusChip";
-import ActivitiyLog from "./ActivityLog";
-import PhaseCard from "./PhaseCard";
-import QuestionnaireCard from "./QuestionnaireCard";
+import { useEffect, useMemo, useState } from "react";
+import type { TemplateWorkflow } from "../../types/types";
+import {
+  Box,
+  Typography,
+  Modal,
+  Button,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import { getWorkflowList } from "../../data/app.api";
+import QuestionnaireForm from "./QuestionnaireForm";
 
 type TicketModalTypes = {
   openModal: boolean;
   handleOnClose: () => void;
-  item: TicketDataTypes | null;
 };
 
-export default function TicketModal({
+export default function CreateTicketModal({
   openModal,
   handleOnClose,
-  item,
 }: TicketModalTypes) {
-  if (!item) {
-    return <Typography>Kein Ticket ausgewählt</Typography>;
-  }
+  const [workflowList, setWorkflowList] = useState<TemplateWorkflow[]>([]);
+  const [selectedWorkflowId, setSelectedWorkflowId] = useState("");
+
+  useEffect(() => {
+    const workflows = getWorkflowList();
+    setWorkflowList(workflows);
+  }, []);
+
+  const selectedWorkflow = useMemo(
+    () => workflowList.find((w) => w.id === selectedWorkflowId) ?? null,
+    [workflowList, selectedWorkflowId],
+  );
+
+  const handleChange = (event: any) => {
+    setSelectedWorkflowId(event.target.value);
+  };
 
   return (
     <Modal
@@ -50,7 +66,6 @@ export default function TicketModal({
             flexDirection: "column",
             alignItems: "stretch",
             justifyContent: "center",
-            bgcolor: theme.palette.status[item.status].main,
             borderRadius: 10,
             mx: 4,
             my: 2,
@@ -65,36 +80,22 @@ export default function TicketModal({
               fontWeight: "bold",
               fontSize: "2rem",
               mb: 2,
-              color: theme.palette.status[item.status].contrastText,
               textAlign: "center",
               hyphens: "auto",
               wordBreak: "normal",
               overflowWrap: "break-word",
             }}
           >
-            Ticket: {item.label}
+            Neuen Workflow starten
           </Typography>
-
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 4,
-              mt: 2,
-            }}
-          >
-            <StatusChip
-              status={item.status}
-              variant="ticket"
-              labelPrefix="Status:"
-            />
-            <StatusChip
-              status={item.status}
-              variant="ticket"
-              labelPrefix="Workflow:"
-              label={item.template_title}
-            />
-          </Box>
+          <Typography sx={{ mt: 2 }}>Wähle einen Workflow aus:</Typography>
+          <Select value={selectedWorkflowId} onChange={handleChange}>
+            {workflowList.map((workflow) => (
+              <MenuItem key={workflow.id} value={workflow.id}>
+                {workflow.title}
+              </MenuItem>
+            ))}
+          </Select>
         </Box>
         <Box
           sx={{
@@ -102,7 +103,6 @@ export default function TicketModal({
             minHeight: 0,
             overflowY: "auto",
             display: "grid",
-            gridTemplateColumns: "2fr 1.2fr",
             gap: 4,
             px: 4,
             py: 2,
@@ -110,22 +110,9 @@ export default function TicketModal({
               "inset 0  8px 6px -6px #0000001f,inset 0 -8px 6px -6px #0000001f",
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 4,
-            }}
-          >
-            <QuestionnaireCard ticketID={item.id} />
-            {item.ticket_phase?.map((i) => {
-              return <PhaseCard key={i.id} phaseItem={i} />;
-            })}
-            {!item.ticket_phase && (
-              <Typography>Keine Phasen angelegt</Typography>
-            )}
-          </Box>
-          <ActivitiyLog item={item} />
+          {selectedWorkflow && (
+            <QuestionnaireForm workflow={selectedWorkflow} />
+          )}
         </Box>
 
         <Box
