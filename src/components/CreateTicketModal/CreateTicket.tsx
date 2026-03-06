@@ -67,8 +67,9 @@ export default function CreateTicketModal({
             alignItems: "stretch",
             justifyContent: "center",
             borderRadius: 10,
+            bgcolor: "background.default",
             mx: 4,
-            my: 2,
+            my: 4,
             px: 12,
             py: 4,
           }}
@@ -88,7 +89,9 @@ export default function CreateTicketModal({
           >
             Neuen Workflow starten
           </Typography>
-          <Typography sx={{ mt: 2 }}>Wähle einen Workflow aus:</Typography>
+          <Typography sx={{ mt: 2, fontWeight: "bold" }}>
+            Wähle einen Workflow aus:
+          </Typography>
           <Select value={selectedWorkflowId} onChange={handleChange}>
             {workflowList.map((workflow) => (
               <MenuItem key={workflow.id} value={workflow.id}>
@@ -102,10 +105,10 @@ export default function CreateTicketModal({
             flex: "1 1 auto",
             minHeight: 0,
             overflowY: "auto",
-            display: "grid",
             gap: 4,
             px: 4,
             py: 2,
+            bgcolor: "primary.main",
             boxShadow:
               "inset 0  8px 6px -6px #0000001f,inset 0 -8px 6px -6px #0000001f",
           }}
@@ -126,9 +129,9 @@ export default function CreateTicketModal({
             pr: 2,
           }}
         >
-          <Button variant="contained">Speichern</Button>
+          <Button variant="contained">Workflow starten</Button>
           <Button variant="outlined" onClick={handleOnClose}>
-            Schließen
+            Abbrechen
           </Button>
         </Box>
       </Box>
