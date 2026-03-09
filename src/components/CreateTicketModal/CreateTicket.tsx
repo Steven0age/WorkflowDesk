@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
-import type { TemplateWorkflow } from "../../types/types";
+import { useEffect, useMemo } from "react";
 import {
   Box,
   Typography,
@@ -8,8 +7,9 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { getWorkflowList } from "../../data/app.api";
+import { createTicket, getWorkflowList } from "../../data/app.api";
 import QuestionnaireForm from "./QuestionnaireForm";
+import { useCreateTicket } from "../../context/CreateTicketContext";
 
 type TicketModalTypes = {
   openModal: boolean;
@@ -20,8 +20,13 @@ export default function CreateTicketModal({
   openModal,
   handleOnClose,
 }: TicketModalTypes) {
-  const [workflowList, setWorkflowList] = useState<TemplateWorkflow[]>([]);
-  const [selectedWorkflowId, setSelectedWorkflowId] = useState("");
+  const {
+    workflowList,
+    setWorkflowList,
+    selectedWorkflowId,
+    setSelectedWorkflowId,
+    answers,
+  } = useCreateTicket();
 
   useEffect(() => {
     const workflows = getWorkflowList();
@@ -129,7 +134,14 @@ export default function CreateTicketModal({
             pr: 2,
           }}
         >
-          <Button variant="contained">Workflow starten</Button>
+          <Button
+            variant="contained"
+            onClick={() =>
+              createTicket({ workflowList, selectedWorkflowId, answers })
+            }
+          >
+            Workflow starten
+          </Button>
           <Button variant="outlined" onClick={handleOnClose}>
             Abbrechen
           </Button>

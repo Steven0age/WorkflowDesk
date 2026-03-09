@@ -5,7 +5,6 @@ import { DataGrid, type GridRenderCellParams } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
-import { useApp } from "../../context/AppContext";
 import { useEffect, useState } from "react";
 import { getWorkflowList } from "../../data/app.api";
 import type { TemplateWorkflow } from "../../types/types";
@@ -13,7 +12,6 @@ import { deleteWorkflow } from "../../data/workflowEditor.api";
 
 export default function Workflows() {
   const navigate = useNavigate();
-  const {} = useApp();
   const [workflowList, setWorkflowList] = useState<TemplateWorkflow[]>([]);
   const columns = [
     { flex: 1, minWidth: 300, field: "title", headerName: "Titel" },

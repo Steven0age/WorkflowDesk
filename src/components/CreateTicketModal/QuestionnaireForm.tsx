@@ -6,18 +6,17 @@ import {
   Typography,
 } from "@mui/material";
 import type { TemplateWorkflow } from "../../types/types";
-import { useState, useMemo, useEffect } from "react";
+import { useMemo, useEffect } from "react";
 import CardShell from "../CardShell";
 import FileUploadField from "../FileUploadField";
+import { useCreateTicket } from "../../context/CreateTicketContext";
 
 type Props = {
   workflow: TemplateWorkflow;
 };
 
-type AnswersState = Record<string, string | File | null>;
-
 export default function QuestionnaireForm({ workflow }: Props) {
-  const [answers, setAnswers] = useState<AnswersState>({});
+  const { answers, setAnswers } = useCreateTicket();
 
   const sortedQuestions = useMemo(() => {
     return [...workflow.questionnaire].sort((a, b) => {
