@@ -199,6 +199,7 @@ export function EditorProvider({ children }: { children: ReactNode }) {
       label: field_type === "textField" ? "Frage" : " Datei Upload",
       field_type: field_type,
       description: "",
+      order_index: formDraft.length,
       is_required: false,
     };
 

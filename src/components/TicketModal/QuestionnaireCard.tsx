@@ -41,7 +41,7 @@ export default function QuestionnaireCard({
         {answers.map((i) => {
           if (i.ticket_id === ticketID) {
             switch (i.field_type) {
-              case "text":
+              case "textField":
                 return (
                   <Box key={i.id}>
                     <Typography variant="h5">{i.question_label}</Typography>
