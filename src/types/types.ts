@@ -11,15 +11,25 @@ export type fileDataTypes = {
 export type QuestionnaireAnswerDataTypes = {
   id: string;
   ticket_id: number;
-  template_question_id: string;
-  order_index: number;
-  question_label: string;
-  field_type: string;
+  questionnaire_snapshot_id: string;
   text_answer: string | null;
 };
 
+export type AnswersState = Record<string, string | File | null>;
+
 export type QuestionnaireQuestionTypes = {
   id: string;
+  label: string;
+  description: string;
+  is_required: boolean;
+  order_index: number;
+  field_type: "textField" | "upload";
+};
+
+export type QuestionnaireSnapshotDataTypes = {
+  id: string;
+  ticket_id: number;
+  template_question_id: string;
   label: string;
   description: string;
   is_required: boolean;
