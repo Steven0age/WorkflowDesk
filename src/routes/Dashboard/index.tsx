@@ -6,7 +6,7 @@ import {
   type GridRenderCellParams,
   type GridRowParams,
 } from "@mui/x-data-grid";
-import { tickets } from "../../MockData/tickets";
+//import { tickets } from "../../MockData/tickets";
 import StatusChip from "../../components/StatusChip";
 import TicketModal from "../../components/TicketModal/TicketModal";
 import { useEffect, useState } from "react";

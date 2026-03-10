@@ -11,6 +11,8 @@ export const tickets: TicketDataTypes[] = [
     status: "open",
     created_at: "2025-12-03T08:45:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
 
     ticket_phase: [
       {
@@ -228,6 +230,8 @@ export const tickets: TicketDataTypes[] = [
     status: "inProgress",
     created_at: "2025-12-02T14:12:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
 
     ticket_phase: [
       {
@@ -445,6 +449,8 @@ export const tickets: TicketDataTypes[] = [
     status: "review",
     created_at: "2025-11-30T09:50:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 4,
@@ -456,6 +462,8 @@ export const tickets: TicketDataTypes[] = [
     status: "done",
     created_at: "2025-11-28T11:20:00Z",
     completed_at: "2025-11-29T16:04:00Z",
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 5,
@@ -467,6 +475,8 @@ export const tickets: TicketDataTypes[] = [
     status: "inProgress",
     created_at: "2025-11-26T07:15:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 6,
@@ -478,6 +488,8 @@ export const tickets: TicketDataTypes[] = [
     status: "open",
     created_at: "2025-11-25T10:30:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 7,
@@ -489,6 +501,8 @@ export const tickets: TicketDataTypes[] = [
     status: "inProgress",
     created_at: "2025-11-23T08:40:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 8,
@@ -500,6 +514,8 @@ export const tickets: TicketDataTypes[] = [
     status: "open",
     created_at: "2025-11-22T14:00:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 9,
@@ -511,6 +527,8 @@ export const tickets: TicketDataTypes[] = [
     status: "review",
     created_at: "2025-11-20T13:10:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 10,
@@ -522,6 +540,8 @@ export const tickets: TicketDataTypes[] = [
     status: "done",
     created_at: "2025-11-19T09:50:00Z",
     completed_at: "2025-11-20T15:22:00Z",
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 11,
@@ -533,6 +553,8 @@ export const tickets: TicketDataTypes[] = [
     status: "open",
     created_at: "2025-11-17T10:00:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 12,
@@ -544,6 +566,8 @@ export const tickets: TicketDataTypes[] = [
     status: "inProgress",
     created_at: "2025-11-15T11:35:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 13,
@@ -555,6 +579,8 @@ export const tickets: TicketDataTypes[] = [
     status: "done",
     created_at: "2025-11-14T08:25:00Z",
     completed_at: "2025-11-15T18:20:00Z",
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 14,
@@ -566,6 +592,8 @@ export const tickets: TicketDataTypes[] = [
     status: "review",
     created_at: "2025-11-12T12:10:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 15,
@@ -577,6 +605,8 @@ export const tickets: TicketDataTypes[] = [
     status: "inProgress",
     created_at: "2025-11-10T15:00:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 16,
@@ -588,6 +618,8 @@ export const tickets: TicketDataTypes[] = [
     status: "open",
     created_at: "2025-11-08T09:45:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 17,
@@ -599,6 +631,8 @@ export const tickets: TicketDataTypes[] = [
     status: "done",
     created_at: "2025-11-05T08:15:00Z",
     completed_at: "2025-11-06T17:42:00Z",
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 18,
@@ -610,6 +644,8 @@ export const tickets: TicketDataTypes[] = [
     status: "inProgress",
     created_at: "2025-11-03T13:20:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 19,
@@ -621,6 +657,8 @@ export const tickets: TicketDataTypes[] = [
     status: "review",
     created_at: "2025-11-01T14:10:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 20,
@@ -632,6 +670,8 @@ export const tickets: TicketDataTypes[] = [
     status: "done",
     created_at: "2025-10-30T10:22:00Z",
     completed_at: "2025-10-31T12:54:00Z",
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 21,
@@ -643,6 +683,8 @@ export const tickets: TicketDataTypes[] = [
     status: "open",
     created_at: "2025-10-28T07:30:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 22,
@@ -654,6 +696,8 @@ export const tickets: TicketDataTypes[] = [
     status: "inProgress",
     created_at: "2025-10-27T14:50:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 23,
@@ -665,6 +709,8 @@ export const tickets: TicketDataTypes[] = [
     status: "review",
     created_at: "2025-10-25T11:00:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 24,
@@ -676,6 +722,8 @@ export const tickets: TicketDataTypes[] = [
     status: "done",
     created_at: "2025-10-23T09:05:00Z",
     completed_at: "2025-10-24T16:30:00Z",
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 25,
@@ -687,7 +735,10 @@ export const tickets: TicketDataTypes[] = [
     status: "open",
     created_at: "2025-10-22T08:25:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
+
   {
     id: 26,
     template_id: "94c3724d-16ee-4a10-b4f1-a028d8c5238d",
@@ -698,6 +749,8 @@ export const tickets: TicketDataTypes[] = [
     status: "inProgress",
     created_at: "2025-10-20T15:50:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 27,
@@ -709,6 +762,8 @@ export const tickets: TicketDataTypes[] = [
     status: "done",
     created_at: "2025-10-18T12:40:00Z",
     completed_at: "2025-10-19T17:18:00Z",
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 28,
@@ -720,6 +775,8 @@ export const tickets: TicketDataTypes[] = [
     status: "review",
     created_at: "2025-10-17T11:10:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 29,
@@ -731,6 +788,8 @@ export const tickets: TicketDataTypes[] = [
     status: "inProgress",
     created_at: "2025-10-15T07:55:00Z",
     completed_at: null,
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
   {
     id: 30,
@@ -742,5 +801,7 @@ export const tickets: TicketDataTypes[] = [
     status: "done",
     created_at: "2025-10-13T10:40:00Z",
     completed_at: "2025-10-14T14:05:00Z",
+    questionnaireSnapshot: [],
+    questionnaireAnswers: {},
   },
 ];
