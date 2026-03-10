@@ -16,6 +16,7 @@ export type PhaseCardTypes = {
 };
 
 export default function PhaseCard({ phaseItem }: PhaseCardTypes) {
+  console.log("phaseItem", phaseItem);
   if (!phaseItem) {
     return;
   }
@@ -44,7 +45,7 @@ export default function PhaseCard({ phaseItem }: PhaseCardTypes) {
         <CardHeader title={phaseItem.title}></CardHeader>
         <CardContent>
           <FormGroup>
-            {phaseItem.ticket_task.map((i) => {
+            {phaseItem.tasks.map((i) => {
               return (
                 <FormControlLabel
                   key={i.id}

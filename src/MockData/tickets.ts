@@ -27,7 +27,7 @@ export const tickets: TicketDataTypes[] = [
         approved_by: "admin",
         created_at: "2025-12-03T08:46:00Z",
 
-        ticket_task: [
+        tasks: [
           {
             id: "t-1-1-1",
             ticket_phase_id: "p-1-1",
@@ -95,7 +95,7 @@ export const tickets: TicketDataTypes[] = [
         approved_by: null,
         created_at: "2025-12-03T09:31:00Z",
 
-        ticket_task: [
+        tasks: [
           {
             id: "t-1-2-1",
             ticket_phase_id: "p-1-2",
@@ -163,7 +163,7 @@ export const tickets: TicketDataTypes[] = [
         approved_by: null,
         created_at: "2025-12-03T10:00:00Z",
 
-        ticket_task: [
+        tasks: [
           {
             id: "t-1-3-1",
             ticket_phase_id: "p-1-3",
@@ -244,7 +244,7 @@ export const tickets: TicketDataTypes[] = [
         approved_by: "admin",
         created_at: "2025-12-02T14:13:00Z",
 
-        ticket_task: [
+        tasks: [
           {
             id: "t-2-1-1",
             ticket_phase_id: "p-2-1",
@@ -312,7 +312,7 @@ export const tickets: TicketDataTypes[] = [
         approved_by: null,
         created_at: "2025-12-02T15:01:00Z",
 
-        ticket_task: [
+        tasks: [
           {
             id: "t-2-2-1",
             ticket_phase_id: "p-2-2",
@@ -380,7 +380,7 @@ export const tickets: TicketDataTypes[] = [
         approved_by: null,
         created_at: "2025-12-02T15:30:00Z",
 
-        ticket_task: [
+        tasks: [
           {
             id: "t-2-3-1",
             ticket_phase_id: "p-2-3",

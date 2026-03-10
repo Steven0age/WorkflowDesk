@@ -5,13 +5,13 @@ import type { PhaseCardTypes } from "../components/TicketModal/PhaseCard";
 export default function useCheckboxState({ phaseItem }: PhaseCardTypes) {
   const [checkboxStates, setCheckboxStates] = useState(() =>
     phaseItem
-      ? phaseItem.ticket_task.map((i) => ({ key: i.id, checked: i.is_done }))
-      : []
+      ? phaseItem.tasks.map((i) => ({ key: i.id, checked: i.is_done }))
+      : [],
   );
 
   function handleCheckboxChange(
     event: ChangeEvent<HTMLInputElement>,
-    keyID: CheckboxStateTypes["key"]
+    keyID: CheckboxStateTypes["key"],
   ) {
     const changedItem = checkboxStates.findIndex((i) => i["key"] === keyID);
     const newStates = [...checkboxStates];

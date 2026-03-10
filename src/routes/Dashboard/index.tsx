@@ -9,9 +9,10 @@ import {
 import { tickets } from "../../MockData/tickets";
 import StatusChip from "../../components/StatusChip";
 import TicketModal from "../../components/TicketModal/TicketModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { TicketDataTypes } from "../../types/types";
 import CreateTicketModal from "../../components/CreateTicketModal/CreateTicket";
+import { getTicketList } from "../../data/app.api";
 
 const columns = [
   { width: 30, field: "id", headerName: "Nr." },
@@ -48,9 +49,17 @@ const columns = [
 export default function Dashboard() {
   const [modalState, setModalState] = useState(false);
   const [createTicket, setCreateTicket] = useState(false);
+  const [ticketList, setTicketList] = useState<TicketDataTypes[]>([]);
   const [selectedTicket, setSelectedTicket] = useState<TicketDataTypes | null>(
     null,
   );
+
+  useEffect(() => {
+    setTicketList(getTicketList());
+  }, []);
+  useEffect(() => {
+    console.log("selectedTicket =", selectedTicket);
+  }, [selectedTicket]);
 
   const openModal = (item?: GridRowParams) => {
     setModalState(true);
@@ -114,7 +123,7 @@ export default function Dashboard() {
                 outline: "none",
               },
           }}
-          rows={tickets}
+          rows={ticketList}
           onRowClick={openModal}
           columns={columns}
           disableColumnMenu

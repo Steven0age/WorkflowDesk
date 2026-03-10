@@ -1,4 +1,8 @@
-import type { AnswersState, TemplateWorkflow } from "../types/types";
+import type {
+  AnswersState,
+  TemplateWorkflow,
+  TicketDataTypes,
+} from "../types/types";
 
 type createTicketParams = {
   workflowList: TemplateWorkflow[];
@@ -16,6 +20,18 @@ export const getWorkflowList = (): TemplateWorkflow[] | [] => {
   workflowList = JSON.parse(list);
 
   return workflowList;
+};
+
+export const getTicketList = (): TicketDataTypes[] | [] => {
+  let ticketList;
+  const list = localStorage.getItem("tickets");
+  if (!list) {
+    return [];
+  }
+
+  ticketList = JSON.parse(list);
+
+  return ticketList;
 };
 
 export const createTicket = ({

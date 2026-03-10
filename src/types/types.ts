@@ -66,7 +66,7 @@ export type TicketPhaseDataTypes = {
   completed_at: string | null;
   approved_by: string | null;
   created_at: string;
-  ticket_task: TicketTaskDataTypes[];
+  tasks: TicketTaskDataTypes[];
 };
 
 export type TicketDataTypes = {
