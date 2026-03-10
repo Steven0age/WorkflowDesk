@@ -80,6 +80,8 @@ export type TicketDataTypes = {
   created_at: string;
   completed_at: string | null;
   ticket_phase?: TicketPhaseDataTypes[];
+  questionnaireSnapshot: QuestionnaireSnapshotDataTypes[];
+  questionnaireAnswers: AnswersState;
 };
 
 export type TicketStatus = "open" | "inProgress" | "review" | "done";

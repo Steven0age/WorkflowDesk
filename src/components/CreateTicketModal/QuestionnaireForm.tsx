@@ -28,10 +28,6 @@ export default function QuestionnaireForm({ workflow }: Props) {
     setAnswers({});
   }, [workflow.id]);
 
-  useEffect(() => {
-    console.log("answers =", answers);
-  }, [answers]);
-
   return (
     <CardShell elevation={0} sx={{ mt: 2 }}>
       <CardHeader

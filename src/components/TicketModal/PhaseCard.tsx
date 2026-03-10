@@ -16,7 +16,6 @@ export type PhaseCardTypes = {
 };
 
 export default function PhaseCard({ phaseItem }: PhaseCardTypes) {
-  console.log("phaseItem", phaseItem);
   if (!phaseItem) {
     return;
   }

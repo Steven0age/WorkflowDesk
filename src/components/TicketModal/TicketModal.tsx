@@ -117,7 +117,7 @@ export default function TicketModal({
               gap: 4,
             }}
           >
-            <QuestionnaireCard ticketID={item.id} />
+            <QuestionnaireCard item={item} />
             {item.ticket_phase?.map((i) => {
               return <PhaseCard key={i.id} phaseItem={i} />;
             })}
