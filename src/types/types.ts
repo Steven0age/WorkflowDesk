@@ -59,10 +59,10 @@ export type TicketPhaseDataTypes = {
   template_phase_id: string;
   title: string;
   order_index: number;
-  status: TicketStatus;
+  status: PhaseStatus;
   proof_required: boolean;
   approval_required: boolean;
-  startet_at: string | null;
+  started_at: string | null;
   completed_at: string | null;
   approved_by: string | null;
   created_at: string;
@@ -85,6 +85,7 @@ export type TicketDataTypes = {
 };
 
 export type TicketStatus = "open" | "inProgress" | "review" | "done";
+export type PhaseStatus = "pending" | "inProgress" | "review" | "done";
 
 export type ActivityLogEventType =
   | "ticket_created"

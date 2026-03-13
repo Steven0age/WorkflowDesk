@@ -25,17 +25,17 @@ export default function PhaseCard({ phaseItem }: PhaseCardTypes) {
   });
 
   const setDisabled = {
-    open: true,
+    pending: true,
     inProgress: false,
     review: true,
     done: true,
   };
 
   const getButtonLabel = {
-    open: "open-Phase abschließen",
-    inProgress: "IP-Phase abschließen",
-    review: "rew-Phase zur Prüfung eingereicht",
-    done: "done-Phase abgeschlossen",
+    pending: "Phase noch nicht gestartet",
+    inProgress: "Phase abschließen",
+    review: "Phase zur Prüfung eingereicht",
+    done: "Phase abgeschlossen",
   };
 
   return (
