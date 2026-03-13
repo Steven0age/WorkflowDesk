@@ -7,9 +7,14 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { createTicket, getWorkflowList } from "../../data/app.api";
+import {
+  createTicket,
+  getTicketList,
+  getWorkflowList,
+} from "../../data/app.api";
 import QuestionnaireForm from "./QuestionnaireForm";
 import { useCreateTicket } from "../../context/CreateTicketContext";
+import { useApp } from "../../context/AppContext";
 
 type TicketModalTypes = {
   openModal: boolean;
@@ -27,6 +32,8 @@ export default function CreateTicketModal({
     setSelectedWorkflowId,
     answers,
   } = useCreateTicket();
+
+  const { setTicketList } = useApp();
 
   useEffect(() => {
     const workflows = getWorkflowList();
@@ -139,6 +146,7 @@ export default function CreateTicketModal({
             onClick={() => {
               createTicket({ workflowList, selectedWorkflowId, answers });
               handleOnClose();
+              setTicketList(getTicketList());
             }}
           >
             Workflow starten

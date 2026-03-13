@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import type { TicketDataTypes } from "../../types/types";
 import CreateTicketModal from "../../components/CreateTicketModal/CreateTicket";
 import { getTicketList } from "../../data/app.api";
+import { useApp } from "../../context/AppContext";
 
 const columns = [
   { width: 30, field: "id", headerName: "Nr." },
@@ -47,9 +48,9 @@ const columns = [
 ];
 
 export default function Dashboard() {
+  const { ticketList, setTicketList } = useApp();
   const [modalState, setModalState] = useState(false);
   const [createTicket, setCreateTicket] = useState(false);
-  const [ticketList, setTicketList] = useState<TicketDataTypes[]>([]);
   const [selectedTicket, setSelectedTicket] = useState<TicketDataTypes | null>(
     null,
   );
@@ -57,9 +58,6 @@ export default function Dashboard() {
   useEffect(() => {
     setTicketList(getTicketList());
   }, []);
-  useEffect(() => {
-    console.log("selectedTicket =", selectedTicket);
-  }, [selectedTicket]);
 
   const openModal = (item?: GridRowParams) => {
     setModalState(true);
