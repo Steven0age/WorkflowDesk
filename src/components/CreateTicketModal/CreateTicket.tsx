@@ -136,9 +136,10 @@ export default function CreateTicketModal({
         >
           <Button
             variant="contained"
-            onClick={() =>
-              createTicket({ workflowList, selectedWorkflowId, answers })
-            }
+            onClick={() => {
+              createTicket({ workflowList, selectedWorkflowId, answers });
+              handleOnClose();
+            }}
           >
             Workflow starten
           </Button>
