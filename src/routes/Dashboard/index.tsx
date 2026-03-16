@@ -48,12 +48,13 @@ const columns = [
 ];
 
 export default function Dashboard() {
-  const { ticketList, setTicketList } = useApp();
+  const { ticketList, setTicketList, selectedTicket, setSelectedTicket } =
+    useApp();
   const [modalState, setModalState] = useState(false);
   const [createTicket, setCreateTicket] = useState(false);
-  const [selectedTicket, setSelectedTicket] = useState<TicketDataTypes | null>(
-    null,
-  );
+  // const [selectedTicket, setSelectedTicket] = useState<TicketDataTypes | null>(
+  //   null,
+  // );
 
   useEffect(() => {
     setTicketList(getTicketList());

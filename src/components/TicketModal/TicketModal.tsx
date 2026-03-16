@@ -5,6 +5,8 @@ import StatusChip from "../StatusChip";
 import ActivitiyLog from "./ActivityLog";
 import PhaseCard from "./PhaseCard";
 import QuestionnaireCard from "./QuestionnaireCard";
+import { updateTicket } from "../../data/app.api";
+import { useApp } from "../../context/AppContext";
 
 type TicketModalTypes = {
   openModal: boolean;
@@ -17,6 +19,7 @@ export default function TicketModal({
   handleOnClose,
   item,
 }: TicketModalTypes) {
+  const { selectedTicket } = useApp();
   if (!item) {
     return <Typography>Kein Ticket ausgewählt</Typography>;
   }
@@ -139,7 +142,18 @@ export default function TicketModal({
             pr: 2,
           }}
         >
-          <Button variant="contained">Speichern</Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              if (selectedTicket === null) {
+                throw new Error("Kein Ticket ausgewählt");
+              }
+
+              updateTicket(selectedTicket);
+            }}
+          >
+            Speichern
+          </Button>
           <Button variant="outlined" onClick={handleOnClose}>
             Schließen
           </Button>

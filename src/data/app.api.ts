@@ -90,3 +90,15 @@ export const createTicket = ({
 
   localStorage.setItem("tickets", JSON.stringify(updatedTickets));
 };
+
+export const updateTicket = (updatedTicket: TicketDataTypes) => {
+  const storedTickets = JSON.parse(localStorage.getItem("tickets") ?? "[]");
+
+  const updatedTickets = storedTickets.map((ticket: TicketDataTypes) =>
+    ticket.id === updatedTicket.id ? updatedTicket : ticket,
+  );
+
+  localStorage.setItem("tickets", JSON.stringify(updatedTickets));
+
+  return updatedTicket;
+};
