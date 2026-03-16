@@ -94,7 +94,7 @@ export const createTicket = ({
     completed_at: null,
     questionnaireAnswers: answers,
     questionnaireSnapshot: currentWorkflow.questionnaire,
-    ticket_phase: newPhases,
+    phases: newPhases,
   };
 
   const storedTickets = localStorage.getItem("tickets");

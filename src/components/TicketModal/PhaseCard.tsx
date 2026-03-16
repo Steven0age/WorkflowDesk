@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import CardShell from "../CardShell";
 import type { TicketPhaseDataTypes } from "../../types/types";
-import useCheckboxState from "../../hooks/useCheckboxState";
+import { useApp } from "../../context/AppContext";
 
 export type PhaseCardTypes = {
   phaseItem: TicketPhaseDataTypes | undefined;
@@ -20,9 +20,7 @@ export default function PhaseCard({ phaseItem }: PhaseCardTypes) {
     return;
   }
 
-  const { checkboxStates, handleCheckboxChange } = useCheckboxState({
-    phaseItem,
-  });
+  const { handleCheckboxChange } = useApp();
 
   const setDisabled = {
     pending: true,
@@ -51,15 +49,9 @@ export default function PhaseCard({ phaseItem }: PhaseCardTypes) {
                   control={
                     <Checkbox
                       onChange={(event) => {
-                        handleCheckboxChange(event, i.id);
+                        handleCheckboxChange(event, phaseItem.id, i.id);
                       }}
-                      checked={
-                        checkboxStates[
-                          checkboxStates.findIndex((x) => {
-                            return x["key"] === i.id;
-                          })
-                        ].checked
-                      }
+                      checked={i.is_done}
                       required={i.is_required}
                       disabled={setDisabled[phaseItem.status]}
                     />

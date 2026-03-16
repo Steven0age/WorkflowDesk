@@ -79,7 +79,7 @@ export type TicketDataTypes = {
   status: TicketStatus;
   created_at: string;
   completed_at: string | null;
-  ticket_phase?: TicketPhaseDataTypes[];
+  phases?: TicketPhaseDataTypes[];
   questionnaireSnapshot: QuestionnaireSnapshotDataTypes[];
   questionnaireAnswers: AnswersState;
 };

@@ -130,11 +130,7 @@ export default function Dashboard() {
         />
       </Box>
       {selectedTicket && (
-        <TicketModal
-          openModal={modalState}
-          handleOnClose={closeModal}
-          item={selectedTicket}
-        />
+        <TicketModal openModal={modalState} handleOnClose={closeModal} />
       )}
       {createTicket && (
         <CreateTicketModal openModal={modalState} handleOnClose={closeModal} />

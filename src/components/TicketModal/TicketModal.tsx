@@ -1,4 +1,3 @@
-import type { TicketDataTypes } from "../../types/types";
 import theme from "../../theme";
 import { Box, Typography, Modal, Button } from "@mui/material";
 import StatusChip from "../StatusChip";
@@ -11,16 +10,14 @@ import { useApp } from "../../context/AppContext";
 type TicketModalTypes = {
   openModal: boolean;
   handleOnClose: () => void;
-  item: TicketDataTypes | null;
 };
 
 export default function TicketModal({
   openModal,
   handleOnClose,
-  item,
 }: TicketModalTypes) {
   const { selectedTicket } = useApp();
-  if (!item) {
+  if (!selectedTicket) {
     return <Typography>Kein Ticket ausgewählt</Typography>;
   }
 
@@ -53,7 +50,7 @@ export default function TicketModal({
             flexDirection: "column",
             alignItems: "stretch",
             justifyContent: "center",
-            bgcolor: theme.palette.status[item.status].main,
+            bgcolor: theme.palette.status[selectedTicket.status].main,
             borderRadius: 10,
             mx: 4,
             my: 2,
@@ -68,14 +65,14 @@ export default function TicketModal({
               fontWeight: "bold",
               fontSize: "2rem",
               mb: 2,
-              color: theme.palette.status[item.status].contrastText,
+              color: theme.palette.status[selectedTicket.status].contrastText,
               textAlign: "center",
               hyphens: "auto",
               wordBreak: "normal",
               overflowWrap: "break-word",
             }}
           >
-            Ticket: {item.label}
+            Ticket: {selectedTicket.label}
           </Typography>
 
           <Box
@@ -87,15 +84,15 @@ export default function TicketModal({
             }}
           >
             <StatusChip
-              status={item.status}
+              status={selectedTicket.status}
               variant="ticket"
               labelPrefix="Status:"
             />
             <StatusChip
-              status={item.status}
+              status={selectedTicket.status}
               variant="ticket"
               labelPrefix="Workflow:"
-              label={item.template_title}
+              label={selectedTicket.template_title}
             />
           </Box>
         </Box>
@@ -120,15 +117,15 @@ export default function TicketModal({
               gap: 4,
             }}
           >
-            <QuestionnaireCard item={item} />
-            {item.ticket_phase?.map((i) => {
+            <QuestionnaireCard item={selectedTicket} />
+            {selectedTicket.phases?.map((i) => {
               return <PhaseCard key={i.id} phaseItem={i} />;
             })}
-            {!item.ticket_phase && (
+            {!selectedTicket.phases && (
               <Typography>Keine Phasen angelegt</Typography>
             )}
           </Box>
-          <ActivitiyLog item={item} />
+          <ActivitiyLog item={selectedTicket} />
         </Box>
 
         <Box
