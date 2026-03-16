@@ -51,8 +51,22 @@ export const createTicket = ({
   const now = new Date().toISOString();
 
   const newPhases = currentWorkflow.phases.map((p, index) => {
+    const newPhaseID = crypto.randomUUID();
+    const newTasks = p.tasks.map((t, index) => {
+      return {
+        id: t.id,
+        ticket_phase_id: newPhaseID,
+        template_task_id: t.id,
+        label: t.label,
+        is_required: t.is_required,
+        is_done: false,
+        order_index: index,
+        created_at: now,
+      };
+    });
+
     return {
-      id: crypto.randomUUID(),
+      id: newPhaseID,
       ticket_id: newTicketId,
       template_phase_id: p.id,
       title: p.title,
@@ -64,7 +78,7 @@ export const createTicket = ({
       completed_at: null,
       approved_by: null,
       created_at: now,
-      tasks: p.tasks,
+      tasks: newTasks,
     };
   });
 

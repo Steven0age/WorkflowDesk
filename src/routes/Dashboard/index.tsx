@@ -10,7 +10,6 @@ import {
 import StatusChip from "../../components/StatusChip";
 import TicketModal from "../../components/TicketModal/TicketModal";
 import { useEffect, useState } from "react";
-import type { TicketDataTypes } from "../../types/types";
 import CreateTicketModal from "../../components/CreateTicketModal/CreateTicket";
 import { getTicketList } from "../../data/app.api";
 import { useApp } from "../../context/AppContext";
