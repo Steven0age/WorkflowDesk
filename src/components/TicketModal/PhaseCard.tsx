@@ -20,7 +20,7 @@ export default function PhaseCard({ phaseItem }: PhaseCardTypes) {
     return;
   }
 
-  const { handleCheckboxChange } = useApp();
+  const { handleCheckboxChange, handleCompletePhase } = useApp();
 
   const setDisabled = {
     pending: true,
@@ -68,6 +68,9 @@ export default function PhaseCard({ phaseItem }: PhaseCardTypes) {
               variant="contained"
               color="primary"
               disabled={setDisabled[phaseItem.status]}
+              onClick={() => {
+                handleCompletePhase(phaseItem.id);
+              }}
             >
               {getButtonLabel[phaseItem.status]}
             </Button>
