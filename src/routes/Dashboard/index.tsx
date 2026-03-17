@@ -11,7 +11,7 @@ import StatusChip from "../../components/StatusChip";
 import TicketModal from "../../components/TicketModal/TicketModal";
 import { useEffect, useState } from "react";
 import CreateTicketModal from "../../components/CreateTicketModal/CreateTicket";
-import { getTicketList } from "../../data/app.api";
+import { fetchTicket, getTicketList } from "../../data/app.api";
 import { useApp } from "../../context/AppContext";
 
 const columns = [
@@ -51,9 +51,6 @@ export default function Dashboard() {
     useApp();
   const [modalState, setModalState] = useState(false);
   const [createTicket, setCreateTicket] = useState(false);
-  // const [selectedTicket, setSelectedTicket] = useState<TicketDataTypes | null>(
-  //   null,
-  // );
 
   useEffect(() => {
     setTicketList(getTicketList());
@@ -63,7 +60,7 @@ export default function Dashboard() {
     setModalState(true);
 
     if (item) {
-      setSelectedTicket(item.row);
+      setSelectedTicket(fetchTicket(item.row.id));
     } else {
       setCreateTicket(true);
     }

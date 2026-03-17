@@ -34,6 +34,23 @@ export const getTicketList = (): TicketDataTypes[] | [] => {
   return ticketList;
 };
 
+export const fetchTicket = (
+  id: TicketDataTypes["id"],
+): TicketDataTypes | null => {
+  let ticketList: TicketDataTypes[];
+
+  const list = localStorage.getItem("tickets");
+  if (!list) {
+    return null;
+  }
+
+  ticketList = JSON.parse(list);
+  const fetchedTicket = ticketList.find((t) => t.id === id);
+
+  if (!fetchedTicket) return null;
+  return fetchedTicket;
+};
+
 export const createTicket = ({
   workflowList,
   selectedWorkflowId,
