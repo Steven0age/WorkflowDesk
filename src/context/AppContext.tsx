@@ -6,6 +6,7 @@ import {
   type ReactNode,
 } from "react";
 import type { TicketDataTypes, TicketPhaseDataTypes } from "../types/types";
+import { updateTicket } from "../data/app.api";
 
 type AppContextType = {
   ticketList: TicketDataTypes[];
@@ -21,6 +22,7 @@ type AppContextType = {
     taskId: string,
   ) => void;
   handleCompletePhase: (phaseID: TicketPhaseDataTypes["id"]) => void;
+  handleCompleteTicket: () => void;
 };
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -126,51 +128,29 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  // const handleCompletePhase = (phaseId: TicketPhaseDataTypes["id"]) => {
-  //   setSelectedTicket((prev) => {
-  //     if (!prev || !prev.phases) return prev;
+  const handleCompleteTicket = () => {
+    if (!selectedTicket || !selectedTicket.phases) return;
 
-  //     const targetPhase = prev.phases.find((phase) => phase.id === phaseId);
+    const hasOpenPhases = selectedTicket.phases.some((phase) => {
+      return phase.status !== "done";
+    });
 
-  //     if (!targetPhase) {
-  //       alert("Die Phase konnte nicht gefunden werden.");
-  //       return prev;
-  //     }
+    if (hasOpenPhases) {
+      alert(
+        "Das Ticket kann noch nicht abgeschlossen werden, weil noch nicht alle Phasen abgeschlossen sind.",
+      );
+      return;
+    }
 
-  //     if (targetPhase.status !== "inProgress") {
-  //       alert("Diese Phase kann aktuell nicht abgeschlossen werden.");
-  //       return prev;
-  //     }
+    const updatedTicket: TicketDataTypes = {
+      ...selectedTicket,
+      status: "done",
+      completed_at: new Date().toISOString(),
+    };
 
-  //     const hasOpenRequiredTasks = targetPhase.tasks.some((task) => {
-  //       return task.is_required && !task.is_done;
-  //     });
-
-  //     if (hasOpenRequiredTasks) {
-  //       alert(
-  //         "Die Phase kann noch nicht abgeschlossen werden, weil noch Pflichtaufgaben offen sind.",
-  //       );
-  //       return prev;
-  //     }
-
-  //     const nextStatus: TicketPhaseDataTypes["status"] =
-  //       targetPhase.approval_required ? "review" : "done";
-
-  //     return {
-  //       ...prev,
-  //       phases: prev.phases.map((phase) => {
-  //         if (phase.id !== phaseId) return phase;
-
-  //         return {
-  //           ...phase,
-  //           status: nextStatus,
-  //           completed_at:
-  //             nextStatus === "done" ? new Date().toISOString() : null,
-  //         };
-  //       }),
-  //     };
-  //   });
-  // };
+    setSelectedTicket(updatedTicket);
+    updateTicket(updatedTicket);
+  };
 
   const value: AppContextType = {
     ticketList,
@@ -179,6 +159,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setSelectedTicket,
     handleCheckboxChange,
     handleCompletePhase,
+    handleCompleteTicket,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

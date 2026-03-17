@@ -93,11 +93,17 @@ const theme = createTheme({
       },
 
       done: {
-        main: "#ECF1F5",
-        contrastText: "#262E3A",
-        background: "#FFFFFFCC",
+        main: green[500],
+        contrastText: "#FFFFFF",
+        background: "#FFFFFF2E",
         border: "#00000014",
       },
+      // done: {
+      //   main: "#ECF1F5",
+      //   contrastText: "#262E3A",
+      //   background: "#FFFFFFCC",
+      //   border: "#00000014",
+      // },
     },
 
     action: {

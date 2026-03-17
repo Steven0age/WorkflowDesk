@@ -14,7 +14,7 @@ export const tickets: TicketDataTypes[] = [
     questionnaireSnapshot: [],
     questionnaireAnswers: {},
 
-    ticket_phase: [
+    phases: [
       {
         id: "p-1-1",
         ticket_id: 1,
@@ -233,7 +233,7 @@ export const tickets: TicketDataTypes[] = [
     questionnaireSnapshot: [],
     questionnaireAnswers: {},
 
-    ticket_phase: [
+    phases: [
       {
         id: "p-2-1",
         ticket_id: 2,

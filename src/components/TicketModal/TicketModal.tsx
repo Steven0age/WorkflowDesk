@@ -16,10 +16,15 @@ export default function TicketModal({
   openModal,
   handleOnClose,
 }: TicketModalTypes) {
-  const { selectedTicket } = useApp();
+  const { selectedTicket, handleCompleteTicket } = useApp();
   if (!selectedTicket) {
     return <Typography>Kein Ticket ausgewählt</Typography>;
   }
+
+  const hasOpenPhases =
+    selectedTicket?.phases?.some((phase) => phase.status !== "done") ?? false;
+
+  const isTicketDone = selectedTicket?.status === "done";
 
   return (
     <Modal
@@ -139,18 +144,30 @@ export default function TicketModal({
             pr: 2,
           }}
         >
-          <Button
-            variant="contained"
-            onClick={() => {
-              if (selectedTicket === null) {
-                throw new Error("Kein Ticket ausgewählt");
-              }
+          {!hasOpenPhases && (
+            <Button
+              variant="contained"
+              disabled={isTicketDone}
+              onClick={handleCompleteTicket}
+            >
+              {isTicketDone ? "Ticket abgeschlossen" : "Ticket abschließen"}
+            </Button>
+          )}
 
-              updateTicket(selectedTicket);
-            }}
-          >
-            Speichern
-          </Button>
+          {hasOpenPhases && (
+            <Button
+              variant="contained"
+              onClick={() => {
+                if (selectedTicket === null) {
+                  throw new Error("Kein Ticket ausgewählt");
+                }
+                updateTicket(selectedTicket);
+              }}
+            >
+              Speichern
+            </Button>
+          )}
+
           <Button variant="outlined" onClick={handleOnClose}>
             Schließen
           </Button>
