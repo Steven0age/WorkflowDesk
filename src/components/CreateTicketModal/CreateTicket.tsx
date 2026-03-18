@@ -31,6 +31,7 @@ export default function CreateTicketModal({
     selectedWorkflowId,
     setSelectedWorkflowId,
     answers,
+    hasMissingRequiredAnswers,
   } = useCreateTicket();
 
   const { setTicketList } = useApp();
@@ -144,6 +145,10 @@ export default function CreateTicketModal({
           <Button
             variant="contained"
             onClick={() => {
+              if (hasMissingRequiredAnswers()) {
+                alert("Bitte alle Pflichfragen ausfüllen");
+                return;
+              }
               createTicket({ workflowList, selectedWorkflowId, answers });
               handleOnClose();
               setTicketList(getTicketList());

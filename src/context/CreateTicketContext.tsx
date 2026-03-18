@@ -10,6 +10,7 @@ type CreateTicketContextType = {
   >;
   answers: AnswersState;
   setAnswers: React.Dispatch<React.SetStateAction<AnswersState>>;
+  hasMissingRequiredAnswers: () => boolean;
 };
 
 export const CreateTicketContext = createContext<
@@ -21,6 +22,31 @@ export function CreateTicketProvider({ children }: { children: ReactNode }) {
   const [selectedWorkflowId, setSelectedWorkflowId] = useState("");
   const [answers, setAnswers] = useState<AnswersState>({});
 
+  const hasMissingRequiredAnswers = () => {
+    const currentWorkflow = workflowList.find(
+      (workflow) => workflow.id === selectedWorkflowId,
+    );
+
+    if (!currentWorkflow) {
+      throw new Error("Workflow nicht gefunden");
+    }
+
+    const requiredQuestions = currentWorkflow.questionnaire.filter(
+      (question) => question.is_required,
+    );
+
+    const requiredQuestionIds = requiredQuestions.map(
+      (question) => question.id,
+    );
+
+    const hasMissingRequiredAnswers = requiredQuestionIds.some((id) => {
+      const answer = answers[id];
+      return answer === null || answer === undefined || answer === "";
+    });
+
+    return hasMissingRequiredAnswers;
+  };
+
   const value: CreateTicketContextType = {
     workflowList,
     setWorkflowList,
@@ -28,6 +54,7 @@ export function CreateTicketProvider({ children }: { children: ReactNode }) {
     setSelectedWorkflowId,
     answers,
     setAnswers,
+    hasMissingRequiredAnswers,
   };
 
   return (
