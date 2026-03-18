@@ -53,8 +53,10 @@ export default function Dashboard() {
   const [createTicket, setCreateTicket] = useState(false);
 
   useEffect(() => {
-    setTicketList(getTicketList());
-  }, []);
+    if (!modalState) {
+      setTicketList(getTicketList());
+    }
+  }, [modalState]);
 
   const openModal = (item?: GridRowParams) => {
     setModalState(true);
