@@ -201,6 +201,7 @@ export default function Phase({
                   key={i.id}
                   id={i.id}
                   label={i.label}
+                  is_required={i.is_required}
                   onEdit={() => handleTaskEdit?.(i.id)}
                   onDelete={() => deleteTask(i.id)}
                 />

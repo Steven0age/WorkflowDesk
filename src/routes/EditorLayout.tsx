@@ -68,7 +68,6 @@ function EditorLayoutInner() {
         <Typography variant="h1" color="text.primary">
           Neuen Workflow erstellen
         </Typography>
-        <Typography>{`Folgende Params sind geladen: ${workflowId}`}</Typography>
         <Box
           sx={{
             display: "flex",

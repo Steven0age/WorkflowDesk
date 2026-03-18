@@ -10,6 +10,7 @@ import { useMemo, useEffect } from "react";
 import CardShell from "../CardShell";
 import FileUploadField from "../FileUploadField";
 import { useCreateTicket } from "../../context/CreateTicketContext";
+import RequiredMark from "../RequiredMark";
 
 type Props = {
   workflow: TemplateWorkflow;
@@ -43,7 +44,10 @@ export default function QuestionnaireForm({ workflow }: Props) {
             case "textField":
               return (
                 <Box key={q.id}>
-                  <Typography variant="h5">{q.label}</Typography>
+                  <Typography variant="h5">
+                    {q.label}
+                    {q.is_required && <RequiredMark />}
+                  </Typography>
                   <TextField
                     sx={{ mb: 2 }}
                     fullWidth
@@ -61,7 +65,10 @@ export default function QuestionnaireForm({ workflow }: Props) {
             case "upload":
               return (
                 <Box key={q.id}>
-                  <Typography variant="h5">{q.label}</Typography>
+                  <Typography variant="h5">
+                    {q.label}
+                    {q.is_required && <RequiredMark />}
+                  </Typography>
                   <FileUploadField
                     file={
                       answers[q.id] instanceof File

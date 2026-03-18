@@ -156,6 +156,7 @@ export default function FormEditor() {
                       id={i.id}
                       label={i.label}
                       field_type={i.field_type}
+                      is_required={i.is_required}
                       onClick={() => toggleQuestionDrawer(i.id)}
                       onDelete={() => deleteFormItem(i.id)}
                     />
@@ -170,6 +171,7 @@ export default function FormEditor() {
                   key={activeItem.id}
                   id={activeItem.id}
                   label={activeItem.label}
+                  is_required={activeItem.is_required}
                   field_type={activeItem.field_type as "textField" | "upload"}
                 />
               ) : null}

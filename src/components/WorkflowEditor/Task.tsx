@@ -6,8 +6,12 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import type { TicketTaskDataTypes } from "../../types/types";
+import RequiredMark from "../RequiredMark";
 
-export type TaskProps = Pick<TicketTaskDataTypes, "label" | "id"> & {
+export type TaskProps = Pick<
+  TicketTaskDataTypes,
+  "label" | "id" | "is_required"
+> & {
   draggingTask?: string;
   onClick?: () => void;
   onDelete?: () => void;
@@ -17,6 +21,7 @@ export type TaskProps = Pick<TicketTaskDataTypes, "label" | "id"> & {
 export default function Task({
   draggingTask,
   id,
+  is_required,
   onClick,
   onEdit,
   onDelete,
@@ -78,6 +83,7 @@ export default function Task({
             }}
           >
             {label}
+            {is_required && <RequiredMark />}
           </Typography>
         </Box>
         <Box sx={{ display: "flex", gap: 1 }}>

@@ -371,6 +371,7 @@ export default function PhasesEditor() {
                   label={draggingTask.label}
                   key={draggingTask.id}
                   id={draggingTask.id}
+                  is_required={draggingTask.is_required}
                 />
               ) : null}
             </DragOverlay>

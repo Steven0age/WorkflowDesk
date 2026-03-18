@@ -7,10 +7,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import type { QuestionnaireQuestionTypes } from "../../types/types";
+import RequiredMark from "../RequiredMark";
 
 export type QuestionProps = Pick<
   QuestionnaireQuestionTypes,
-  "label" | "field_type" | "id"
+  "label" | "field_type" | "id" | "is_required"
 > & {
   activeItem?: string;
   onClick?: () => void;
@@ -22,6 +23,7 @@ export default function Question({
   id,
   field_type,
   label,
+  is_required,
   onClick,
   onDelete,
 }: QuestionProps) {
@@ -74,6 +76,7 @@ export default function Question({
             }}
           >
             {label}
+            {is_required && <RequiredMark />}
           </Typography>
         </Box>
         <Box sx={{ display: "flex", gap: 1 }}>
