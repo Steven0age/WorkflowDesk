@@ -91,7 +91,7 @@ export const createTicket = ({
       status: index === 0 ? "inProgress" : "pending",
       proof_required: p.proof_required,
       approval_required: p.approval_required,
-      started_at: null,
+      started_at: index === 0 ? now : null,
       completed_at: null,
       approved_by: null,
       created_at: now,

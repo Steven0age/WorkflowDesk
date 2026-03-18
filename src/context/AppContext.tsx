@@ -118,7 +118,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
             return {
               ...phase,
               status: "inProgress",
-              startet_at: phase.started_at ?? new Date().toISOString(),
+              started_at: phase.started_at ?? new Date().toISOString(),
             };
           }
 

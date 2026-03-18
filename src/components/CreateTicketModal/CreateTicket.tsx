@@ -151,7 +151,6 @@ export default function CreateTicketModal({
               }
               createTicket({ workflowList, selectedWorkflowId, answers });
               handleOnClose();
-              setTicketList(getTicketList());
             }}
           >
             Workflow starten
