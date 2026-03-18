@@ -10,7 +10,6 @@ import {
 import { createTicket, getWorkflowList } from "../../data/app.api";
 import QuestionnaireForm from "./QuestionnaireForm";
 import { useCreateTicket } from "../../context/CreateTicketContext";
-import { useApp } from "../../context/AppContext";
 
 type TicketModalTypes = {
   openModal: boolean;
@@ -29,8 +28,6 @@ export default function CreateTicketModal({
     answers,
     hasMissingRequiredAnswers,
   } = useCreateTicket();
-
-  const { setTicketList } = useApp();
 
   useEffect(() => {
     const workflows = getWorkflowList();
