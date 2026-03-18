@@ -7,11 +7,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import {
-  createTicket,
-  getTicketList,
-  getWorkflowList,
-} from "../../data/app.api";
+import { createTicket, getWorkflowList } from "../../data/app.api";
 import QuestionnaireForm from "./QuestionnaireForm";
 import { useCreateTicket } from "../../context/CreateTicketContext";
 import { useApp } from "../../context/AppContext";
