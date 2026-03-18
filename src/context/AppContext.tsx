@@ -65,67 +65,69 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   const handleCompletePhase = (phaseId: TicketPhaseDataTypes["id"]) => {
-    setSelectedTicket((prev) => {
-      if (!prev || !prev.phases) return prev;
+    if (!selectedTicket || !selectedTicket.phases) return;
 
-      const targetPhase = prev.phases.find((phase) => phase.id === phaseId);
+    const targetPhase = selectedTicket.phases.find(
+      (phase) => phase.id === phaseId,
+    );
 
-      if (!targetPhase) {
-        alert("Die Phase konnte nicht gefunden werden.");
-        return prev;
-      }
+    if (!targetPhase) {
+      alert("Die Phase konnte nicht gefunden werden.");
+      return;
+    }
 
-      if (targetPhase.status !== "inProgress") {
-        alert("Diese Phase kann aktuell nicht abgeschlossen werden.");
-        return prev;
-      }
+    if (targetPhase.status !== "inProgress") {
+      alert("Diese Phase kann aktuell nicht abgeschlossen werden.");
+      return;
+    }
 
-      const hasOpenRequiredTasks = targetPhase.tasks.some((task) => {
-        return task.is_required && !task.is_done;
-      });
-
-      if (hasOpenRequiredTasks) {
-        alert(
-          "Die Phase kann noch nicht abgeschlossen werden, weil noch Pflichtaufgaben offen sind.",
-        );
-        return prev;
-      }
-
-      const nextStatus: TicketPhaseDataTypes["status"] =
-        targetPhase.approval_required ? "review" : "done";
-
-      const currentPhaseIndex = prev.phases.findIndex(
-        (phase) => phase.id === phaseId,
-      );
-
-      return {
-        ...prev,
-        phases: prev.phases.map((phase, index) => {
-          if (phase.id === phaseId) {
-            return {
-              ...phase,
-              status: nextStatus,
-              completed_at:
-                nextStatus === "done" ? new Date().toISOString() : null,
-            };
-          }
-
-          if (
-            nextStatus === "done" &&
-            index === currentPhaseIndex + 1 &&
-            phase.status === "pending"
-          ) {
-            return {
-              ...phase,
-              status: "inProgress",
-              started_at: phase.started_at ?? new Date().toISOString(),
-            };
-          }
-
-          return phase;
-        }),
-      };
+    const hasOpenRequiredTasks = targetPhase.tasks.some((task) => {
+      return task.is_required && !task.is_done;
     });
+
+    if (hasOpenRequiredTasks) {
+      alert(
+        "Die Phase kann noch nicht abgeschlossen werden, weil noch Pflichtaufgaben offen sind.",
+      );
+      return;
+    }
+
+    const nextStatus: TicketPhaseDataTypes["status"] =
+      targetPhase.approval_required ? "review" : "done";
+
+    const currentPhaseIndex = selectedTicket.phases.findIndex(
+      (phase) => phase.id === phaseId,
+    );
+
+    const updatedTicket: TicketDataTypes = {
+      ...selectedTicket,
+      phases: selectedTicket.phases.map((phase, index) => {
+        if (phase.id === phaseId) {
+          return {
+            ...phase,
+            status: nextStatus,
+            completed_at:
+              nextStatus === "done" ? new Date().toISOString() : null,
+          };
+        }
+
+        if (
+          nextStatus === "done" &&
+          index === currentPhaseIndex + 1 &&
+          phase.status === "pending"
+        ) {
+          return {
+            ...phase,
+            status: "inProgress",
+            started_at: phase.started_at ?? new Date().toISOString(),
+          };
+        }
+
+        return phase;
+      }),
+    };
+
+    setSelectedTicket(updatedTicket);
   };
 
   const handleCompleteTicket = () => {
