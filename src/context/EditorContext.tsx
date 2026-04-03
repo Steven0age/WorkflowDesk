@@ -171,20 +171,20 @@ export function EditorProvider({ children }: { children: ReactNode }) {
       return;
     }
     const currentPhase = phasesDraft.find((phase) =>
-      phase.tasks.some((task) => task.id === activeDrawerItemId),
+      phase.template_tasks.some((task) => task.id === activeDrawerItemId),
     );
     if (!currentPhase) return;
 
     const phaseIndex = phasesDraft.findIndex((i) => i.id === currentPhase.id);
     if (phaseIndex === -1) return;
 
-    const taskIndex = currentPhase.tasks.findIndex(
+    const taskIndex = currentPhase.template_tasks.findIndex(
       (i) => i.id === activeDrawerItemId,
     );
     if (taskIndex === -1) return;
 
     const { label, description, is_required } =
-      phasesDraft[phaseIndex].tasks[taskIndex];
+      phasesDraft[phaseIndex].template_tasks[taskIndex];
 
     changeItemLabel(label);
     changeItemDescription(description);
@@ -222,7 +222,7 @@ export function EditorProvider({ children }: { children: ReactNode }) {
       proof_required: false,
       proof_description: "",
       approval_required: false,
-      tasks: [],
+      template_tasks: [],
     };
 
     setPhasesDraft((prev) => [...prev, newPhase]);
@@ -247,7 +247,7 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     setPhasesDraft((prev) =>
       prev.map((phase) => {
         return phase.id === selectedPhaseId
-          ? { ...phase, tasks: [...phase.tasks, newTask] }
+          ? { ...phase, tasks: [...phase.template_tasks, newTask] }
           : phase;
       }),
     );
@@ -259,7 +259,7 @@ export function EditorProvider({ children }: { children: ReactNode }) {
 
     if (phaseIndex === undefined || phaseIndex === -1) return;
 
-    const newTasks = phasesDraft[phaseIndex].tasks.filter(
+    const newTasks = phasesDraft[phaseIndex].template_tasks.filter(
       (task) => task.id !== taskId,
     );
 

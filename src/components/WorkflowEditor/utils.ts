@@ -5,7 +5,7 @@ export function getPhaseIdByTaskId(
   taskId: TemplateTask["id"],
 ): TemplatePhase["id"] | undefined {
   const currentPhase = phases.find((phase) =>
-    phase.tasks.some((task) => task.id === taskId),
+    phase.template_tasks.some((task) => task.id === taskId),
   );
 
   if (!currentPhase) return;
@@ -19,7 +19,7 @@ export function getPhaseIndexByTaskId(
   taskId: TemplateTask["id"],
 ): number | undefined {
   const currentPhase = phases.find((phase) =>
-    phase.tasks.some((task) => task.id === taskId),
+    phase.template_tasks.some((task) => task.id === taskId),
   );
 
   if (!currentPhase) return;

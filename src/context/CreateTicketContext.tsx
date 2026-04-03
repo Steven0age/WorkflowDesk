@@ -31,7 +31,7 @@ export function CreateTicketProvider({ children }: { children: ReactNode }) {
       throw new Error("Workflow nicht gefunden");
     }
 
-    const requiredQuestions = currentWorkflow.questionnaire.filter(
+    const requiredQuestions = currentWorkflow.template_questions.filter(
       (question) => question.is_required,
     );
 
