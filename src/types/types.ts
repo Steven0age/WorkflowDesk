@@ -119,15 +119,6 @@ export type TemplateWorkflow = {
   phases: TemplatePhase[];
 };
 
-export type TemplateTask = {
-  id: string;
-  template_phase_id?: string;
-  order_index?: number;
-  label: string;
-  description: string;
-  is_required: boolean;
-};
-
 export type TemplatePhase = {
   id: string;
   template_id?: string;
@@ -138,4 +129,13 @@ export type TemplatePhase = {
   proof_description: string;
   approval_required: boolean;
   tasks: TemplateTask[];
+};
+
+export type TemplateTask = {
+  id: string;
+  template_phase_id?: string;
+  order_index?: number;
+  label: string;
+  description: string;
+  is_required: boolean;
 };

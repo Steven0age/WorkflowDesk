@@ -44,11 +44,11 @@ export default function Workflows() {
           </IconButton>
 
           <IconButton
-            onClick={(e) => {
+            onClick={async (e) => {
               e.stopPropagation();
               const id = String(params.id);
               deleteWorkflow(id);
-              setWorkflowList(getWorkflowList());
+              setWorkflowList(await getWorkflowList());
             }}
             sx={{
               "&:hover": { color: "error.main" },
@@ -62,7 +62,11 @@ export default function Workflows() {
   ];
 
   useEffect(() => {
-    setWorkflowList(getWorkflowList());
+    const load = async () => {
+      const workflows = await getWorkflowList();
+      setWorkflowList(workflows);
+    };
+    load();
   }, []);
 
   const rows = workflowList.map((t) => ({

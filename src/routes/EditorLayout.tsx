@@ -5,6 +5,7 @@ import EditorSidebar from "../components/EditorSidebar";
 import { EditorProvider, useEditor } from "../context/EditorContext";
 import { saveWorkflow, editWorkflow } from "../data/workflowEditor.api";
 import { useEffect } from "react";
+import { getWorkflowList } from "../data/app.api";
 
 export default function EditorLayout() {
   return (
@@ -41,6 +42,20 @@ function EditorLayoutInner() {
     setPhasesDraft(wf.phases);
   }, [workflowId]);
 
+  const handleSave = async () => {
+    try {
+      await saveWorkflow(
+        workflowId,
+        workflowTitle,
+        workflowDescription,
+        formDraft,
+        phasesDraft,
+      );
+    } catch (error) {
+      console.error("Saving workflow failed:", error);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -74,18 +89,7 @@ function EditorLayoutInner() {
             gap: 2,
           }}
         >
-          <Button
-            variant="contained"
-            onClick={() =>
-              saveWorkflow(
-                workflowId,
-                workflowTitle,
-                workflowDescription,
-                formDraft,
-                phasesDraft,
-              )
-            }
-          >
+          <Button variant="contained" onClick={() => handleSave()}>
             Speichern
           </Button>
           <Button variant="outlined" onClick={() => navigate("/workflows")}>

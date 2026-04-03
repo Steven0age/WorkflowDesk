@@ -1,3 +1,4 @@
+import { supabase } from "../supabase-client";
 import type {
   AnswersState,
   TemplateWorkflow,
@@ -10,16 +11,19 @@ type createTicketParams = {
   answers: AnswersState;
 };
 
-export const getWorkflowList = (): TemplateWorkflow[] | [] => {
-  let workflowList;
-  const list = localStorage.getItem("templateWorkflow");
-  if (!list) {
+export const getWorkflowList = async (): Promise<TemplateWorkflow[] | []> => {
+  const { data, error } = await supabase.from("template_workflows").select("*");
+
+  if (error) {
+    console.error("Fetching workflows failed:", error);
+    throw error;
+  }
+
+  if (!data) {
     return [];
   }
 
-  workflowList = JSON.parse(list);
-
-  return workflowList;
+  return data;
 };
 
 export const getTicketList = (): TicketDataTypes[] | [] => {
