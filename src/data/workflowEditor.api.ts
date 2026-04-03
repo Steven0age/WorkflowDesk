@@ -13,7 +13,7 @@ type EditWorkflowFn = (
   id: TemplateWorkflow["id"],
 ) => Promise<TemplateWorkflow | undefined>;
 
-type DeleteWorkflowFn = (id: TemplateWorkflow["id"]) => void;
+type DeleteWorkflowFn = (id: TemplateWorkflow["id"]) => Promise<void>;
 
 export const saveWorkflow: SaveWorkflowFn = async (
   id,
@@ -192,15 +192,6 @@ export const saveWorkflow: SaveWorkflowFn = async (
   }
 };
 
-// const list = localStorage.getItem("templateWorkflow");
-// if (!list) return;
-
-// const workflowList: TemplateWorkflow[] = JSON.parse(list);
-
-// const workflow = workflowList.find((flow) => flow.id === id);
-
-// return workflow;
-
 export const editWorkflow: EditWorkflowFn = async (id) => {
   const { data, error } = await supabase
     .from("template_workflows")
@@ -215,14 +206,14 @@ export const editWorkflow: EditWorkflowFn = async (id) => {
   return data;
 };
 
-export const deleteWorkflow: DeleteWorkflowFn = (id) => {
-  const list = localStorage.getItem("templateWorkflow");
+export const deleteWorkflow: DeleteWorkflowFn = async (id) => {
+  const { error } = await supabase
+    .from("template_workflows")
+    .delete()
+    .eq("id", id);
 
-  if (!list) return;
-
-  const workflowList: TemplateWorkflow[] = JSON.parse(list);
-
-  const updatedList = workflowList.filter((workflow) => workflow.id !== id);
-
-  localStorage.setItem("templateWorkflow", JSON.stringify(updatedList));
+  if (error) {
+    console.error("could not delete workflow", error);
+    throw error;
+  }
 };

@@ -47,7 +47,7 @@ export default function Workflows() {
             onClick={async (e) => {
               e.stopPropagation();
               const id = String(params.id);
-              deleteWorkflow(id);
+              await deleteWorkflow(id);
               setWorkflowList(await getWorkflowList());
             }}
             sx={{
