@@ -30,8 +30,11 @@ export default function CreateTicketModal({
   } = useCreateTicket();
 
   useEffect(() => {
-    const workflows = getWorkflowList();
-    setWorkflowList(workflows);
+    const load = async () => {
+      const workflows = await getWorkflowList();
+      setWorkflowList(workflows);
+    };
+    load();
   }, []);
 
   const selectedWorkflow = useMemo(

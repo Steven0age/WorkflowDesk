@@ -5,7 +5,6 @@ import EditorSidebar from "../components/EditorSidebar";
 import { EditorProvider, useEditor } from "../context/EditorContext";
 import { saveWorkflow, editWorkflow } from "../data/workflowEditor.api";
 import { useEffect } from "react";
-import { getWorkflowList } from "../data/app.api";
 
 export default function EditorLayout() {
   return (
