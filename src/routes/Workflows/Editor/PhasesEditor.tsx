@@ -96,7 +96,7 @@ export default function PhasesEditor() {
       );
       if (currentPhase === undefined || currentPhase === -1) return;
 
-      const findItem = phasesDraft[currentPhase].tasks.find(
+      const findItem = phasesDraft[currentPhase].template_tasks.find(
         (task) => task.id === event.active.id,
       );
 
@@ -151,7 +151,7 @@ export default function PhasesEditor() {
       );
       if (currentPhaseIndex === -1) return phasesDraft;
 
-      const currentTasks = phasesDraft[currentPhaseIndex].tasks;
+      const currentTasks = phasesDraft[currentPhaseIndex].template_tasks;
       const currentTaskIndex = currentTasks.findIndex((t) => t.id === activeId);
       if (currentTaskIndex === -1) return phasesDraft;
 
@@ -166,7 +166,7 @@ export default function PhasesEditor() {
         const newPhaseIndex = phasesDraft.findIndex((p) => p.id === newPhaseId);
         if (newPhaseIndex === -1) return phasesDraft;
 
-        const newTasks = phasesDraft[newPhaseIndex].tasks;
+        const newTasks = phasesDraft[newPhaseIndex].template_tasks;
         const newTaskIndex = newTasks.findIndex((t) => t.id === overId);
         if (newTaskIndex === -1) return phasesDraft;
 
@@ -210,7 +210,7 @@ export default function PhasesEditor() {
         return phasesDraft.map((p) => {
           if (p.id === currentPhaseId) return { ...p, tasks: newSourceTasks };
           if (p.id === targetPhaseId)
-            return { ...p, tasks: [...p.tasks, movingTask] };
+            return { ...p, tasks: [...p.template_tasks, movingTask] };
           return p;
         });
       }
@@ -254,7 +254,7 @@ export default function PhasesEditor() {
         return;
       }
 
-      const newTasks = phasesDraft[phaseIndex].tasks.map((q) =>
+      const newTasks = phasesDraft[phaseIndex].template_tasks.map((q) =>
         q.id === activeDrawerItemId
           ? {
               ...q,
@@ -338,7 +338,7 @@ export default function PhasesEditor() {
                       title={phase.title}
                       key={phase.id}
                       id={phase.id}
-                      tasks={phase.tasks}
+                      tasks={phase.template_tasks}
                       draggingTask={draggingTask ? draggingTask.id : undefined}
                       phaseSelectedidentifier={selectedPhaseId}
                       handleTaskEdit={(taskId) => {
@@ -362,7 +362,7 @@ export default function PhasesEditor() {
                   title={draggingPhase.title}
                   key={draggingPhase.id}
                   id={draggingPhase.id}
-                  tasks={draggingPhase.tasks}
+                  tasks={draggingPhase.template_tasks}
                 />
               ) : null}
 

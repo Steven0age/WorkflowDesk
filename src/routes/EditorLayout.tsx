@@ -31,14 +31,17 @@ function EditorLayoutInner() {
 
   useEffect(() => {
     if (!workflowId) return;
+    const load = async () => {
+      const wf = await editWorkflow(workflowId);
 
-    const wf = editWorkflow(workflowId);
-    if (!wf) return;
+      if (!wf) return;
 
-    changeWorkflowTitle(wf.title);
-    changeWorkflowDescription(wf.description);
-    setFormDraft(wf.questionnaire);
-    setPhasesDraft(wf.phases);
+      changeWorkflowTitle(wf.title);
+      changeWorkflowDescription(wf.description);
+      setFormDraft(wf.template_questions);
+      setPhasesDraft(wf.template_phases);
+    };
+    load();
   }, [workflowId]);
 
   const handleSave = async () => {

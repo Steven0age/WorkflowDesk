@@ -51,7 +51,9 @@ export default function Phase({
     useEditor();
 
   const taskIds = useMemo(() => {
-    return phasesDraft.map((phase) => phase.tasks.map((t) => t.id)).flat();
+    return phasesDraft
+      .map((phase) => phase.template_tasks.map((t) => t.id))
+      .flat();
   }, [phasesDraft]);
 
   useEffect(() => {

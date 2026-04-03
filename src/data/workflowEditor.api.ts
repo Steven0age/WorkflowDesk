@@ -5,13 +5,13 @@ type SaveWorkflowFn = (
   id: TemplateWorkflow["id"] | undefined,
   workflowTitle: TemplateWorkflow["title"],
   workflowDescription: TemplateWorkflow["description"],
-  formDraft: TemplateWorkflow["questionnaire"],
-  phasesDraft: TemplateWorkflow["phases"],
-) => void;
+  formDraft: TemplateWorkflow["template_questions"],
+  phasesDraft: TemplateWorkflow["template_phases"],
+) => Promise<void>;
 
 type EditWorkflowFn = (
   id: TemplateWorkflow["id"],
-) => TemplateWorkflow | undefined;
+) => Promise<TemplateWorkflow | undefined>;
 
 type DeleteWorkflowFn = (id: TemplateWorkflow["id"]) => void;
 
@@ -171,8 +171,8 @@ export const saveWorkflow: SaveWorkflowFn = async (
       throw insertPhaseError;
     }
 
-    if (phase.tasks.length > 0) {
-      const taskRows = phase.tasks.map((task, taskIndex) => ({
+    if (phase.template_tasks.length > 0) {
+      const taskRows = phase.template_tasks.map((task, taskIndex) => ({
         template_phase_id: insertedPhase.id,
         order_index: task.order_index ?? taskIndex,
         label: task.label,
@@ -190,19 +190,29 @@ export const saveWorkflow: SaveWorkflowFn = async (
       }
     }
   }
-
-  return workflowId;
 };
 
-export const editWorkflow: EditWorkflowFn = (id) => {
-  const list = localStorage.getItem("templateWorkflow");
-  if (!list) return;
+// const list = localStorage.getItem("templateWorkflow");
+// if (!list) return;
 
-  const workflowList: TemplateWorkflow[] = JSON.parse(list);
+// const workflowList: TemplateWorkflow[] = JSON.parse(list);
 
-  const workflow = workflowList.find((flow) => flow.id === id);
+// const workflow = workflowList.find((flow) => flow.id === id);
 
-  return workflow;
+// return workflow;
+
+export const editWorkflow: EditWorkflowFn = async (id) => {
+  const { data, error } = await supabase
+    .from("template_workflows")
+    .select("*, template_phases (*, template_tasks (*)),template_questions(*)")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error("could not load workflow", error);
+    throw error;
+  }
+  return data;
 };
 
 export const deleteWorkflow: DeleteWorkflowFn = (id) => {

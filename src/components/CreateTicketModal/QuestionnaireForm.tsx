@@ -20,10 +20,10 @@ export default function QuestionnaireForm({ workflow }: Props) {
   const { answers, setAnswers } = useCreateTicket();
 
   const sortedQuestions = useMemo(() => {
-    return [...workflow.questionnaire].sort((a, b) => {
+    return [...workflow.template_questions].sort((a, b) => {
       return a.order_index - b.order_index;
     });
-  }, [workflow.questionnaire]);
+  }, [workflow.template_questions]);
 
   useEffect(() => {
     setAnswers({});
@@ -33,7 +33,7 @@ export default function QuestionnaireForm({ workflow }: Props) {
     <CardShell elevation={0} sx={{ mt: 2 }}>
       <CardHeader
         title={
-          workflow.questionnaire.length === 0
+          workflow.template_questions.length === 0
             ? "Keine Fragen vorhanden"
             : `Fragebogen zum Workflow ${workflow.title}`
         }

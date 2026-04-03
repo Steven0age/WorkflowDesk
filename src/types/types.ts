@@ -115,8 +115,8 @@ export type TemplateWorkflow = {
   id: string;
   title: string;
   description: string;
-  questionnaire: QuestionnaireQuestionTypes[];
-  phases: TemplatePhase[];
+  template_questions: QuestionnaireQuestionTypes[];
+  template_phases: TemplatePhase[];
 };
 
 export type TemplatePhase = {
@@ -128,7 +128,7 @@ export type TemplatePhase = {
   proof_required: boolean;
   proof_description: string;
   approval_required: boolean;
-  tasks: TemplateTask[];
+  template_tasks: TemplateTask[];
 };
 
 export type TemplateTask = {
