@@ -12,7 +12,9 @@ type createTicketParams = {
 };
 
 export const getWorkflowList = async (): Promise<TemplateWorkflow[] | []> => {
-  const { data, error } = await supabase.from("template_workflows").select("*");
+  const { data, error } = await supabase
+    .from("template_workflows")
+    .select("*, template_questions(*)");
 
   if (error) {
     console.error("Fetching workflows failed:", error);
@@ -22,7 +24,7 @@ export const getWorkflowList = async (): Promise<TemplateWorkflow[] | []> => {
   if (!data) {
     return [];
   }
-
+  console.log("data =", data);
   return data;
 };
 
