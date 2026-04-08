@@ -53,16 +53,21 @@ export default function Dashboard() {
   const [createTicket, setCreateTicket] = useState(false);
 
   useEffect(() => {
-    if (!modalState) {
-      setTicketList(getTicketList());
-    }
+    const load = async () => {
+      if (!modalState) {
+        const list = await getTicketList();
+        setTicketList(list);
+      }
+    };
+    load();
   }, [modalState]);
 
-  const openModal = (item?: GridRowParams) => {
+  const openModal = async (item?: GridRowParams) => {
     setModalState(true);
 
     if (item) {
-      setSelectedTicket(fetchTicket(item.row.id));
+      const fetchedTicket = await fetchTicket(item.row.id);
+      setSelectedTicket(fetchedTicket);
     } else {
       setCreateTicket(true);
     }

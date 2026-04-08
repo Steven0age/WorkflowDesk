@@ -11,6 +11,7 @@ import type {
   UserRole,
 } from "../types/types";
 import { updateTicket } from "../data/app.api";
+import type { Session } from "@supabase/supabase-js";
 
 type AppContextType = {
   ticketList: TicketDataTypes[];
@@ -23,6 +24,8 @@ type AppContextType = {
   setOrganizationId: React.Dispatch<React.SetStateAction<string | null>>;
   userRole: UserRole | null;
   setUserRole: React.Dispatch<React.SetStateAction<UserRole | null>>;
+  session: any;
+  setSession: any;
 
   handleCheckboxChange: (
     event: ChangeEvent<HTMLInputElement>,
@@ -36,12 +39,13 @@ type AppContextType = {
 export const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: ReactNode }) {
+  const [session, setSession] = useState<Session | null>(null);
+  const [organizationId, setOrganizationId] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<UserRole | null>(null);
   const [ticketList, setTicketList] = useState<TicketDataTypes[]>([]);
   const [selectedTicket, setSelectedTicket] = useState<TicketDataTypes | null>(
     null,
   );
-  const [organizationId, setOrganizationId] = useState<string | null>(null);
-  const [userRole, setUserRole] = useState<UserRole | null>(null);
 
   const handleCheckboxChange = (
     event: ChangeEvent<HTMLInputElement>,
@@ -51,16 +55,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const checked = event.target.checked;
 
     setSelectedTicket((prev) => {
-      if (!prev || !prev.phases) return prev;
+      if (!prev || !prev.ticket_phases) return prev;
 
       return {
         ...prev,
-        phases: prev.phases.map((phase) => {
+        ticket_phases: prev.ticket_phases.map((phase) => {
           if (phase.id !== phaseId) return phase;
 
           return {
             ...phase,
-            tasks: phase.tasks.map((task) => {
+            ticket_tasks: phase.ticket_tasks.map((task) => {
               if (task.id !== taskId) return task;
 
               return {
@@ -75,9 +79,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   const handleCompletePhase = (phaseId: TicketPhaseDataTypes["id"]) => {
-    if (!selectedTicket || !selectedTicket.phases) return;
+    if (!selectedTicket || !selectedTicket.ticket_phases) return;
 
-    const targetPhase = selectedTicket.phases.find(
+    const targetPhase = selectedTicket.ticket_phases.find(
       (phase) => phase.id === phaseId,
     );
 
@@ -86,12 +90,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    if (targetPhase.status !== "inProgress") {
+    if (targetPhase.status !== "in_progress") {
       alert("Diese Phase kann aktuell nicht abgeschlossen werden.");
       return;
     }
 
-    const hasOpenRequiredTasks = targetPhase.tasks.some((task) => {
+    const hasOpenRequiredTasks = targetPhase.ticket_tasks.some((task) => {
       return task.is_required && !task.is_done;
     });
 
@@ -105,13 +109,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const nextStatus: TicketPhaseDataTypes["status"] =
       targetPhase.approval_required ? "review" : "done";
 
-    const currentPhaseIndex = selectedTicket.phases.findIndex(
+    const currentPhaseIndex = selectedTicket.ticket_phases.findIndex(
       (phase) => phase.id === phaseId,
     );
 
     const updatedTicket: TicketDataTypes = {
       ...selectedTicket,
-      phases: selectedTicket.phases.map((phase, index) => {
+      ticket_phases: selectedTicket.ticket_phases.map((phase, index) => {
         if (phase.id === phaseId) {
           return {
             ...phase,
@@ -128,7 +132,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         ) {
           return {
             ...phase,
-            status: "inProgress",
+            status: "in_progress",
             started_at: phase.started_at ?? new Date().toISOString(),
           };
         }
@@ -141,9 +145,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   const handleCompleteTicket = () => {
-    if (!selectedTicket || !selectedTicket.phases) return;
+    if (!selectedTicket || !selectedTicket.ticket_phases) return;
 
-    const hasOpenPhases = selectedTicket.phases.some((phase) => {
+    const hasOpenPhases = selectedTicket.ticket_phases.some((phase) => {
       return phase.status !== "done";
     });
 
@@ -176,6 +180,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setOrganizationId,
     userRole,
     setUserRole,
+    session,
+    setSession,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

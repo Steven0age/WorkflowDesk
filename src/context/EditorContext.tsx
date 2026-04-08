@@ -1,7 +1,6 @@
 import React, {
   createContext,
   useContext,
-  useEffect,
   useState,
   type ReactNode,
 } from "react";
@@ -121,10 +120,6 @@ export function EditorProvider({ children }: { children: ReactNode }) {
   const changeItemApprovalRequired = (input: boolean) => {
     setItemApprovalRequired(input);
   };
-
-  useEffect(() => {
-    console.log("phasesDraft =", phasesDraft);
-  }, [phasesDraft]);
 
   const resetDrawerStates = () => {
     setItemLabel("");

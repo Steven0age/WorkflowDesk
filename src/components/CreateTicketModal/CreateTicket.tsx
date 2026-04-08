@@ -10,6 +10,7 @@ import {
 import { createTicket, getWorkflowList } from "../../data/app.api";
 import QuestionnaireForm from "./QuestionnaireForm";
 import { useCreateTicket } from "../../context/CreateTicketContext";
+import { useApp } from "../../context/AppContext";
 
 type TicketModalTypes = {
   openModal: boolean;
@@ -28,6 +29,8 @@ export default function CreateTicketModal({
     answers,
     hasMissingRequiredAnswers,
   } = useCreateTicket();
+
+  const { organizationId, session } = useApp();
 
   useEffect(() => {
     const load = async () => {
@@ -140,12 +143,18 @@ export default function CreateTicketModal({
         >
           <Button
             variant="contained"
-            onClick={() => {
+            onClick={async () => {
               if (hasMissingRequiredAnswers()) {
                 alert("Bitte alle Pflichfragen ausfüllen");
                 return;
               }
-              createTicket({ workflowList, selectedWorkflowId, answers });
+              await createTicket({
+                selectedWorkflowId,
+                answers,
+                startedBy: session.user.id,
+                assignedTo: session.user.id,
+                organizationId,
+              });
               handleOnClose();
             }}
           >

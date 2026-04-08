@@ -8,36 +8,47 @@ import {
 import CardShell from "../CardShell";
 //import { questionnaireAnswers } from "../../MockData/questionaireAnswers";
 //import { files } from "../../MockData/files";
-import type { TicketDataTypes } from "../../types/types";
+import type {
+  QuestionnaireAnswerDataTypes,
+  TicketDataTypes,
+} from "../../types/types";
 
 type QuestionnaireCardTypes = {
   item: TicketDataTypes | null;
 };
 
 export default function QuestionnaireCard({ item }: QuestionnaireCardTypes) {
-  // fetch questionnaire from DB according to TicketID //
-  // currently missing since data are hardcoded
-  // const questionIDsWithUpload = () => {
-  //   const uploadIds = answers
-  //     .filter((i) => {
-  //       return i.field_type === "upload" || i.ticket_id == ticketID;
-  //     })
-  //     .map((i) => {
-  //       return i.id;
-  //     });
-  //   return uploadIds;
-  // };
-  // questionIDsWithUpload();
-
-  const questions = item?.questionnaireSnapshot ?? [];
-  const answers = item?.questionnaireAnswers ?? {};
+  const questions = item?.ticket_questions ?? [];
+  const answers = item?.ticket_answers ?? [];
 
   return (
     <CardShell elevation={1}>
       <CardHeader title={"Ausgefüllter Fragebogen"}></CardHeader>
 
       <CardContent>
-        {questions.map((i) => {
+        {questions.map((question) => {
+          const currentAnswer = answers.find(
+            (answer: QuestionnaireAnswerDataTypes) =>
+              answer.ticket_question_id === question.id,
+          );
+
+          switch (question.field_type) {
+            case "textField":
+              return (
+                <Box key={question.id}>
+                  <Typography variant="h5">{question.label}</Typography>
+                  <TextField
+                    sx={{ mb: 2 }}
+                    fullWidth
+                    multiline
+                    disabled
+                    value={currentAnswer?.text_answer ?? ""}
+                  />
+                </Box>
+              );
+
+              {
+                /* {questions.map((i) => {
           const currentAnswer = answers[i.id];
 
           switch (i.field_type) {
@@ -51,10 +62,11 @@ export default function QuestionnaireCard({ item }: QuestionnaireCardTypes) {
                     multiline
                     id="outlined"
                     disabled
-                    defaultValue={currentAnswer}
+                    value={currentAnswer}
                   ></TextField>
                 </Box>
-              );
+              ); */
+              }
 
             case "upload":
               return null;

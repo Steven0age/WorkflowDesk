@@ -17,9 +17,7 @@ import PhasesEditor from "./routes/Workflows/Editor/PhasesEditor";
 import { useApp } from "./context/AppContext";
 
 export function Authentication() {
-  const [session, setSession] = useState<any>(null);
-
-  const { setUserRole, setOrganizationId } = useApp();
+  const { setUserRole, setOrganizationId, session, setSession } = useApp();
 
   const router = createBrowserRouter(
     [

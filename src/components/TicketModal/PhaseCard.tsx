@@ -17,21 +17,21 @@ export type PhaseCardTypes = {
 
 export default function PhaseCard({ phaseItem }: PhaseCardTypes) {
   if (!phaseItem) {
-    return;
+    return null;
   }
 
   const { handleCheckboxChange, handleCompletePhase } = useApp();
 
   const setDisabled = {
     pending: true,
-    inProgress: false,
+    in_progress: false,
     review: true,
     done: true,
   };
 
   const getButtonLabel = {
     pending: "Phase noch nicht gestartet",
-    inProgress: "Phase abschließen",
+    in_progress: "Phase abschließen",
     review: "Phase zur Prüfung eingereicht",
     done: "Phase abgeschlossen",
   };
@@ -42,7 +42,7 @@ export default function PhaseCard({ phaseItem }: PhaseCardTypes) {
         <CardHeader title={phaseItem.title}></CardHeader>
         <CardContent>
           <FormGroup>
-            {phaseItem.tasks.map((i) => {
+            {phaseItem.ticket_tasks.map((i) => {
               return (
                 <FormControlLabel
                   key={i.id}

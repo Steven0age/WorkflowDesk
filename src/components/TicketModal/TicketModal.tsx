@@ -22,7 +22,8 @@ export default function TicketModal({
   }
 
   const hasOpenPhases =
-    selectedTicket?.phases?.some((phase) => phase.status !== "done") ?? false;
+    selectedTicket?.ticket_phases?.some((phase) => phase.status !== "done") ??
+    false;
 
   const isTicketDone = selectedTicket?.status === "done";
 
@@ -123,10 +124,10 @@ export default function TicketModal({
             }}
           >
             <QuestionnaireCard item={selectedTicket} />
-            {selectedTicket.phases?.map((i) => {
+            {selectedTicket.ticket_phases?.map((i) => {
               return <PhaseCard key={i.id} phaseItem={i} />;
             })}
-            {!selectedTicket.phases && (
+            {!selectedTicket.ticket_phases && (
               <Typography>Keine Phasen angelegt</Typography>
             )}
           </Box>
@@ -157,11 +158,10 @@ export default function TicketModal({
           {hasOpenPhases && (
             <Button
               variant="contained"
-              onClick={() => {
-                if (selectedTicket === null) {
-                  throw new Error("Kein Ticket ausgewählt");
-                }
-                updateTicket(selectedTicket);
+              onClick={async () => {
+                if (!selectedTicket) return;
+
+                await updateTicket(selectedTicket);
               }}
             >
               Speichern

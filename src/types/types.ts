@@ -1,6 +1,6 @@
 export type fileDataTypes = {
   id: string;
-  ticket_id: number;
+  ticket_id: string;
   ticket_phase_id: string | null;
   ticket_questionnaire_answer_id: string | null;
   storage_path: string;
@@ -10,8 +10,8 @@ export type fileDataTypes = {
 
 export type QuestionnaireAnswerDataTypes = {
   id: string;
-  ticket_id: number;
-  questionnaire_snapshot_id: string;
+  ticket_id: string;
+  ticket_question_id: string;
   text_answer: string | null;
 };
 
@@ -28,7 +28,7 @@ export type QuestionnaireQuestionTypes = {
 
 export type QuestionnaireSnapshotDataTypes = {
   id: string;
-  ticket_id: number;
+  ticket_id: string;
   template_question_id: string;
   label: string;
   description: string;
@@ -55,7 +55,7 @@ export type TicketTaskDataTypes = {
 
 export type TicketPhaseDataTypes = {
   id: string;
-  ticket_id: number;
+  ticket_id: string;
   template_phase_id: string;
   title: string;
   order_index: number;
@@ -66,11 +66,11 @@ export type TicketPhaseDataTypes = {
   completed_at: string | null;
   approved_by: string | null;
   created_at: string;
-  tasks: TicketTaskDataTypes[];
+  ticket_tasks: TicketTaskDataTypes[];
 };
 
 export type TicketDataTypes = {
-  id: number;
+  id: string;
   template_id: string;
   template_title: string;
   started_by: string;
@@ -79,14 +79,15 @@ export type TicketDataTypes = {
   status: TicketStatus;
   created_at: string;
   completed_at: string | null;
-  phases?: TicketPhaseDataTypes[];
-  questionnaireSnapshot: QuestionnaireSnapshotDataTypes[];
-  questionnaireAnswers: AnswersState;
+  organization_id: string;
+  ticket_phases?: TicketPhaseDataTypes[];
+  ticket_questions: QuestionnaireSnapshotDataTypes[];
+  ticket_answers: QuestionnaireAnswerDataTypes[];
 };
 
 export type TicketStatus = "open" | "inProgress" | "review" | "done";
 
-export type PhaseStatus = "pending" | "inProgress" | "review" | "done";
+export type PhaseStatus = "pending" | "in_progress" | "review" | "done";
 
 export type UserRole = "admin" | "member" | null;
 
@@ -106,7 +107,7 @@ export type ActivityLogEventType =
 
 export type ActivityLogDataTypes = {
   id: string;
-  ticket_id: number;
+  ticket_id: string;
   ticket_phase_id: string | null;
   event_type: ActivityLogEventType;
   message: string | null;
