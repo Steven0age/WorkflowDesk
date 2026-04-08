@@ -7,6 +7,7 @@ type SaveWorkflowFn = (
   workflowDescription: TemplateWorkflow["description"],
   formDraft: TemplateWorkflow["template_questions"],
   phasesDraft: TemplateWorkflow["template_phases"],
+  organizationId: string | null,
 ) => Promise<void>;
 
 type EditWorkflowFn = (
@@ -21,6 +22,7 @@ export const saveWorkflow: SaveWorkflowFn = async (
   workflowDescription,
   formDraft,
   phasesDraft,
+  organizationId,
 ) => {
   const {
     data: { user },
@@ -108,6 +110,7 @@ export const saveWorkflow: SaveWorkflowFn = async (
           title: workflowTitle,
           description: workflowDescription,
           created_from_user: user.id,
+          organization_id: organizationId,
         })
         .select("id")
         .single();

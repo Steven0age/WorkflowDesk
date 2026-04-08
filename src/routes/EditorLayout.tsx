@@ -5,6 +5,7 @@ import EditorSidebar from "../components/EditorSidebar";
 import { EditorProvider, useEditor } from "../context/EditorContext";
 import { saveWorkflow, editWorkflow } from "../data/workflowEditor.api";
 import { useEffect } from "react";
+import { useApp } from "../context/AppContext";
 
 export default function EditorLayout() {
   return (
@@ -29,6 +30,8 @@ function EditorLayoutInner() {
     setPhasesDraft,
   } = useEditor();
 
+  const { organizationId } = useApp();
+
   useEffect(() => {
     if (!workflowId) return;
     const load = async () => {
@@ -52,6 +55,7 @@ function EditorLayoutInner() {
         workflowDescription,
         formDraft,
         phasesDraft,
+        organizationId,
       );
     } catch (error) {
       console.error("Saving workflow failed:", error);
