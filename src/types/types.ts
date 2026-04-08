@@ -85,7 +85,10 @@ export type TicketDataTypes = {
 };
 
 export type TicketStatus = "open" | "inProgress" | "review" | "done";
+
 export type PhaseStatus = "pending" | "inProgress" | "review" | "done";
+
+export type UserRole = "admin" | "member" | null;
 
 export type ActivityLogEventType =
   | "ticket_created"

@@ -29,6 +29,7 @@ export const getWorkflowList = async (): Promise<TemplateWorkflow[] | []> => {
 };
 
 export const getTicketList = (): TicketDataTypes[] | [] => {
+  // const {data, error} = await supabase.from('tickets').select('*')
   let ticketList;
   const list = localStorage.getItem("tickets");
   if (!list) {

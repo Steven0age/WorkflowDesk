@@ -1,11 +1,15 @@
-import {
+import React, {
   createContext,
   useContext,
   useState,
   type ChangeEvent,
   type ReactNode,
 } from "react";
-import type { TicketDataTypes, TicketPhaseDataTypes } from "../types/types";
+import type {
+  TicketDataTypes,
+  TicketPhaseDataTypes,
+  UserRole,
+} from "../types/types";
 import { updateTicket } from "../data/app.api";
 
 type AppContextType = {
@@ -15,6 +19,10 @@ type AppContextType = {
   setSelectedTicket: React.Dispatch<
     React.SetStateAction<TicketDataTypes | null>
   >;
+  organizationId: string | null;
+  setOrganizationId: React.Dispatch<React.SetStateAction<string | null>>;
+  userRole: UserRole | null;
+  setUserRole: React.Dispatch<React.SetStateAction<UserRole | null>>;
 
   handleCheckboxChange: (
     event: ChangeEvent<HTMLInputElement>,
@@ -32,6 +40,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [selectedTicket, setSelectedTicket] = useState<TicketDataTypes | null>(
     null,
   );
+  const [organizationId, setOrganizationId] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<UserRole | null>(null);
 
   const handleCheckboxChange = (
     event: ChangeEvent<HTMLInputElement>,
@@ -162,6 +172,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     handleCheckboxChange,
     handleCompletePhase,
     handleCompleteTicket,
+    organizationId,
+    setOrganizationId,
+    userRole,
+    setUserRole,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

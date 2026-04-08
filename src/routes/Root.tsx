@@ -2,7 +2,6 @@ import { Box } from "@mui/material";
 import RootSidebar from "../components/RootSidebar";
 import { Outlet } from "react-router-dom";
 import { CreateTicketProvider } from "../context/CreateTicketContext";
-import { AppProvider } from "../context/AppContext";
 
 export default function Root() {
   return (
@@ -31,11 +30,9 @@ export default function Root() {
           flexDirection: "column",
         }}
       >
-        <AppProvider>
-          <CreateTicketProvider>
-            <Outlet />
-          </CreateTicketProvider>
-        </AppProvider>
+        <CreateTicketProvider>
+          <Outlet />
+        </CreateTicketProvider>
       </Box>
     </Box>
   );

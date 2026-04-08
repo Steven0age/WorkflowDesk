@@ -1,8 +1,13 @@
 import "./App.css";
 import { Authentication } from "./Authentication";
+import { AppProvider } from "./context/AppContext";
 
 function App() {
-  return <Authentication />;
+  return (
+    <AppProvider>
+      <Authentication />;
+    </AppProvider>
+  );
 }
 
 export default App;

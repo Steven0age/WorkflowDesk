@@ -14,9 +14,12 @@ import EditorSettings from "./routes/Workflows/Editor/EditorSettings";
 import EditorLayout from "./routes/EditorLayout";
 import FormEditor from "./routes/Workflows/Editor/FormEditor";
 import PhasesEditor from "./routes/Workflows/Editor/PhasesEditor";
+import { useApp } from "./context/AppContext";
 
 export function Authentication() {
   const [session, setSession] = useState<any>(null);
+
+  const { setUserRole, setOrganizationId } = useApp();
 
   const router = createBrowserRouter(
     [
@@ -72,6 +75,24 @@ export function Authentication() {
     setSession(currentSession.data.session);
   };
 
+  const fetchMembershipData = async (userId: string) => {
+    const { data, error } = await supabase
+      .from("organization_members")
+      .select("organization_id, role")
+      .eq("user_id", userId)
+      .maybeSingle();
+
+    if (error) {
+      console.error("fetchMembershipData error:", error);
+      setOrganizationId(null);
+      setUserRole(null);
+      throw error;
+    }
+
+    setOrganizationId(data?.organization_id ?? null);
+    setUserRole(data?.role ?? null);
+  };
+
   useEffect(() => {
     fetchSession();
 
@@ -84,6 +105,11 @@ export function Authentication() {
       authListener.subscription.unsubscribe();
     };
   }, []);
+
+  useEffect(() => {
+    if (!session?.user?.id) return;
+    fetchMembershipData(session.user.id);
+  }, [session]);
 
   return <>{session ? <RouterProvider router={router} /> : <Auth />}</>;
 }
