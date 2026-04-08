@@ -181,7 +181,9 @@ export default function PhasesEditor() {
             newTaskIndex,
           );
           return phasesDraft.map((p) =>
-            p.id === currentPhaseId ? { ...p, tasks: reorderedTasks } : p,
+            p.id === currentPhaseId
+              ? { ...p, template_tasks: reorderedTasks }
+              : p,
           );
         }
 
@@ -193,8 +195,10 @@ export default function PhasesEditor() {
         ];
 
         return phasesDraft.map((p) => {
-          if (p.id === currentPhaseId) return { ...p, tasks: newSourceTasks };
-          if (p.id === newPhaseId) return { ...p, tasks: newTargetTasks };
+          if (p.id === currentPhaseId)
+            return { ...p, template_tasks: newSourceTasks };
+          if (p.id === newPhaseId)
+            return { ...p, template_tasks: newTargetTasks };
           return p;
         });
       }
@@ -208,9 +212,10 @@ export default function PhasesEditor() {
         const newSourceTasks = currentTasks.filter((t) => t.id !== activeId);
 
         return phasesDraft.map((p) => {
-          if (p.id === currentPhaseId) return { ...p, tasks: newSourceTasks };
+          if (p.id === currentPhaseId)
+            return { ...p, template_tasks: newSourceTasks };
           if (p.id === targetPhaseId)
-            return { ...p, tasks: [...p.template_tasks, movingTask] };
+            return { ...p, template_tasks: [...p.template_tasks, movingTask] };
           return p;
         });
       }
@@ -267,7 +272,9 @@ export default function PhasesEditor() {
 
       setPhasesDraft((draft) =>
         draft.map((phase) => {
-          return phase.id !== phaseId ? phase : { ...phase, tasks: newTasks };
+          return phase.id !== phaseId
+            ? phase
+            : { ...phase, template_tasks: newTasks };
         }),
       );
       resetDrawerStates();

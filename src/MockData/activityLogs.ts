@@ -3,7 +3,7 @@ import type { ActivityLogDataTypes } from "../types/types";
 export const ticketLogs: ActivityLogDataTypes[] = [
   {
     id: "log-1-001",
-    ticket_id: 1,
+    ticket_id: "1",
     ticket_phase_id: null,
     event_type: "ticket_created",
     message: "(TICKET 1)",
@@ -12,7 +12,7 @@ export const ticketLogs: ActivityLogDataTypes[] = [
   },
   {
     id: "log-1-002",
-    ticket_id: 1,
+    ticket_id: "1",
     ticket_phase_id: null,
     event_type: "ticket_assigned",
     message: "Ticket wurde Jochen Busse zugewiesen.",
@@ -21,7 +21,7 @@ export const ticketLogs: ActivityLogDataTypes[] = [
   },
   {
     id: "log-1-003",
-    ticket_id: 1,
+    ticket_id: "1",
     ticket_phase_id: "p-1-1",
     event_type: "phase_started",
     message: "Phase gestartet: Erster Todo-Abschnitt",
@@ -30,7 +30,7 @@ export const ticketLogs: ActivityLogDataTypes[] = [
   },
   {
     id: "log-1-004",
-    ticket_id: 1,
+    ticket_id: "1",
     ticket_phase_id: "p-1-1",
     event_type: "phase_completed",
     message: "Phase abgeschlossen: Erster Todo-Abschnitt",
@@ -39,7 +39,7 @@ export const ticketLogs: ActivityLogDataTypes[] = [
   },
   {
     id: "log-1-005",
-    ticket_id: 1,
+    ticket_id: "1",
     ticket_phase_id: "p-1-2",
     event_type: "phase_started",
     message: "Phase gestartet: Zweiter Todo-Abschnitt",
@@ -49,7 +49,7 @@ export const ticketLogs: ActivityLogDataTypes[] = [
 
   {
     id: "log-2-001",
-    ticket_id: 2,
+    ticket_id: "2",
     ticket_phase_id: null,
     event_type: "ticket_created",
     message: "(TICKET 2) - Ticket wurde erstellt.",
@@ -58,7 +58,7 @@ export const ticketLogs: ActivityLogDataTypes[] = [
   },
   {
     id: "log-2-002",
-    ticket_id: 2,
+    ticket_id: "2",
     ticket_phase_id: null,
     event_type: "ticket_assigned",
     message: "Ticket wurde Jochen Busse zugewiesen.",
@@ -67,7 +67,7 @@ export const ticketLogs: ActivityLogDataTypes[] = [
   },
   {
     id: "log-2-003",
-    ticket_id: 2,
+    ticket_id: "2",
     ticket_phase_id: "p-2-1",
     event_type: "phase_started",
     message: "Phase gestartet: Erster Todo-Abschnitt",
@@ -76,7 +76,7 @@ export const ticketLogs: ActivityLogDataTypes[] = [
   },
   {
     id: "log-2-004",
-    ticket_id: 2,
+    ticket_id: "2",
     ticket_phase_id: "p-2-1",
     event_type: "phase_completed",
     message: "Phase abgeschlossen: Erster Todo-Abschnitt",
@@ -85,7 +85,7 @@ export const ticketLogs: ActivityLogDataTypes[] = [
   },
   {
     id: "log-2-005",
-    ticket_id: 2,
+    ticket_id: "2",
     ticket_phase_id: "p-2-2",
     event_type: "phase_started",
     message: "Phase gestartet: Zweiter Todo-Abschnitt",
@@ -94,7 +94,7 @@ export const ticketLogs: ActivityLogDataTypes[] = [
   },
   {
     id: "log-2-006",
-    ticket_id: 2,
+    ticket_id: "2",
     ticket_phase_id: "p-2-2",
     event_type: "phase_file_uploaded",
     message: "Nachweis hochgeladen: Abnahmeprotokoll.pdf",

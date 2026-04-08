@@ -3,7 +3,7 @@ import type { fileDataTypes } from "../types/types";
 export const files: fileDataTypes[] = [
   {
     id: "file-aaa-0001",
-    ticket_id: 1,
+    ticket_id: "1",
     ticket_phase_id: null,
     ticket_questionnaire_answer_id: "a1c1c1c1-0003-4c2d-9f11-111111111113",
     storage_path:
@@ -13,7 +13,7 @@ export const files: fileDataTypes[] = [
   },
   {
     id: "file-aaa-0002",
-    ticket_id: 1,
+    ticket_id: "1",
     ticket_phase_id: null,
     ticket_questionnaire_answer_id: "a1c1c1c1-0003-4c2d-9f11-111111111113",
     storage_path:
@@ -23,7 +23,7 @@ export const files: fileDataTypes[] = [
   },
   {
     id: "file-bbb-0101",
-    ticket_id: 2,
+    ticket_id: "2",
     ticket_phase_id: null,
     ticket_questionnaire_answer_id: "b2d2d2d2-0003-4a2b-8c22-222222222223",
     storage_path:
