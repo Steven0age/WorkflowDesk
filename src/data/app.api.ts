@@ -16,9 +16,14 @@ type CreateTicketParams = {
 };
 
 export const getWorkflowList = async (): Promise<TemplateWorkflow[] | []> => {
-  const { data, error } = await supabase
-    .from("template_workflows")
-    .select("*, template_questions(*)");
+  const { data, error } = await supabase.from("template_workflows").select(`
+      *,
+      template_questions (*),
+      created_from_user: created_from_user (
+        first_name,
+        last_name
+      )
+    `);
 
   if (error) {
     console.error("Fetching workflows failed:", error);
@@ -28,18 +33,30 @@ export const getWorkflowList = async (): Promise<TemplateWorkflow[] | []> => {
   if (!data) {
     return [];
   }
-  return data;
+
+  const mappedData = data.map((workflow) => ({
+    ...workflow,
+    created_from_user: `${workflow.created_from_user.first_name} ${workflow.created_from_user.last_name}`,
+  }));
+
+  return mappedData ? mappedData : [];
 };
 
 export const getTicketList = async (): Promise<TicketDataTypes[]> => {
-  const { data, error } = await supabase.from("tickets").select("*");
+  const { data, error } = await supabase.from("tickets").select(`*
+    ,started_by(first_name, last_name), assigned_to(first_name, last_name)`);
 
   if (error) {
     console.error("Fetching tickets failed:", error);
     throw error;
   }
+  const mappedData = data.map((workflow) => ({
+    ...workflow,
+    started_by: `${workflow.started_by.first_name} ${workflow.started_by.last_name}`,
+    assigned_to: `${workflow.assigned_to.first_name} ${workflow.assigned_to.last_name}`,
+  }));
 
-  return data ? data : [];
+  return mappedData ? mappedData : [];
 };
 
 export const fetchTicket = async (
@@ -67,7 +84,6 @@ export const fetchTicket = async (
   }
 
   if (!data) return null;
-  console.log("data =", data);
   return data;
 };
 

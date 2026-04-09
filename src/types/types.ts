@@ -119,6 +119,7 @@ export type TemplateWorkflow = {
   id: string;
   title: string;
   description: string;
+  created_from_user: string;
   template_questions: QuestionnaireQuestionTypes[];
   template_phases: TemplatePhase[];
 };

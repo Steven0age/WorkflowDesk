@@ -73,7 +73,7 @@ export default function Workflows() {
     id: t.id,
     title: t.title,
     description: t.description,
-    created_from_user: "Demo User",
+    created_from_user: t.created_from_user,
   }));
 
   return (
