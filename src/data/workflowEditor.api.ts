@@ -134,7 +134,7 @@ export const saveWorkflow: SaveWorkflowFn = async (
       label: question.label,
       description: question.description,
       is_required: question.is_required,
-      order_index: question.order_index ?? index,
+      order_index: index,
       field_type: question.field_type,
     }));
 
@@ -159,7 +159,7 @@ export const saveWorkflow: SaveWorkflowFn = async (
       .from("template_phases")
       .insert({
         template_workflow_id: workflowId,
-        order_index: phase.order_index ?? phaseIndex,
+        order_index: phaseIndex,
         title: phase.title,
         description: phase.description,
         proof_required: phase.proof_required,
@@ -177,7 +177,7 @@ export const saveWorkflow: SaveWorkflowFn = async (
     if (phase.template_tasks.length > 0) {
       const taskRows = phase.template_tasks.map((task, taskIndex) => ({
         template_phase_id: insertedPhase.id,
-        order_index: task.order_index ?? taskIndex,
+        order_index: taskIndex,
         label: task.label,
         description: task.description,
         is_required: task.is_required,
