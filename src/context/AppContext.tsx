@@ -6,6 +6,7 @@ import React, {
   type ReactNode,
 } from "react";
 import type {
+  OrganizationMember,
   TicketDataTypes,
   TicketPhaseDataTypes,
   UserRole,
@@ -22,6 +23,10 @@ type AppContextType = {
   >;
   organizationId: string | null;
   setOrganizationId: React.Dispatch<React.SetStateAction<string | null>>;
+  organizationMembers: OrganizationMember[];
+  setOrganizationMembers: React.Dispatch<
+    React.SetStateAction<OrganizationMember[]>
+  >;
   userRole: UserRole | null;
   setUserRole: React.Dispatch<React.SetStateAction<UserRole | null>>;
   session: any;
@@ -41,6 +46,9 @@ export const AppContext = createContext<AppContextType | undefined>(undefined);
 export function AppProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [organizationId, setOrganizationId] = useState<string | null>(null);
+  const [organizationMembers, setOrganizationMembers] = useState<
+    OrganizationMember[]
+  >([]);
   const [userRole, setUserRole] = useState<UserRole | null>(null);
   const [ticketList, setTicketList] = useState<TicketDataTypes[]>([]);
   const [selectedTicket, setSelectedTicket] = useState<TicketDataTypes | null>(
@@ -178,6 +186,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     handleCompleteTicket,
     organizationId,
     setOrganizationId,
+    organizationMembers,
+    setOrganizationMembers,
     userRole,
     setUserRole,
     session,

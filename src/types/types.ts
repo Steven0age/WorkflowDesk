@@ -144,3 +144,11 @@ export type TemplateTask = {
   description: string;
   is_required: boolean;
 };
+
+export type OrganizationMember = {
+  id: string;
+  first_name: string;
+  last_name: string;
+  role: UserRole;
+  is_active: boolean;
+};

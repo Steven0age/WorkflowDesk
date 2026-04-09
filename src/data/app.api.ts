@@ -1,6 +1,7 @@
 import { supabase } from "../supabase-client";
 import type {
   AnswersState,
+  OrganizationMember,
   QuestionnaireQuestionTypes,
   TemplateTask,
   TemplateWorkflow,
@@ -9,6 +10,7 @@ import type {
 
 type CreateTicketParams = {
   selectedWorkflowId: TemplateWorkflow["id"];
+  ticketLabel: TicketDataTypes["label"];
   answers: AnswersState;
   startedBy: TicketDataTypes["started_by"] | null;
   assignedTo: TicketDataTypes["assigned_to"] | null;
@@ -59,6 +61,32 @@ export const getTicketList = async (): Promise<TicketDataTypes[]> => {
   return mappedData ? mappedData : [];
 };
 
+export const getMembersList = async (
+  organizationId: string,
+): Promise<OrganizationMember[]> => {
+  console.log("getMembersList gestartet");
+  const { data, error } = await supabase
+    .from("organization_members")
+    .select(`*,profiles:user_id(first_name, last_name, is_active)`)
+    .eq("organization_id", organizationId)
+    .eq("user_id.is_active", true);
+
+  if (error) {
+    console.error("Fetching member list failed", error);
+    throw error;
+  }
+
+  const mappedData = data.map((member) => ({
+    id: member.user_id,
+    first_name: member.profiles.first_name,
+    last_name: member.profiles.last_name,
+    role: member.role,
+    is_active: member.profiles.is_active,
+  }));
+
+  return mappedData;
+};
+
 export const fetchTicket = async (
   id: TicketDataTypes["id"],
 ): Promise<TicketDataTypes | null> => {
@@ -89,6 +117,7 @@ export const fetchTicket = async (
 
 export const createTicket = async ({
   selectedWorkflowId,
+  ticketLabel,
   answers,
   startedBy,
   assignedTo,
@@ -144,7 +173,7 @@ export const createTicket = async ({
       template_title: currentWorkflow.title,
       started_by: startedBy,
       assigned_to: assignedTo,
-      label: currentWorkflow.title,
+      label: ticketLabel,
       status: "open",
       created_at: now,
       completed_at: null,
@@ -335,15 +364,3 @@ export const updateTicket = async (
 
   return updatedTicket;
 };
-
-// export const updateTicket = (updatedTicket: TicketDataTypes) => {
-//   const storedTickets = JSON.parse(localStorage.getItem("tickets") ?? "[]");
-
-//   const updatedTickets = storedTickets.map((ticket: TicketDataTypes) =>
-//     ticket.id === updatedTicket.id ? updatedTicket : ticket,
-//   );
-
-//   localStorage.setItem("tickets", JSON.stringify(updatedTickets));
-
-//   return updatedTicket;
-// };

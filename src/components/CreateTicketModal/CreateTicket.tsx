@@ -6,11 +6,17 @@ import {
   Button,
   Select,
   MenuItem,
+  type SelectChangeEvent,
 } from "@mui/material";
-import { createTicket, getWorkflowList } from "../../data/app.api";
+import {
+  createTicket,
+  getMembersList,
+  getWorkflowList,
+} from "../../data/app.api";
 import QuestionnaireForm from "./QuestionnaireForm";
 import { useCreateTicket } from "../../context/CreateTicketContext";
 import { useApp } from "../../context/AppContext";
+import TicketSettings from "./TicketSettings";
 
 type TicketModalTypes = {
   openModal: boolean;
@@ -28,14 +34,26 @@ export default function CreateTicketModal({
     setSelectedWorkflowId,
     answers,
     hasMissingRequiredAnswers,
+    hasMissingAssignedTo,
+    assignedTo,
+    ticketLabel,
   } = useCreateTicket();
 
-  const { organizationId, session } = useApp();
+  const {
+    organizationId,
+    session,
+    organizationMembers,
+    setOrganizationMembers,
+  } = useApp();
 
   useEffect(() => {
     const load = async () => {
       const workflows = await getWorkflowList();
       setWorkflowList(workflows);
+
+      if (!organizationId) throw new Error("organization not loaded");
+      const members = await getMembersList(organizationId);
+      setOrganizationMembers(members);
     };
     load();
   }, []);
@@ -45,7 +63,7 @@ export default function CreateTicketModal({
     [workflowList, selectedWorkflowId],
   );
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: SelectChangeEvent) => {
     setSelectedWorkflowId(event.target.value);
   };
 
@@ -99,10 +117,10 @@ export default function CreateTicketModal({
               overflowWrap: "break-word",
             }}
           >
-            Neuen Workflow starten
+            Neues Workflow-Ticket anlegen
           </Typography>
           <Typography sx={{ mt: 2, fontWeight: "bold" }}>
-            Wähle einen Workflow aus:
+            Workflow auswählen:
           </Typography>
           <Select value={selectedWorkflowId} onChange={handleChange}>
             {workflowList.map((workflow) => (
@@ -126,7 +144,13 @@ export default function CreateTicketModal({
           }}
         >
           {selectedWorkflow && (
-            <QuestionnaireForm workflow={selectedWorkflow} />
+            <>
+              <TicketSettings
+                workflowTitle={selectedWorkflow.title}
+                organizationMembers={organizationMembers}
+              />
+              <QuestionnaireForm workflow={selectedWorkflow} />
+            </>
           )}
         </Box>
 
@@ -148,11 +172,16 @@ export default function CreateTicketModal({
                 alert("Bitte alle Pflichfragen ausfüllen");
                 return;
               }
+              if (hasMissingAssignedTo()) {
+                alert("Bitte eine zuständige Person auswählen");
+                return;
+              }
               await createTicket({
                 selectedWorkflowId,
+                ticketLabel,
                 answers,
                 startedBy: session.user.id,
-                assignedTo: session.user.id,
+                assignedTo: assignedTo,
                 organizationId,
               });
               handleOnClose();
