@@ -97,6 +97,12 @@ export default function TicketModal({
             <StatusChip
               status={selectedTicket.status}
               variant="ticket"
+              labelPrefix="Zuständig ist:"
+              label={`${selectedTicket.profile.first_name} ${selectedTicket.profile.last_name}`}
+            />
+            <StatusChip
+              status={selectedTicket.status}
+              variant="ticket"
               labelPrefix="Workflow:"
               label={selectedTicket.template_title}
             />

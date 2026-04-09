@@ -95,6 +95,7 @@ export const fetchTicket = async (
     .select(
       `
       *,
+      profile: assigned_to(first_name, last_name),
       ticket_questions (*),
       ticket_answers (*),
       ticket_phases (
@@ -110,7 +111,7 @@ export const fetchTicket = async (
     console.error("Fetching ticket failed:", error);
     throw error;
   }
-
+  console.log("data =", data);
   if (!data) return null;
   return data;
 };

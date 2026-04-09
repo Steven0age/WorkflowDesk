@@ -80,6 +80,7 @@ export type TicketDataTypes = {
   created_at: string;
   completed_at: string | null;
   organization_id: string;
+  profile: UserProfile;
   ticket_phases?: TicketPhaseDataTypes[];
   ticket_questions: QuestionnaireSnapshotDataTypes[];
   ticket_answers: QuestionnaireAnswerDataTypes[];
@@ -151,4 +152,11 @@ export type OrganizationMember = {
   last_name: string;
   role: UserRole;
   is_active: boolean;
+};
+
+export type UserProfile = {
+  id?: string;
+  first_name: string;
+  last_name: string;
+  is_active?: boolean;
 };
