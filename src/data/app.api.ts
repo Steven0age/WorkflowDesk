@@ -64,12 +64,19 @@ export const getTicketList = async (): Promise<TicketDataTypes[]> => {
 export const getMembersList = async (
   organizationId: string,
 ): Promise<OrganizationMember[]> => {
-  console.log("getMembersList gestartet");
   const { data, error } = await supabase
     .from("organization_members")
-    .select(`*,profiles:user_id(first_name, last_name, is_active)`)
-    .eq("organization_id", organizationId)
-    .eq("user_id.is_active", true);
+    .select(
+      `
+      *,
+      profiles:user_id (
+        first_name,
+        last_name,
+        is_active
+      )
+    `,
+    )
+    .eq("organization_id", organizationId);
 
   if (error) {
     console.error("Fetching member list failed", error);

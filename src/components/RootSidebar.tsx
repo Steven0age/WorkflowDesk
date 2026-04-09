@@ -1,11 +1,14 @@
 import { Box, Button, Typography } from "@mui/material";
 import MenuItem from "./MenuItem";
 import { supabase } from "../supabase-client";
+import { useApp } from "../context/AppContext";
 
 export default function RootSidebar() {
   const logout = async () => {
     await supabase.auth.signOut();
   };
+
+  const { userRole } = useApp();
 
   return (
     <Box
@@ -50,8 +53,10 @@ export default function RootSidebar() {
           }}
         >
           <MenuItem linkAnchor="Dashboard" linkTarget="/" />
-          <MenuItem linkAnchor="Workflows" linkTarget="/workflows" />
-          <MenuItem linkAnchor="Einstellungen" linkTarget="settings" />
+          {userRole === "admin" && (
+            <MenuItem linkAnchor="Workflows" linkTarget="/workflows" />
+          )}
+          {/* <MenuItem linkAnchor="Einstellungen" linkTarget="settings" /> */}
         </Box>
 
         <Button
