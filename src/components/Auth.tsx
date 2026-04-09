@@ -113,7 +113,8 @@ export const Auth = () => {
           {/* ADMIN */}
           <Card variant="outlined">
             <CardContent>
-              <Typography fontWeight="bold">Admin (Chef)</Typography>
+              <Typography fontWeight="bold">Arnold Admin (Chef)</Typography>
+              <Typography>Rolle: Admin</Typography>
               <Typography variant="body2" color="text.secondary">
                 Vollzugriff auf alle Funktionen
               </Typography>
@@ -139,7 +140,10 @@ export const Auth = () => {
           {/* MEMBER */}
           <Card variant="outlined">
             <CardContent>
-              <Typography fontWeight="bold">Mitarbeiter (Member)</Typography>
+              <Typography fontWeight="bold">
+                Micha Member (Mitarbeiter)
+              </Typography>
+              <Typography>Rolle: member</Typography>
               <Typography variant="body2" color="text.secondary">
                 Eingeschränkter Zugriff
               </Typography>
