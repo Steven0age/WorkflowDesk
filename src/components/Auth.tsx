@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 
 export const Auth = () => {
-  const [isSignUp, setIsSignUp] = useState(false);
+  const [isSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
