@@ -1,4 +1,4 @@
-//import LogItem from "./LogItem";
+import LogItem from "./LogItem";
 import { Box, Typography } from "@mui/material";
 import type { ActivityLogDataTypes, TicketDataTypes } from "../../types/types";
 
@@ -7,7 +7,7 @@ type ActivitiyLogTypes = {
 };
 
 export default function ActivitiyLog({ item }: ActivitiyLogTypes) {
-  //const ticketLogs: ActivityLogDataTypes[] = [];
+  const ticketLogs: ActivityLogDataTypes[] = [];
   return (
     <Box
       sx={{
@@ -24,13 +24,14 @@ export default function ActivitiyLog({ item }: ActivitiyLogTypes) {
         Aktivitäten
       </Typography>
       <Typography>
-        Coomin soon - Log aller Aktivitäten ist in Planung
+        Coming soon - Log aller Aktivitäten ist in Planung
       </Typography>
-      {/* {ticketLogs
-        .filter((i) => i.ticket_id === item.id)
-        .map((i) => {
-          return <LogItem key={i.id} item={i}></LogItem>;
-        })} */}
+      {ticketLogs.length > 0 &&
+        ticketLogs
+          .filter((i) => i.ticket_id === item.id)
+          .map((i) => {
+            return <LogItem key={i.id} item={i}></LogItem>;
+          })}
     </Box>
   );
 }
