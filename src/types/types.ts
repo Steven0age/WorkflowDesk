@@ -1,9 +1,11 @@
-export type fileDataTypes = {
+export type FileDataTypes = {
   id: string;
   ticket_id: string;
   ticket_phase_id: string | null;
-  ticket_questionnaire_answer_id: string | null;
-  storage_path: string;
+  ticket_answer_id: string | null;
+  file_path: string;
+  file_name: string;
+  file_size: number;
   uploaded_by: string;
   created_at: string;
 };
@@ -84,6 +86,7 @@ export type TicketDataTypes = {
   ticket_phases?: TicketPhaseDataTypes[];
   ticket_questions: QuestionnaireSnapshotDataTypes[];
   ticket_answers: QuestionnaireAnswerDataTypes[];
+  uploads?: FileDataTypes[];
 };
 
 export type TicketStatus = "open" | "inProgress" | "review" | "done";

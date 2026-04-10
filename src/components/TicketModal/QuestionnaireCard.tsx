@@ -12,6 +12,7 @@ import type {
   QuestionnaireAnswerDataTypes,
   TicketDataTypes,
 } from "../../types/types";
+import { supabase } from "../../supabase-client";
 
 type QuestionnaireCardTypes = {
   item: TicketDataTypes | null;
@@ -20,6 +21,22 @@ type QuestionnaireCardTypes = {
 export default function QuestionnaireCard({ item }: QuestionnaireCardTypes) {
   const questions = item?.ticket_questions ?? [];
   const answers = item?.ticket_answers ?? [];
+  const uploads = item?.uploads ?? [];
+
+  const handleOpenFile = async (filePath: string) => {
+    const { data, error } = await supabase.storage
+      .from("uploads")
+      .createSignedUrl(filePath, 60);
+
+    if (error) {
+      console.error("Creating signed URL failed:", error);
+      return;
+    }
+
+    if (data?.signedUrl) {
+      window.open(data.signedUrl, "_blank");
+    }
+  };
 
   return (
     <CardShell elevation={1}>
@@ -47,47 +64,37 @@ export default function QuestionnaireCard({ item }: QuestionnaireCardTypes) {
                 </Box>
               );
 
-              {
-                /* {questions.map((i) => {
-          const currentAnswer = answers[i.id];
+            case "upload": {
+              const matchingUploads = uploads.filter(
+                (upload) => upload.ticket_answer_id === currentAnswer?.id,
+              );
 
-          switch (i.field_type) {
-            case "textField":
               return (
-                <Box key={i.id}>
-                  <Typography variant="h5">{i.label}</Typography>
-                  <TextField
-                    sx={{ mb: 2 }}
-                    fullWidth
-                    multiline
-                    id="outlined"
-                    disabled
-                    value={currentAnswer}
-                  ></TextField>
-                </Box>
-              ); */
-              }
+                <Box key={question.id}>
+                  <Typography variant="h5">{question.label}</Typography>
 
-            case "upload":
-              return null;
-            // <Box key={i.id}>
-            //   <Typography variant="h5">{i.question_label}</Typography>
-            //   {files.map((f) => {
-            //     if (f.ticket_questionnaire_answer_id === i.id) {
-            //       return (
-            //         <Box
-            //           onClick={() => {
-            //             window.open(`${f.storage_path}`, "_blank");
-            //           }}
-            //           key={f.id}
-            //           component="img"
-            //           src={f.storage_path}
-            //           sx={{ height: "70px", mb: 2 }}
-            //         ></Box>
-            //       );
-            //     }
-            //   })}
-            // </Box>
+                  {matchingUploads.length > 0 ? (
+                    matchingUploads.map((file) => (
+                      <Typography
+                        key={file.id}
+                        sx={{
+                          mb: 1,
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                        }}
+                        onClick={() => handleOpenFile(file.file_path)}
+                      >
+                        {file.file_name}
+                      </Typography>
+                    ))
+                  ) : (
+                    <Typography sx={{ mb: 2 }}>
+                      Keine Datei hochgeladen
+                    </Typography>
+                  )}
+                </Box>
+              );
+            }
 
             default:
               return null;

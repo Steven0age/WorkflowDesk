@@ -1,4 +1,5 @@
 import { supabase } from "../supabase-client";
+import { uploadAnswerFile } from "./uploads.api";
 import type {
   AnswersState,
   OrganizationMember,
@@ -102,13 +103,14 @@ export const fetchTicket = async (
     .select(
       `
       *,
-      profile: assigned_to(first_name, last_name),
-      ticket_questions (*),
-      ticket_answers (*),
-      ticket_phases (
+      profile:assigned_to(first_name, last_name),
+      ticket_questions(*),
+      ticket_answers(*),
+      ticket_phases(
         *,
-        ticket_tasks (*)
-      )
+        ticket_tasks(*)
+      ),
+      uploads(*)
     `,
     )
     .eq("id", id)
@@ -118,8 +120,9 @@ export const fetchTicket = async (
     console.error("Fetching ticket failed:", error);
     throw error;
   }
-  console.log("data =", data);
+
   if (!data) return null;
+
   return data;
 };
 
@@ -229,32 +232,38 @@ export const createTicket = async ({
   }
 
   if (insertedQuestions.length > 0) {
-    const answerRows = insertedQuestions
-      .map((savedQuestion) => {
-        if (!savedQuestion.template_question_id) return null;
-        const value = answers[savedQuestion.template_question_id ?? ""];
+    for (const savedQuestion of insertedQuestions) {
+      if (!savedQuestion.template_question_id) continue;
 
-        if (typeof value !== "string") {
-          return null;
-        }
+      const value = answers[savedQuestion.template_question_id];
 
-        return {
+      if (value === null || value === undefined || value === "") {
+        continue;
+      }
+
+      const { data: insertedAnswer, error: answerError } = await supabase
+        .from("ticket_answers")
+        .insert({
           ticket_id: ticketId,
           ticket_question_id: savedQuestion.id,
-          text_answer: value,
+          text_answer: typeof value === "string" ? value : null,
           created_at: now,
-        };
-      })
-      .filter(Boolean);
+        })
+        .select("id")
+        .single();
 
-    if (answerRows.length > 0) {
-      const { error: answersError } = await supabase
-        .from("ticket_answers")
-        .insert(answerRows);
+      if (answerError) {
+        console.error("Creating ticket answer failed:", answerError);
+        throw answerError;
+      }
 
-      if (answersError) {
-        console.error("Creating ticket answers failed:", answersError);
-        throw answersError;
+      if (value instanceof File) {
+        await uploadAnswerFile({
+          file: value,
+          ticketId,
+          ticketAnswerId: insertedAnswer.id,
+          uploadedBy: startedBy,
+        });
       }
     }
   }
