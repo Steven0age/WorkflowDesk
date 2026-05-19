@@ -30,7 +30,7 @@ function EditorLayoutInner() {
     setPhasesDraft,
   } = useEditor();
 
-  const { organizationId } = useApp();
+  const { organizationId, showSnackbar } = useApp();
 
   useEffect(() => {
     if (!workflowId) return;
@@ -57,6 +57,7 @@ function EditorLayoutInner() {
         phasesDraft,
         organizationId,
       );
+      showSnackbar();
     } catch (error) {
       console.error("Saving workflow failed:", error);
     }

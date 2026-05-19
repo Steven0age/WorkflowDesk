@@ -16,7 +16,7 @@ export default function TicketModal({
   openModal,
   handleOnClose,
 }: TicketModalTypes) {
-  const { selectedTicket, handleCompleteTicket } = useApp();
+  const { selectedTicket, handleCompleteTicket, showSnackbar } = useApp();
   if (!selectedTicket) {
     return <Typography>Kein Ticket ausgewählt</Typography>;
   }
@@ -168,6 +168,7 @@ export default function TicketModal({
                 if (!selectedTicket) return;
 
                 await updateTicket(selectedTicket);
+                showSnackbar();
               }}
             >
               Speichern

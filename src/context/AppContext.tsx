@@ -29,8 +29,8 @@ type AppContextType = {
   >;
   userRole: UserRole | null;
   setUserRole: React.Dispatch<React.SetStateAction<UserRole | null>>;
-  session: any;
-  setSession: any;
+  session: Session | null;
+  setSession: React.Dispatch<React.SetStateAction<Session | null>>;
 
   handleCheckboxChange: (
     event: ChangeEvent<HTMLInputElement>,
@@ -39,6 +39,9 @@ type AppContextType = {
   ) => void;
   handleCompletePhase: (phaseID: TicketPhaseDataTypes["id"]) => void;
   handleCompleteTicket: () => void;
+  openSnackbar: boolean;
+  showSnackbar: () => void;
+  closeSnachbar: () => void;
 };
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -54,6 +57,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [selectedTicket, setSelectedTicket] = useState<TicketDataTypes | null>(
     null,
   );
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const handleCheckboxChange = (
     event: ChangeEvent<HTMLInputElement>,
@@ -176,6 +180,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
     updateTicket(updatedTicket);
   };
 
+  const showSnackbar = () => {
+    setOpenSnackbar(true);
+  };
+
+  const closeSnachbar = () => {
+    setOpenSnackbar(false);
+  };
+
   const value: AppContextType = {
     ticketList,
     setTicketList,
@@ -192,6 +204,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setUserRole,
     session,
     setSession,
+    openSnackbar,
+    showSnackbar,
+    closeSnachbar,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

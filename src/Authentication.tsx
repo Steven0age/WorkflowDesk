@@ -15,9 +15,17 @@ import EditorLayout from "./routes/EditorLayout";
 import FormEditor from "./routes/Workflows/Editor/FormEditor";
 import PhasesEditor from "./routes/Workflows/Editor/PhasesEditor";
 import { useApp } from "./context/AppContext";
+import { Alert, Snackbar } from "@mui/material";
 
 export function Authentication() {
-  const { setUserRole, setOrganizationId, session, setSession } = useApp();
+  const {
+    setUserRole,
+    setOrganizationId,
+    session,
+    setSession,
+    openSnackbar,
+    closeSnachbar,
+  } = useApp();
 
   const router = createBrowserRouter(
     [
@@ -109,5 +117,32 @@ export function Authentication() {
     fetchMembershipData(session.user.id);
   }, [session]);
 
-  return <>{session ? <RouterProvider router={router} /> : <Auth />}</>;
+  return (
+    <>
+      {session ? <RouterProvider router={router} /> : <Auth />}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={2000}
+        onClose={closeSnachbar}
+        message="läuft"
+        color="success.main"
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        sx={{ backgroundColor: "success.main" }}
+      >
+        <Alert
+          severity="success"
+          variant="filled"
+          sx={{
+            width: 400,
+            pt: 2,
+            color: "background.paper",
+            fontSize: "1rem",
+            fontWeight: "bold",
+          }}
+        >
+          Änderungen gespeichert
+        </Alert>
+      </Snackbar>
+    </>
+  );
 }
