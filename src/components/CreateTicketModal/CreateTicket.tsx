@@ -176,6 +176,7 @@ export default function CreateTicketModal({
                 alert("Bitte eine zuständige Person auswählen");
                 return;
               }
+              if (!session) return;
               await createTicket({
                 selectedWorkflowId,
                 ticketLabel,
