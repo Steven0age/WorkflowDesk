@@ -10,7 +10,7 @@ export default function Root() {
         bgcolor: "secondary.light",
         //   bgcolor: "background.default",
         display: "flex",
-        height: "100vh",
+        height: "100%",
         width: "100%",
       }}
     >
